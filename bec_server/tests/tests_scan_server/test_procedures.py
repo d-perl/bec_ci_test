@@ -14,13 +14,14 @@ from bec_lib.messages import (
     RequestResponseMessage,
 )
 from bec_lib.serialization import MsgpackSerialization
-from bec_server.scan_server.procedures import InProcessProcedureWorker, ProcedureManager
-from bec_server.scan_server.procedures.procedure_manager import (
-    DEFAULT_QUEUE,
+from bec_server.scan_server.procedures import (
+    InProcessProcedureWorker,
+    ProcedureManager,
     ProcedureWorker,
-    ProcedureWorkerStatus,
     WorkerAlreadyExists,
 )
+from bec_server.scan_server.procedures.manager import DEFAULT_QUEUE, ProcedureWorker
+from bec_server.scan_server.procedures.worker_base import ProcedureWorkerStatus
 
 # pylint: disable=protected-access
 # pylint: disable=missing-function-docstring
@@ -36,7 +37,7 @@ def procedure_manager():
     server = MagicMock()
     server.bootstrap_server = "localhost:1"
     with patch(
-        "bec_server.scan_server.procedures.procedure_manager.RedisConnector",
+        "bec_server.scan_server.procedures.manager.RedisConnector",
         partial(RedisConnector, redis_cls=fakeredis.FakeRedis),  # type: ignore
     ):
         manager = ProcedureManager(server, InProcessProcedureWorker)
@@ -136,13 +137,14 @@ def _wait_until(predicate: Callable[[], bool], timeout_s: float = 0.1):
             raise TimeoutError()
 
 
-@patch("bec_server.scan_server.procedures.procedure_manager.queue_TIMEOUT_S", 1)
-@patch("bec_server.scan_server.procedures.procedure_manager.RedisConnector")
+@patch("bec_server.scan_server.procedures.manager.queue_TIMEOUT_S", 1)
+@patch("bec_server.scan_server.procedures.worker_base.RedisConnector")
+@patch("bec_server.scan_server.procedures.manager.RedisConnector", MagicMock())
 def test_spawn(redis_connector, procedure_manager: ProcedureManager):
     procedure_manager._worker_cls = UnlockableWorker
     message = PROCESS_REQUEST_TEST_CASES[0]
     # popping from the list queue should give the execution message
-    redis_connector().blocking_list_pop_to_set_add.return_value = message
+    redis_connector().blocking_list_pop_to_set_add.side_effect = [message, None]
     queue = message.queue or DEFAULT_QUEUE
     procedure_manager._validate_request = MagicMock(side_effect=lambda msg: msg)
     # trigger the running of the test message
@@ -163,7 +165,6 @@ def test_spawn(redis_connector, procedure_manager: ProcedureManager):
         procedure_manager.spawn(queue)
 
     # queue "timed out" and brpop returns None, so work() will return on the next iteration
-    redis_connector().blocking_list_pop_to_set_add.return_value = None
     with procedure_manager.lock:
         worker.event.set()  # let the task end and return to ProcedureWorker.work()
         # queue deletion at the end of spawn needs the lock so we can catch it in IDLE
@@ -172,9 +173,10 @@ def test_spawn(redis_connector, procedure_manager: ProcedureManager):
     _wait_until(lambda: len(procedure_manager.active_workers) == 0)
 
 
-@patch("bec_server.scan_server.procedures.procedure_manager.RedisConnector")
+@patch("bec_server.scan_server.procedures.worker_base.RedisConnector", MagicMock())
+@patch("bec_server.scan_server.procedures.in_process_worker.BECClient", MagicMock())
 @patch("bec_server.scan_server.procedures.in_process_worker.callable_from_execution_message")
-def test_in_process_worker(procedure_function, _):
+def test_in_process_worker(procedure_function):
     queue = "primary"
     with InProcessProcedureWorker("localhost:1", queue, 1) as worker:
         worker._run_task("wrong type")  # type: ignore
@@ -192,7 +194,7 @@ def test_in_process_worker(procedure_function, _):
 
 
 @patch("bec_server.scan_server.procedures.builtin_procedures.logger")
-@patch("bec_server.scan_server.procedures.procedure_manager.RedisConnector")
+@patch("bec_server.scan_server.procedures.worker_base.RedisConnector")
 def test_builtin_procedure_log_args(_, procedure_logger: MagicMock):
     test_string = "test string for logging as an arg"
     with InProcessProcedureWorker("localhost:1", "primary", 1) as worker:
@@ -209,7 +211,7 @@ def test_builtin_procedure_log_args(_, procedure_logger: MagicMock):
 
 
 @patch("bec_server.scan_server.procedures.in_process_worker.BECClient")
-@patch("bec_server.scan_server.procedures.procedure_manager.RedisConnector")
+@patch("bec_server.scan_server.procedures.worker_base.RedisConnector")
 def test_builtin_procedure_scan_execution(_, Client):
     from bec_server.scan_server.procedures.builtin_procedures import run_scan
 
