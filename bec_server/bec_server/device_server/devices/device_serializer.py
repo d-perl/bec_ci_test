@@ -13,6 +13,7 @@ from ophyd_devices import BECDeviceBase, ComputedSignal
 from bec_lib.bec_errors import DeviceConfigError
 from bec_lib.device import DeviceBase
 from bec_lib.numpy_encoder import numpy_encode
+from bec_lib.signature_serializer import signature_to_dict
 
 
 def is_serializable(var: Any) -> bool:
@@ -55,7 +56,11 @@ def get_custom_user_access_info(obj: Any, obj_interface: dict) -> dict:
                 else:
                     continue
             else:
-                obj_interface[var] = {"type": "func", "doc": obj_member.__doc__}
+                obj_interface[var] = {
+                    "type": "func",
+                    "doc": obj_member.__doc__,
+                    "signature": signature_to_dict(obj_member),
+                }
     return obj_interface
 
 

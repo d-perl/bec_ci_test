@@ -456,6 +456,10 @@ class DeviceBase:
                     setattr(self, attr_name, Device(name=attr_name, info=dev, parent=self))
 
         for user_access_name, descr in self._info.get("custom_user_access", {}).items():
+            # avoid circular imports as the signature serializer imports the DeviceBase class
+            # pylint: disable=import-outside-toplevel
+            from bec_lib.signature_serializer import dict_to_signature
+
             if "type" in descr:
                 if descr["type"] == "func":
                     self._custom_rpc_methods[user_access_name] = DeviceBase(
@@ -463,6 +467,11 @@ class DeviceBase:
                     )
                     setattr(self, user_access_name, self._custom_rpc_methods[user_access_name].run)
                     setattr(getattr(self, user_access_name), "__doc__", descr.get("doc"))
+                    setattr(
+                        getattr(self, user_access_name),
+                        "__signature__",
+                        dict_to_signature(descr.get("signature")),
+                    )
                 else:
                     # only update the property container if the user access name is not already in it
                     # otherwise, we would run an RPC call instead of accessing the property
