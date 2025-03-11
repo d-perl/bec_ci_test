@@ -59,8 +59,8 @@ class ScanStorage:
         if self.forced_finish:
             return True
         if self.enforce_sync:
-            return self.scan_finished and (self.num_points == len(self.scan_segments))
-        return self.scan_finished and self.scan_number is not None
+            return self.scan_finished
+        return False
 
 
 class FileWriterManager(BECService):
@@ -148,10 +148,10 @@ class FileWriterManager(BECService):
                 scan_storage.end_time = msg.content.get("timestamp")
 
             scan_storage.scan_finished = True
+            scan_storage.num_points = msg.num_points
             info = msg.content.get("info")
             if info:
-                scan_storage.num_points = info["num_points"]
-                if info["scan_type"] == "step":
+                if msg.scan_type == "step":
                     scan_storage.enforce_sync = True
                 else:
                     scan_storage.enforce_sync = info["monitor_sync"] == "bec"

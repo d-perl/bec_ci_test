@@ -310,9 +310,24 @@ class AsyncWriter(threading.Thread):
             # 1D case: simply append the data
             signal_group["value"].resize((len(signal_group["value"]) + len(value),))
             signal_group["value"][-len(value) :] = value
-        else:
+        elif len(max_shape) == 2 and max_shape[1] is not None:
             # ND case: we resize the first axis and append the data
             current_shape = signal_group["value"].shape
+            signal_group["value"].resize((current_shape[0] + value.shape[0], max_shape[1]))
+            signal_group["value"][-value.shape[0] :, : min(max_shape[1], value.shape[1])] = value[
+                :, : min(max_shape[1], value.shape[1])
+            ]
+        else:
+            current_shape = signal_group["value"].shape
+            if max_shape[1] is not None and value.shape[1] > max_shape[1]:
+                self.connector.raise_alarm(
+                    severity=Alarms.WARNING,
+                    alarm_type="ValueError",
+                    source={"device": signal_group.name},
+                    msg=f"Data for {signal_group.name} exceeds the defined max_shape {max_shape}. Data will not be written.",
+                    metadata={},
+                )
+                return
             signal_group["value"].resize((current_shape[0] + value.shape[0], *current_shape[1:]))
             signal_group["value"][-value.shape[0] :, ...] = value
 

@@ -86,6 +86,19 @@ def async_writer(tmp_path, connected_connector):
             ],
             (3, 10),
         ),
+        (
+            [
+                messages.DeviceMessage(
+                    signals={"monitor_async": {"value": np.random.rand(1, 8), "timestamp": 1}},
+                    metadata={"async_update": {"type": "add", "max_shape": [None, 10]}},
+                ),
+                messages.DeviceMessage(
+                    signals={"monitor_async": {"value": np.random.rand(1, 9), "timestamp": 2}},
+                    metadata={"async_update": {"type": "add", "max_shape": [None, 10]}},
+                ),
+            ],
+            (2, 10),
+        ),
     ],
 )
 def test_async_writer_add(async_writer, data, shape):

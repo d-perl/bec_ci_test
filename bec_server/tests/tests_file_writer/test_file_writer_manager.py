@@ -74,14 +74,10 @@ def test_scan_status_callback(file_writer_manager_mock):
     msg = messages.ScanStatusMessage(
         scan_id="scan_id",
         status="closed",
-        info={
-            "scan_number": 1,
-            "DIID": "DIID",
-            "stream": "stream",
-            "scan_type": "step",
-            "num_points": 1,
-            "enforce_sync": True,
-        },
+        scan_number=1,
+        scan_type="step",
+        num_points=1,
+        info={"DIID": "DIID", "stream": "stream", "enforce_sync": True},
     )
     msg_raw = MessageObject(value=msg, topic="scan_status")
 
@@ -209,7 +205,9 @@ def test_ready_to_write(file_writer_manager_mock, scan_storage_mock):
     file_manager.scan_storage["scan_id1"].scan_finished = True
     file_manager.scan_storage["scan_id1"].num_points = 2
     file_manager.scan_storage["scan_id1"].scan_segments = {"0": {"data": np.zeros((10, 10))}}
-    assert file_manager.scan_storage["scan_id1"].ready_to_write() is False
+
+    # scan is finished, so even if the num points don't match, it should be ready to write
+    assert file_manager.scan_storage["scan_id1"].ready_to_write() is True
 
 
 def test_ready_to_write_forced(file_writer_manager_mock):
