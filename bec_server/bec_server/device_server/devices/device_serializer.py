@@ -111,7 +111,7 @@ def get_device_info(
         )
 
     signals = {}  # []
-    if hasattr(obj, "component_names"):
+    if hasattr(obj, "component_names") and connect:
         walk = obj.walk_components()
         for _ancestor, component_name, comp in walk:
             if get_device_base_class(getattr(obj, component_name)) == "signal":
@@ -140,7 +140,7 @@ def get_device_info(
                 )
     sub_devices = []
 
-    if hasattr(obj, "walk_subdevices"):
+    if hasattr(obj, "walk_subdevices") and connect:
         for _, dev in obj.walk_subdevices():
             sub_devices.append(get_device_info(dev, connect=connect))
     if obj.name in protected_names or getattr(obj, "dotted_name", None) in protected_names:
