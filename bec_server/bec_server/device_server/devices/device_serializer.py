@@ -120,6 +120,12 @@ def get_device_info(
                         f"Signal name {component_name} is protected and cannot be used. Please rename the signal."
                     )
                 signal_obj = getattr(obj, component_name)
+                doc = (
+                    comp.doc
+                    if isinstance(comp.doc, str)
+                    and not comp.doc.startswith("Component attribute\n::")
+                    else ""
+                )
                 signals.update(
                     {
                         component_name: {
@@ -127,11 +133,7 @@ def get_device_info(
                             "obj_name": signal_obj.name,
                             "kind_int": signal_obj.kind.value,
                             "kind_str": signal_obj.kind.name,
-                            "doc": (
-                                comp.doc
-                                if not comp.doc.startswith("Component attribute\n::")
-                                else ""
-                            ),
+                            "doc": doc,
                             "describe": signal_obj.describe().get(signal_obj.name, {}),
                             # pylint: disable=protected-access
                             "metadata": signal_obj._metadata,
