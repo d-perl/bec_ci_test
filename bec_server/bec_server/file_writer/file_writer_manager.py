@@ -59,8 +59,10 @@ class ScanStorage:
         if self.forced_finish:
             return True
         if self.enforce_sync:
-            return self.scan_finished
-        return False
+            # wait for all points to be received. Since this method will be called for every
+            # update of the scan segments, we can also accept to write after the scan is finished
+            return self.scan_finished and (self.num_points == len(self.scan_segments))
+        return self.scan_finished and self.scan_number is not None
 
 
 class FileWriterManager(BECService):

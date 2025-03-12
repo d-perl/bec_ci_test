@@ -205,9 +205,7 @@ def test_ready_to_write(file_writer_manager_mock, scan_storage_mock):
     file_manager.scan_storage["scan_id1"].scan_finished = True
     file_manager.scan_storage["scan_id1"].num_points = 2
     file_manager.scan_storage["scan_id1"].scan_segments = {"0": {"data": np.zeros((10, 10))}}
-
-    # scan is finished, so even if the num points don't match, it should be ready to write
-    assert file_manager.scan_storage["scan_id1"].ready_to_write() is True
+    assert file_manager.scan_storage["scan_id1"].ready_to_write() is False
 
 
 def test_ready_to_write_forced(file_writer_manager_mock):
