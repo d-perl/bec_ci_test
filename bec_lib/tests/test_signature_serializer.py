@@ -1,6 +1,8 @@
 import inspect
 from typing import Literal, Union
+from unittest import mock
 
+import numpy as np
 import pytest
 
 from bec_lib.signature_serializer import (
@@ -29,7 +31,7 @@ def test_signature_serializer():
 
 
 def test_signature_serializer_with_literals():
-    def test_func(a, b: Literal[1, 2, 3] = 1):
+    def test_func(a, b: Literal[1, 2, 3] = 1, c: None | np.ndarray = None):
         pass
 
     params = signature_to_dict(test_func)
@@ -40,6 +42,12 @@ def test_signature_serializer_with_literals():
             "kind": "POSITIONAL_OR_KEYWORD",
             "default": 1,
             "annotation": {"Literal": (1, 2, 3)},
+        },
+        {
+            "name": "c",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "default": None,
+            "annotation": "NoneType | ndarray",
         },
     ]
 

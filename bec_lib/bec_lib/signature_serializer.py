@@ -9,8 +9,11 @@ import builtins
 import inspect
 import operator
 import sys
+import types
 from collections.abc import Callable
 from typing import Any, Literal, Union
+
+import numpy as np
 
 from bec_lib.device import DeviceBase
 from bec_lib.scan_items import ScanItem
@@ -37,6 +40,9 @@ def serialize_dtype(dtype: type) -> Any:
                 return " | ".join([serialize_dtype(x) for x in dtype.__args__])
             if dtype.__class__.__name__ == "_LiteralGenericAlias":
                 return {"Literal": dtype.__args__}
+        elif dtype.__module__ == "types":
+            if dtype.__class__ == types.UnionType:
+                return " | ".join([serialize_dtype(x) for x in dtype.__args__])
     if isinstance(dtype, str):
         if sys.version_info[:3] >= (3, 10):
             return dtype
@@ -66,7 +72,7 @@ def deserialize_dtype(dtype: Any) -> type:
         return inspect._empty
     if isinstance(dtype, dict):
         if "Literal" in dtype:
-            # remove this when we upgrade to python 3.10
+            # remove this when we upgrade to python 3.11
 
             #### remove this section
             literal = Literal[str(dtype)]
@@ -74,19 +80,17 @@ def deserialize_dtype(dtype: Any) -> type:
             return literal
             #### remove this section
 
-            #### add this section when we upgrade to python 3.10
+            #### add this section when we upgrade to python 3.11
             # return Literal[*dtype["Literal"]]
-            #### add this section when we upgrade to python 3.10
+            #### add this section when we upgrade to python 3.11
 
         raise ValueError(f"Unknown dtype {dtype}")
     if isinstance(dtype, str) and "|" in dtype:
-        # remove this when we upgrade to python 3.10
-        if sys.version_info[:3] < (3, 10):
-            union = Union[int, str]
-            union.__args__ = [deserialize_dtype(x.strip()) for x in dtype.split("|")]
-            return union
-        return operator.or_(*[deserialize_dtype(x.strip()) for x in dtype.split("|")])
+        entries = [deserialize_dtype(x.strip()) for x in dtype.split("|")]
+        return operator.or_(*entries)
 
+    if dtype == "NoneType":
+        return None
     builtin_type = builtins.__dict__.get(dtype)
     if builtin_type:
         return builtin_type
@@ -94,6 +98,9 @@ def deserialize_dtype(dtype: Any) -> type:
         return DeviceBase
     if dtype == "ScanItem":
         return ScanItem
+    if hasattr(np, dtype):
+        return getattr(np, dtype)
+    return None
 
 
 def signature_to_dict(func: Callable, include_class_obj=False) -> list[dict]:
