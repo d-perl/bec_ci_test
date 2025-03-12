@@ -29,6 +29,11 @@ def make_all_fields_optional(model: Type[BM], model_name: str) -> Type[BM]:
 
 
 class Device(BaseModel):
+    """
+    Represents a device in the BEC Atlas API. This model is also used by the SciHub service to
+    validate updates to the device configuration.
+    """
+
     name: str
     enabled: bool
     deviceClass: str
