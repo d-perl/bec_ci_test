@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.22.0 (2025-03-12)
+
+### Bug Fixes
+
+- **rpc**: Enhance custom user access with function signatures
+  ([`a3bcb27`](https://gitlab.psi.ch/bec/bec/-/commit/a3bcb27c4b01c41915d16429603a78820551505c))
+
+### Features
+
+- **tests**: Enhance mock device info with detailed function signatures
+  ([`f8d196e`](https://gitlab.psi.ch/bec/bec/-/commit/f8d196eab5a637b8dfbcd7d32dfe7202fb0fdd19))
+
+
 ## v3.21.1 (2025-03-12)
 
 ### Bug Fixes
