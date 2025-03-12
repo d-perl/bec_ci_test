@@ -307,20 +307,74 @@ def get_device_info_mock(device_name, device_class) -> messages.DeviceInfoMessag
     positioner_info_with_user_access["device_info"]["custom_user_access"].update(
         {
             "dummy_controller": {
-                "_func_with_args": {"type": "func", "doc": None},
-                "_func_with_args_and_kwargs": {"type": "func", "doc": None},
-                "_func_with_kwargs": {"type": "func", "doc": None},
-                "_func_without_args_kwargs": {"type": "func", "doc": None},
+                "_fun_with_specific_args": {
+                    "type": "func",
+                    "doc": None,
+                    "signature": [
+                        {
+                            "name": "arg1",
+                            "kind": "POSITIONAL_OR_KEYWORD",
+                            "default": "_empty",
+                            "annotation": "float",
+                        },
+                        {
+                            "name": "arg2",
+                            "kind": "POSITIONAL_OR_KEYWORD",
+                            "default": "_empty",
+                            "annotation": "int",
+                        },
+                    ],
+                },
+                "_func_with_args": {
+                    "type": "func",
+                    "doc": None,
+                    "signature": [
+                        {
+                            "name": "args",
+                            "kind": "VAR_POSITIONAL",
+                            "default": "_empty",
+                            "annotation": "_empty",
+                        }
+                    ],
+                },
+                "_func_with_args_and_kwargs": {
+                    "type": "func",
+                    "doc": None,
+                    "signature": [
+                        {
+                            "name": "args",
+                            "kind": "VAR_POSITIONAL",
+                            "default": "_empty",
+                            "annotation": "_empty",
+                        },
+                        {
+                            "name": "kwargs",
+                            "kind": "VAR_KEYWORD",
+                            "default": "_empty",
+                            "annotation": "_empty",
+                        },
+                    ],
+                },
+                "_func_with_kwargs": {
+                    "type": "func",
+                    "doc": None,
+                    "signature": [
+                        {
+                            "name": "kwargs",
+                            "kind": "VAR_KEYWORD",
+                            "default": "_empty",
+                            "annotation": "_empty",
+                        }
+                    ],
+                },
+                "_func_without_args_kwargs": {"type": "func", "doc": None, "signature": []},
                 "controller_show_all": {
                     "type": "func",
-                    "doc": (
-                        "dummy controller show all\n\n        Raises:\n           "
-                        " in: _description_\n            LimitError:"
-                        " _description_\n\n        Returns:\n            _type_:"
-                        " _description_\n        "
-                    ),
+                    "doc": "dummy controller show all\n\n        Raises:\n            in: _description_\n            LimitError: _description_\n\n        Returns:\n            _type_: _description_\n        ",
+                    "signature": [],
                 },
                 "some_var": {"type": "int"},
+                "some_var_property": {"type": "NoneType"},
             },
             "sim_state": {"type": "dict"},
         }
