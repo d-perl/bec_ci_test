@@ -80,7 +80,7 @@ class MessageEndpoints:
         Args:
             device (str): Device name, e.g. "samx".
         """
-        endpoint = f"{EndpointType.INFO}/devices/status/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/status/{device}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceStatusMessage,
@@ -99,7 +99,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device readings of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/read/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/read/{device}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -116,7 +116,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device configuration readings of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/read_configuration/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/read_configuration/{device}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -133,7 +133,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device readbacks of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/readback/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/readback/{device}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -150,7 +150,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device raw readings of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/raw/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/raw/{device}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceMessage, message_op=MessageOp.STREAM
         )
@@ -167,7 +167,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device limits of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/limits/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/limits/{device}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -184,7 +184,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device request status of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/req_status/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/req_status/{device}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceReqStatusMessage,
@@ -203,7 +203,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device request status container.
         """
-        endpoint = f"{EndpointType.INFO}/devices/req_status_container/{RID}"
+        endpoint = f"{EndpointType.INFO.value}/devices/req_status_container/{RID}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceReqStatusMessage,
@@ -222,7 +222,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device progress of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/progress/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/progress/{device}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ProgressMessage,
@@ -240,7 +240,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device config request.
         """
-        endpoint = f"{EndpointType.ADMIN}/devices/config_request"
+        endpoint = f"{EndpointType.ADMIN.value}/devices/config_request"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceConfigMessage, message_op=MessageOp.SEND
         )
@@ -259,7 +259,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device config request response.
         """
-        endpoint = f"{EndpointType.INFO}/devices/config_request_response/{RID}"
+        endpoint = f"{EndpointType.INFO.value}/devices/config_request_response/{RID}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.RequestResponseMessage,
@@ -277,7 +277,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device server config request.
         """
-        endpoint = f"{EndpointType.INTERNAL}/devices/device_server_config_update"
+        endpoint = f"{EndpointType.INTERNAL.value}/devices/device_server_config_update"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceConfigMessage, message_op=MessageOp.SEND
         )
@@ -293,7 +293,7 @@ class MessageEndpoints:
             EndpointInfo: Endpoint for device config update.
 
         """
-        endpoint = f"{EndpointType.INFO}/devices/config_update"
+        endpoint = f"{EndpointType.INFO.value}/devices/config_update"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceConfigMessage, message_op=MessageOp.SEND
         )
@@ -307,7 +307,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device config.
         """
-        endpoint = f"{EndpointType.INFO}/devices/config"
+        endpoint = f"{EndpointType.INFO.value}/devices/config"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.AvailableResourceMessage,
@@ -324,7 +324,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device config history.
         """
-        endpoint = f"{EndpointType.INFO}/devices/config_history"
+        endpoint = f"{EndpointType.INFO.value}/devices/config_history"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.AvailableResourceMessage,
@@ -343,7 +343,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device info of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/info/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/info/{device}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceInfoMessage,
@@ -364,7 +364,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for the device stage status of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/staged/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/staged/{device}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceStatusMessage,
@@ -387,7 +387,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device async readback of the specified device.
         """
-        endpoint = f"{EndpointType.INFO}/devices/async_readback/{scan_id}/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/async_readback/{scan_id}/{device}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.DeviceMessage, message_op=MessageOp.STREAM
         )
@@ -408,7 +408,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device monitoring.
         """
-        endpoint = f"{EndpointType.INFO}/devices/monitor2d/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/monitor2d/{device}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceMonitor2DMessage,
@@ -431,7 +431,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device monitoring.
         """
-        endpoint = f"{EndpointType.INFO}/devices/monitor1d/{device}"
+        endpoint = f"{EndpointType.INFO.value}/devices/monitor1d/{device}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceMonitor1DMessage,
@@ -448,7 +448,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue modification.
         """
-        endpoint = f"{EndpointType.INFO}/queue/queue_modification"
+        endpoint = f"{EndpointType.INFO.value}/queue/queue_modification"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanQueueModificationMessage,
@@ -466,7 +466,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue modification request.
         """
-        endpoint = f"{EndpointType.USER}/queue/queue_modification_request"
+        endpoint = f"{EndpointType.USER.value}/queue/queue_modification_request"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanQueueModificationMessage,
@@ -482,7 +482,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue order change request.
         """
-        endpoint = f"{EndpointType.USER}/queue/queue_order_change_request"
+        endpoint = f"{EndpointType.USER.value}/queue/queue_order_change_request"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanQueueOrderMessage,
@@ -499,7 +499,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue order change response.
         """
-        endpoint = f"{EndpointType.INFO}/queue/queue_order_change_response"
+        endpoint = f"{EndpointType.INFO.value}/queue/queue_order_change_response"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.RequestResponseMessage,
@@ -515,7 +515,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue order change.
         """
-        endpoint = f"{EndpointType.INFO}/queue/queue_order_change"
+        endpoint = f"{EndpointType.INFO.value}/queue/queue_order_change"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanQueueOrderMessage,
@@ -533,7 +533,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue inserts.
         """
-        endpoint = f"{EndpointType.INFO}/queue/queue_insert"
+        endpoint = f"{EndpointType.INFO.value}/queue/queue_insert"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ScanQueueMessage, message_op=MessageOp.SEND
         )
@@ -547,7 +547,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue request.
         """
-        endpoint = f"{EndpointType.USER}/queue/queue_request"
+        endpoint = f"{EndpointType.USER.value}/queue/queue_request"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ScanQueueMessage, message_op=MessageOp.SEND
         )
@@ -563,7 +563,7 @@ class MessageEndpoints:
             EndpointInfo: Endpoint for scan queue request response.
 
         """
-        endpoint = f"{EndpointType.INFO}/queue/queue_request_response"
+        endpoint = f"{EndpointType.INFO.value}/queue/queue_request_response"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.RequestResponseMessage,
@@ -580,7 +580,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for stopping all devices.
         """
-        endpoint = f"{EndpointType.INFO}/queue/stop_all_devices"
+        endpoint = f"{EndpointType.INFO.value}/queue/stop_all_devices"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.VariableMessage, message_op=MessageOp.SEND
         )
@@ -594,7 +594,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue status.
         """
-        endpoint = f"{EndpointType.INFO}/queue/queue_status"
+        endpoint = f"{EndpointType.INFO.value}/queue/queue_status"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanQueueStatusMessage,
@@ -611,7 +611,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue history.
         """
-        endpoint = f"{EndpointType.INFO}/queue/queue_history"
+        endpoint = f"{EndpointType.INFO.value}/queue/queue_history"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanQueueHistoryMessage,
@@ -630,7 +630,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue schedule.
         """
-        endpoint = f"{EndpointType.USER}/queue/queue_schedule/{schedule_name}"
+        endpoint = f"{EndpointType.USER.value}/queue/queue_schedule/{schedule_name}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ScanQueueMessage, message_op=MessageOp.LIST
         )
@@ -645,7 +645,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan number.
         """
-        endpoint = f"{EndpointType.USER}/scan_number"
+        endpoint = f"{EndpointType.USER.value}/scan_number"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.VariableMessage, message_op=MessageOp.KEY_VALUE
         )
@@ -659,7 +659,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for dataset number.
         """
-        endpoint = f"{EndpointType.USER}/dataset_number"
+        endpoint = f"{EndpointType.USER.value}/dataset_number"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.VariableMessage, message_op=MessageOp.KEY_VALUE
         )
@@ -673,7 +673,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan status.
         """
-        endpoint = f"{EndpointType.INFO}/scans/scan_status"
+        endpoint = f"{EndpointType.INFO.value}/scans/scan_status"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanStatusMessage,
@@ -689,7 +689,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan progress.
         """
-        endpoint = f"{EndpointType.INFO}/scans/scan_progress"
+        endpoint = f"{EndpointType.INFO.value}/scans/scan_progress"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ProgressMessage,
@@ -705,7 +705,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan history.
         """
-        endpoint = f"{EndpointType.INFO}/scans/scan_history"
+        endpoint = f"{EndpointType.INFO.value}/scans/scan_history"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ScanHistoryMessage, message_op=MessageOp.STREAM
         )
@@ -719,7 +719,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for available scans.
         """
-        endpoint = f"{EndpointType.INFO}/scans/available_scans"
+        endpoint = f"{EndpointType.INFO.value}/scans/available_scans"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.AvailableResourceMessage,
@@ -735,7 +735,7 @@ class MessageEndpoints:
         Returns:
             str: Endpoint for bluesky events.
         """
-        return f"{EndpointType.INFO}/scans/bluesky-events"
+        return f"{EndpointType.INFO.value}/scans/bluesky-events"
 
     @staticmethod
     def scan_segment():
@@ -746,7 +746,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan segment.
         """
-        endpoint = f"{EndpointType.INFO}/scans/scan_segment"
+        endpoint = f"{EndpointType.INFO.value}/scans/scan_segment"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ScanMessage, message_op=MessageOp.SEND
         )
@@ -760,7 +760,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan baseline readings.
         """
-        endpoint = f"{EndpointType.INFO}/scans/scan_baseline"
+        endpoint = f"{EndpointType.INFO.value}/scans/scan_baseline"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanBaselineMessage,
@@ -779,7 +779,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device instructions.
         """
-        endpoint = f"{EndpointType.INTERNAL}/devices/instructions"
+        endpoint = f"{EndpointType.INTERNAL.value}/devices/instructions"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceInstructionMessage,
@@ -797,7 +797,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for the device instruction response.
         """
-        endpoint = f"{EndpointType.INTERNAL}/devices/instructions_response"
+        endpoint = f"{EndpointType.INTERNAL.value}/devices/instructions_response"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceInstructionResponse,
@@ -816,7 +816,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for device rpc.
         """
-        endpoint = f"{EndpointType.INFO}/devices/rpc/{rpc_id}"
+        endpoint = f"{EndpointType.INFO.value}/devices/rpc/{rpc_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DeviceRPCMessage,
@@ -832,7 +832,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for pre scan macros.
         """
-        endpoint = f"{EndpointType.ADMIN}/pre_scan_macros"
+        endpoint = f"{EndpointType.ADMIN.value}/pre_scan_macros"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.VariableMessage, message_op=MessageOp.LIST
         )
@@ -851,7 +851,7 @@ class MessageEndpoints:
             EndpointInfo: Endpoint for scan info.
 
         """
-        endpoint = f"{EndpointType.INFO}/public/{scan_id}/scan_info"
+        endpoint = f"{EndpointType.INFO.value}/public/{scan_id}/scan_info"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanStatusMessage,
@@ -874,7 +874,7 @@ class MessageEndpoints:
             EndpointInfo: Endpoint for public scan segments.
 
         """
-        endpoint = f"{EndpointType.INFO}/public/{scan_id}/scan_segment/{point_id}"
+        endpoint = f"{EndpointType.INFO.value}/public/{scan_id}/scan_segment/{point_id}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ScanMessage, message_op=MessageOp.KEY_VALUE
         )
@@ -893,7 +893,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for public scan baseline readings.
         """
-        endpoint = f"{EndpointType.INFO}/public/{scan_id}/scan_baseline"
+        endpoint = f"{EndpointType.INFO.value}/public/{scan_id}/scan_baseline"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ScanBaselineMessage,
@@ -913,7 +913,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for public files.
         """
-        endpoint = f"{EndpointType.INFO}/public/{scan_id}/file/{name}"
+        endpoint = f"{EndpointType.INFO.value}/public/{scan_id}/file/{name}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.FileMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -930,7 +930,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for public file events.
         """
-        endpoint = f"{EndpointType.INFO}/public/file_event/{name}"
+        endpoint = f"{EndpointType.INFO.value}/public/file_event/{name}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.FileMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -944,7 +944,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for file content.
         """
-        endpoint = f"{EndpointType.INTERNAL}/internal/file_content"
+        endpoint = f"{EndpointType.INTERNAL.value}/internal/file_content"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.FileContentMessage,
@@ -961,7 +961,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for log.
         """
-        endpoint = f"{EndpointType.INFO}/log"
+        endpoint = f"{EndpointType.INFO.value}/log"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.LogMessage, message_op=MessageOp.STREAM
         )
@@ -975,7 +975,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for client info.
         """
-        endpoint = f"{EndpointType.USER}/client_info"
+        endpoint = f"{EndpointType.USER.value}/client_info"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ClientInfoMessage, message_op=MessageOp.STREAM
         )
@@ -989,7 +989,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for alarms.
         """
-        endpoint = f"{EndpointType.USER}/alarms"
+        endpoint = f"{EndpointType.USER.value}/alarms"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.AlarmMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -1008,7 +1008,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for service status.
         """
-        endpoint = f"{EndpointType.USER}/services/status/{service_id}"
+        endpoint = f"{EndpointType.USER.value}/services/status/{service_id}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.StatusMessage, message_op=MessageOp.SET_PUBLISH
         )
@@ -1025,7 +1025,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for metrics.
         """
-        endpoint = f"{EndpointType.USER}/services/metrics/{service_id}"
+        endpoint = f"{EndpointType.USER.value}/services/metrics/{service_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ServiceMetricMessage,
@@ -1044,7 +1044,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for service response.
         """
-        endpoint = f"{EndpointType.USER}/services/response/{RID}"
+        endpoint = f"{EndpointType.USER.value}/services/response/{RID}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ServiceResponseMessage,
@@ -1060,7 +1060,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for service request.
         """
-        endpoint = f"{EndpointType.USER}/services/request"
+        endpoint = f"{EndpointType.USER.value}/services/request"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ServiceRequestMessage,
@@ -1080,7 +1080,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for global variables.
         """
-        endpoint = f"{EndpointType.USER}/vars/{var_name}"
+        endpoint = f"{EndpointType.USER.value}/vars/{var_name}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.VariableMessage, message_op=MessageOp.KEY_VALUE
         )
@@ -1094,7 +1094,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for observer.
         """
-        endpoint = f"{EndpointType.USER}/observer"
+        endpoint = f"{EndpointType.USER.value}/observer"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.ObserverMessage, message_op=MessageOp.KEY_VALUE
         )
@@ -1111,7 +1111,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for progress.
         """
-        endpoint = f"{EndpointType.USER}/progress/{var_name}"
+        endpoint = f"{EndpointType.USER.value}/progress/{var_name}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ProgressMessage,
@@ -1128,7 +1128,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for logbook.
         """
-        endpoint = f"{EndpointType.INFO}/logbook"
+        endpoint = f"{EndpointType.INFO.value}/logbook"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.CredentialsMessage,
@@ -1145,7 +1145,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scibec.
         """
-        endpoint = f"{EndpointType.INFO}/scibec"
+        endpoint = f"{EndpointType.INFO.value}/scibec"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.CredentialsMessage,
@@ -1161,7 +1161,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for account.
         """
-        endpoint = f"{EndpointType.INFO}/account"
+        endpoint = f"{EndpointType.INFO.value}/account"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.VariableMessage, message_op=MessageOp.KEY_VALUE
         )
@@ -1179,7 +1179,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for processed data.
         """
-        endpoint = f"{EndpointType.USER}/processed_data/{process_id}"
+        endpoint = f"{EndpointType.USER.value}/processed_data/{process_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ProcessedDataMessage,
@@ -1195,7 +1195,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for DAP configuration.
         """
-        endpoint = f"{EndpointType.USER}/dap/config"
+        endpoint = f"{EndpointType.USER.value}/dap/config"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DAPConfigMessage,
@@ -1214,7 +1214,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for available DAP plugins.
         """
-        endpoint = f"{EndpointType.USER}/dap/available_plugins/{plugin_id}"
+        endpoint = f"{EndpointType.USER.value}/dap/available_plugins/{plugin_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.AvailableResourceMessage,
@@ -1230,7 +1230,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for DAP request.
         """
-        endpoint = f"{EndpointType.USER}/dap/request"
+        endpoint = f"{EndpointType.USER.value}/dap/request"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DAPRequestMessage,
@@ -1249,7 +1249,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for DAP response.
         """
-        endpoint = f"{EndpointType.USER}/dap/response/{RID}"
+        endpoint = f"{EndpointType.USER.value}/dap/response/{RID}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.DAPResponseMessage,
@@ -1266,7 +1266,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for GUI configuration.
         """
-        endpoint = f"{EndpointType.USER}/gui/config/{gui_id}"
+        endpoint = f"{EndpointType.USER.value}/gui/config/{gui_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.GUIConfigMessage,
@@ -1282,7 +1282,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for GUI data.
         """
-        endpoint = f"{EndpointType.USER}/gui/data/{gui_id}"
+        endpoint = f"{EndpointType.USER.value}/gui/data/{gui_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.GUIDataMessage,
@@ -1298,7 +1298,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for GUI instructions.
         """
-        endpoint = f"{EndpointType.USER}/gui/instruction/{gui_id}"
+        endpoint = f"{EndpointType.USER.value}/gui/instruction/{gui_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.GUIInstructionMessage,
@@ -1314,7 +1314,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for GUI instruction response.
         """
-        endpoint = f"{EndpointType.USER}/gui/instruction_response/{RID}"
+        endpoint = f"{EndpointType.USER.value}/gui/instruction_response/{RID}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.RequestResponseMessage,
@@ -1329,7 +1329,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for Auto Update configuration.
         """
-        endpoint = f"{EndpointType.USER}/gui/config/auto_update/{gui_id}"
+        endpoint = f"{EndpointType.USER.value}/gui/config/auto_update/{gui_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.GUIAutoUpdateConfigMessage,
@@ -1345,7 +1345,7 @@ class MessageEndpoints:
         Returns:
         EndpointInfo: Endpoint for GUI heartbeat.
         """
-        endpoint = f"{EndpointType.USER}/gui/heartbeat/{gui_id}"
+        endpoint = f"{EndpointType.USER.value}/gui/heartbeat/{gui_id}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.StatusMessage, message_op=MessageOp.KEY_VALUE
         )
@@ -1361,7 +1361,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for available procedures.
         """
-        endpoint = f"{EndpointType.INFO}/procedures/available_procedures"
+        endpoint = f"{EndpointType.INFO.value}/procedures/available_procedures"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.AvailableResourceMessage,
@@ -1377,7 +1377,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue request.
         """
-        endpoint = f"{EndpointType.USER}/procedures/procedure_request"
+        endpoint = f"{EndpointType.USER.value}/procedures/procedure_request"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ProcedureRequestMessage,
@@ -1395,7 +1395,7 @@ class MessageEndpoints:
             EndpointInfo: Endpoint for scan queue request response.
 
         """
-        endpoint = f"{EndpointType.INFO}/procedures/procedure_request_response"
+        endpoint = f"{EndpointType.INFO.value}/procedures/procedure_request_response"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.RequestResponseMessage,
@@ -1411,7 +1411,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue request.
         """
-        endpoint = f"{EndpointType.INTERNAL}/procedures/procedure_execution/{queue_id}"
+        endpoint = f"{EndpointType.INTERNAL.value}/procedures/procedure_execution/{queue_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ProcedureExecutionMessage,
@@ -1427,7 +1427,7 @@ class MessageEndpoints:
         Returns:
             EndpointInfo: Endpoint for scan queue request.
         """
-        endpoint = f"{EndpointType.INFO}/procedures/active_procedures"
+        endpoint = f"{EndpointType.INFO.value}/procedures/active_procedures"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.ProcedureExecutionMessage,
@@ -1447,7 +1447,7 @@ class MessageEndpoints:
             EndpointInfo: Endpoint for GUI registry state.
         """
 
-        endpoint = f"{EndpointType.USER}/gui/registry_state/{gui_id}"
+        endpoint = f"{EndpointType.USER.value}/gui/registry_state/{gui_id}"
         return EndpointInfo(
             endpoint=endpoint,
             message_type=messages.GUIRegistryStateMessage,
@@ -1466,7 +1466,7 @@ class MessageEndpoints:
             EndpointInfo: Endpoint for GUI ACL.
         """
 
-        endpoint = f"{EndpointType.USER}/gui/acl/{gui_id}"
+        endpoint = f"{EndpointType.USER.value}/gui/acl/{gui_id}"
         return EndpointInfo(
             endpoint=endpoint, message_type=messages.CredentialsMessage, message_op=MessageOp.SEND
         )
