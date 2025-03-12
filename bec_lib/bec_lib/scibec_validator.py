@@ -4,6 +4,7 @@ This module provides a class to validate the device configuration against the op
 
 import json
 import os
+import warnings
 
 import fastjsonschema
 
@@ -12,6 +13,10 @@ import bec_lib
 
 class SciBecValidator:
     def __init__(self, schema_path: str = None) -> None:
+        warnings.warn(
+            "SciBecValidator is deprecated and will be removed in a future release. Use bec_lib.atlas_models instead.",
+            DeprecationWarning,
+        )
         if not schema_path:
             schema_path = f"{os.path.dirname(bec_lib.__file__)}/configs/openapi_schema.json"
         self.schema = self._load_schema(schema_path)
