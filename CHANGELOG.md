@@ -1,6 +1,20 @@
 # CHANGELOG
 
 
+## v3.21.1 (2025-03-12)
+
+### Bug Fixes
+
+- **device_serializer**: Component doc can be None
+  ([`0fedd25`](https://gitlab.psi.ch/bec/bec/-/commit/0fedd258383c642bb508b7e1361a632541de6c4e))
+
+- **device_serializer**: Only call ophyd methods when connected as they may raise
+  ([`3bd9095`](https://gitlab.psi.ch/bec/bec/-/commit/3bd9095be052f358c63fba8d0d5183d2a99c9b87))
+
+- **file_writer**: Fix writing of async data
+  ([`006d65d`](https://gitlab.psi.ch/bec/bec/-/commit/006d65d2cddd01be9abdd8524bd0a2226c2be344))
+
+
 ## v3.21.0 (2025-03-10)
 
 ### Bug Fixes
