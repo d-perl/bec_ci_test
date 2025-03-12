@@ -3,7 +3,7 @@ import os
 from unittest import mock
 
 import pytest
-from fastjsonschema import JsonSchemaException
+from pydantic import ValidationError
 
 import bec_lib
 from bec_lib import messages
@@ -87,44 +87,65 @@ def test_config_handler_reload_config(config_handler):
 @pytest.mark.parametrize(
     "config, expected",
     [
-        ({"samx": {"enabled": True}}, {"name": "samx", "enabled": True}),
         (
-            {"samx": {"enabled": True, "deviceConfig": None}},
-            {"name": "samx", "enabled": True, "deviceConfig": {}},
+            {
+                "samx": {
+                    "enabled": True,
+                    "deviceClass": "ophyd.EpicsMotor",
+                    "readoutPriority": "baseline",
+                }
+            },
+            {
+                "name": "samx",
+                "enabled": True,
+                "deviceClass": "ophyd.EpicsMotor",
+                "readoutPriority": "baseline",
+            },
+        ),
+        (
+            {
+                "samx": {
+                    "enabled": True,
+                    "deviceConfig": None,
+                    "deviceClass": "ophyd.EpicsMotor",
+                    "readoutPriority": "baseline",
+                }
+            },
+            {
+                "name": "samx",
+                "enabled": True,
+                "deviceConfig": {},
+                "deviceClass": "ophyd.EpicsMotor",
+                "readoutPriority": "baseline",
+            },
         ),
     ],
 )
 def test_config_handler_set_config(config_handler, config, expected):
     msg = messages.DeviceConfigMessage(action="set", config=config, metadata={"RID": "12345"})
-    with mock.patch.object(config_handler.validator, "validate_device") as validator:
-        with mock.patch.object(config_handler, "send_config_request_reply") as req_reply:
-            with mock.patch.object(
-                config_handler,
-                "_wait_for_device_server_update",
-                return_value=(True, mock.MagicMock()),
-            ) as wait:
-                with mock.patch.object(config_handler, "send_config") as send_config:
-                    config_handler._set_config(msg)
-                    req_reply.assert_called_once_with(
-                        accepted=True,
-                        error_msg=None,
+    with mock.patch.object(config_handler, "send_config_request_reply") as req_reply:
+        with mock.patch.object(
+            config_handler, "_wait_for_device_server_update", return_value=(True, mock.MagicMock())
+        ) as wait:
+            with mock.patch.object(config_handler, "send_config") as send_config:
+                config_handler._set_config(msg)
+                req_reply.assert_called_once_with(
+                    accepted=True, error_msg=None, metadata={"RID": "12345", "updated_config": True}
+                )
+                send_config.assert_called_once_with(
+                    messages.DeviceConfigMessage(
+                        action="reload",
+                        config={},
                         metadata={"RID": "12345", "updated_config": True},
                     )
-                    validator.assert_called_once_with(expected)
-                    send_config.assert_called_once_with(
-                        messages.DeviceConfigMessage(
-                            action="reload",
-                            config={},
-                            metadata={"RID": "12345", "updated_config": True},
-                        )
-                    )
+                )
 
 
 def test_config_handler_set_invalid_config_raises(config_handler):
     msg = messages.DeviceConfigMessage(
         action="set", config={"samx": {"status": {"enabled": True}}}, metadata={"RID": "12345"}
     )
-    with pytest.raises(JsonSchemaException):
+    with pytest.raises(ValidationError):
         with mock.patch.object(config_handler, "send_config_request_reply") as req_reply:
             config_handler._set_config(msg)
             req_reply.assert_called_once_with(

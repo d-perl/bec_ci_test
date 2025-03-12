@@ -8,13 +8,13 @@ from typing import TYPE_CHECKING
 
 import bec_lib
 from bec_lib import messages
+from bec_lib.atlas_models import Device, DevicePartial
 from bec_lib.bec_errors import DeviceConfigError
 from bec_lib.devicemanager import DeviceManagerBase as DeviceManager
 from bec_lib.endpoints import MessageEndpoints
 from bec_lib.logger import bec_logger
-from bec_lib.scibec_validator import SciBecValidator
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from bec_lib.device import DeviceBase
     from bec_lib.redis_connector import RedisConnector
     from bec_server.scihub.atlas.atlas_connector import AtlasConnector
@@ -31,7 +31,6 @@ class ConfigHandler:
         self.connector = connector
         self.device_manager = DeviceManager(self.atlas_connector.scihub)
         self.device_manager.initialize(atlas_connector.config.redis)
-        self.validator = SciBecValidator(os.path.join(dir_path, "openapi_schema.json"))
 
     def parse_config_request(self, msg: messages.DeviceConfigMessage) -> None:
         """Processes a config request. If successful, it emits a config reply
@@ -78,7 +77,7 @@ class ConfigHandler:
         # make sure the config is valid before setting it in redis
         for name, device in config.items():
             self._convert_to_db_config(name, device)
-            self.validator.validate_device(device)
+            Device(**device)
         self.set_config_in_redis(list(config.values()))
 
         msg.metadata["updated_config"] = True
@@ -126,7 +125,7 @@ class ConfigHandler:
 
         for dev, config in dev_configs.items():
             self._convert_to_db_config(dev, config)
-            self.validator.validate_device(config)
+            Device(**config)
 
         rid = str(uuid.uuid4())
         self._update_device_server(rid, dev_configs, action="add")
@@ -245,8 +244,8 @@ class ConfigHandler:
 
         return updated
 
-    def _validate_update(self, update):
-        self.validator.validate_device_patch(update)
+    def _validate_update(self, update: dict) -> None:
+        DevicePartial(**update)
 
     def update_config_in_redis(self, device: DeviceBase):
         """
