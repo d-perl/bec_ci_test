@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v3.22.1 (2025-03-12)
+
+### Bug Fixes
+
+- **endpoints**: Ensure enums are correctly converted to strings across all supported python
+  versions
+  ([`e273b83`](https://gitlab.psi.ch/bec/bec/-/commit/e273b83efae5e01ace1e51bd8e50088dd31e8475))
+
+- **file_writer_manager**: Update ready_to_write logic to ensure all points are received
+  ([`1cc94bf`](https://gitlab.psi.ch/bec/bec/-/commit/1cc94bf36e01e147301ed0826ea545fcc79b7058))
+
+
 ## v3.22.0 (2025-03-12)
 
 ### Bug Fixes
