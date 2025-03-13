@@ -48,7 +48,7 @@ while getopts "hsc:rt" o; do
     esac
 done
 
-conda_deps=(python=3.10)
+conda_deps=(python=3.11)
 
 # check if tmux should be installed
 if [ "$skip_tmux" = false ]; then
@@ -84,7 +84,7 @@ echo "Installing with conda dependencies: ${conda_deps[@]}"
 # check if conda environment exists and install it if not
 if ! conda env list | grep -q ${conda_env_name}; then
     echo "Creating conda environment ${conda_env_name}..."
-    conda create --name ${conda_env_name} ${conda_deps[@]}
+    conda create --name ${conda_env_name} ${conda_deps[@]} --channel conda-forge --override-channels
 fi
 # check if the conda environment has the correct dependencies. If not, install them.
 conda activate ${conda_env_name}

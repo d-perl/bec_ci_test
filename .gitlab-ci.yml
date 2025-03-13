@@ -354,10 +354,10 @@ end-2-end-conda:
   allow_failure: false
   script:
     - apt-get update
-    - conda config --prepend channels conda-forge
+    - conda config --add channels conda-forge
     - conda config --set channel_priority strict
     - conda config --set always_yes yes --set changeps1 no
-    - conda create -q -n test-environment python=3.10
+    - conda create -q -n test-environment python=3.11 --channel conda-forge --override-channels
     - conda init bash
     - source ~/.bashrc
     - conda activate test-environment
@@ -399,8 +399,10 @@ end-2-end-conda-310:
   script:
     - apt-get update
     - apt-get install -y tmux
+    - conda config --add channels conda-forge
+    - conda config --set channel_priority strict
     - conda config --set always_yes yes --set changeps1 no
-    - conda create -q -n test-environment python=$PYTHON_VERSION
+    - conda create -q -n test-environment python=$PYTHON_VERSION --channel conda-forge --override-channels
     - conda init bash
     - source ~/.bashrc
     - conda activate test-environment
