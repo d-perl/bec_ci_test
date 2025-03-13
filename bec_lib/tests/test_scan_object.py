@@ -68,6 +68,12 @@ def test_scan_object_raises_kwargs(scan_obj_no_args, dev):
     assert "The required arguments are: ['points', 'interval']" in str(exc.value)
 
 
+def test_scan_object_with_device_kwargs(scan_obj_no_args, dev):
+    scan_obj_no_args._run(
+        points=10, interval=1.5, exp_time=0.1, relative=True, additional_device=dev.samx
+    )
+
+
 def test_scan_object_raises_too_many_bundles(scan_obj, dev):
     with pytest.raises(TypeError):
         scan_obj._run(

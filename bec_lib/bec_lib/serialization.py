@@ -15,6 +15,7 @@ from pydantic import BaseModel
 
 from bec_lib import messages as messages_module
 from bec_lib import numpy_encoder
+from bec_lib.device import DeviceBase
 from bec_lib.endpoints import EndpointInfo
 from bec_lib.logger import bec_logger
 from bec_lib.messages import BECMessage, BECStatus
@@ -181,6 +182,26 @@ def decode_pydantic(obj):
     return obj
 
 
+def encode_bec_device(obj):
+    """
+    Encode a DeviceBase object into
+    a string representation of the device name.
+    """
+    if isinstance(obj, DeviceBase):
+        if hasattr(obj, "_compile_function_path"):
+            # pylint: disable=protected-access
+            return obj._compile_function_path()
+        return obj.name
+    return obj
+
+
+def decode_bec_device(obj):
+    """
+    DeviceBase objects are encoded as strings. No decoding is necessary.
+    """
+    return obj
+
+
 class SerializationRegistry:
     """Registry for serialization codecs"""
 
@@ -270,6 +291,12 @@ class SerializationRegistry:
         Register codec for pydantic models
         """
         self.register_object_hook(encode_pydantic, decode_pydantic)
+
+    def register_bec_device(self):
+        """
+        Register codec for DeviceBase objects
+        """
+        self.register_object_hook(encode_bec_device, decode_bec_device)
 
 
 class MsgpackExt(SerializationRegistry):
@@ -368,6 +395,7 @@ json_ext.register_set_encoder()
 json_ext.register_message_endpoint()
 json_ext.register_bec_message_type()
 json_ext.register_pydantic()
+json_ext.register_bec_device()
 
 msgpack = MsgpackExt()
 msgpack.register_numpy()
@@ -376,6 +404,7 @@ msgpack.register_set_encoder()
 msgpack.register_message_endpoint()
 msgpack.register_bec_message_type()
 msgpack.register_pydantic()
+msgpack.register_bec_device()
 
 
 class SerializationInterface:

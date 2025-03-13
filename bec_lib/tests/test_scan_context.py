@@ -130,10 +130,10 @@ def test_parameter_bundler(bec_client_mock):
     client = bec_client_mock
     dev = client.device_manager.devices
     res = client.scans._parameter_bundler((dev.samx, -5, 5, dev.samy, -5, 5), 3)
-    assert res == {"samx": [-5, 5], "samy": [-5, 5]}
+    assert res == {dev.samx: [-5, 5], dev.samy: [-5, 5]}
 
     res = client.scans._parameter_bundler((dev.samx, -5, 5, 5), 4)
-    assert res == {"samx": [-5, 5, 5]}
+    assert res == {dev.samx: [-5, 5, 5]}
 
     res = client.scans._parameter_bundler((-5, 5, 5), 0)
     assert res == (-5, 5, 5)

@@ -294,25 +294,25 @@ class Scans:
         )
 
     @staticmethod
-    def _parameter_bundler(args, bundle_size):
+    def _parameter_bundler(args: tuple, bundle_size: int) -> tuple | dict:
         """
+        Bundle the arguments into the correct format for the scan server.
+        If the bundle size is 0, return the arguments as is.
+        If the bundle size is not 0, return a dictionary with the first argument as the key and the rest as the value.
 
         Args:
-            args:
+            args: arguments for the scan
             bundle_size: number of parameters per bundle
 
         Returns:
+            tuple | dict: bundled arguments
 
         """
         if not bundle_size:
-            return tuple(cmd.name if hasattr(cmd, "name") else cmd for cmd in args)
+            return args
         params = {}
         for cmds in partition(bundle_size, args):
-            cmds_serialized = [
-                cmd._compile_function_path() if hasattr(cmd, "_compile_function_path") else cmd
-                for cmd in cmds
-            ]
-            params[cmds_serialized[0]] = cmds_serialized[1:]
+            params[cmds[0]] = list(cmds[1:])
         return params
 
     @property

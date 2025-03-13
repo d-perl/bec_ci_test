@@ -1,8 +1,12 @@
+from unittest import mock
+
 import numpy as np
 import pytest
 from pydantic import BaseModel
 
 from bec_lib import messages
+from bec_lib.device import DeviceBase
+from bec_lib.devicemanager import DeviceManagerBase
 from bec_lib.endpoints import MessageEndpoints
 from bec_lib.serialization import json_ext, msgpack
 
@@ -49,3 +53,9 @@ def test_serialize_model(serializer):
     data = DummyModel(a=1, b=2)
     converted_data = serializer.loads(serializer.dumps(data))
     assert data.model_dump() == converted_data
+
+
+def test_device_serializer(serializer):
+    device_manager = mock.MagicMock(spec=DeviceManagerBase)
+    dummy = DeviceBase(name="dummy", parent=device_manager)
+    assert serializer.loads(serializer.dumps(dummy)) == "dummy"
