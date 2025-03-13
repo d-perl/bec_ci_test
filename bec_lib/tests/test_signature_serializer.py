@@ -31,7 +31,9 @@ def test_signature_serializer():
 
 
 def test_signature_serializer_with_literals():
-    def test_func(a, b: Literal[1, 2, 3] = 1, c: None | np.ndarray = None):
+    def test_func(
+        a, b: Literal[1, 2, 3] = 1, c: None | np.ndarray = None, d: None | np.ndarray | float = None
+    ):
         pass
 
     params = signature_to_dict(test_func)
@@ -48,6 +50,12 @@ def test_signature_serializer_with_literals():
             "kind": "POSITIONAL_OR_KEYWORD",
             "default": None,
             "annotation": "NoneType | ndarray",
+        },
+        {
+            "name": "d",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "default": None,
+            "annotation": "NoneType | ndarray | float",
         },
     ]
 

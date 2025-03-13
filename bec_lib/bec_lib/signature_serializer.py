@@ -87,7 +87,7 @@ def deserialize_dtype(dtype: Any) -> type:
         raise ValueError(f"Unknown dtype {dtype}")
     if isinstance(dtype, str) and "|" in dtype:
         entries = [deserialize_dtype(x.strip()) for x in dtype.split("|")]
-        return operator.or_(*entries)
+        return Union[tuple(entries)]
 
     if dtype == "NoneType":
         return None
