@@ -1,6 +1,23 @@
 # CHANGELOG
 
 
+## v3.22.2 (2025-03-13)
+
+### Bug Fixes
+
+- **signature_serializer**: Fix dtype serialization and deserialization for Union, NoneType and
+  numpy
+  ([`c667c06`](https://gitlab.psi.ch/bec/bec/-/commit/c667c0694d62bcfac156ff7f15e216744a9cbf0b))
+
+- **signature_serializer**: Update dtype deserialization to use Union for multiple types
+  ([`d9cd1c7`](https://gitlab.psi.ch/bec/bec/-/commit/d9cd1c7d66e72a593609c1961608e1609e47161f))
+
+### Continuous Integration
+
+- Fix conda channel for PSI policy change
+  ([`fee67e9`](https://gitlab.psi.ch/bec/bec/-/commit/fee67e98e71a1cb58969410f1ebfacdc3987922b))
+
+
 ## v3.22.1 (2025-03-12)
 
 ### Bug Fixes
