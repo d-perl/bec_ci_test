@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v3.23.0 (2025-03-14)
+
+### Documentation
+
+- **atlas_models**: Add docstring to Device model for clarity on usage
+  ([`51a914e`](https://gitlab.psi.ch/bec/bec/-/commit/51a914e0d2b14122b9c7115f03b6516bef15c2af))
+
+### Features
+
+- **atlas_models**: Add BEC Atlas models
+  ([`727e7f8`](https://gitlab.psi.ch/bec/bec/-/commit/727e7f89a5ffa49c8d86bd56c097cadd7b88cbe8))
+
+- **config_handler**: Replace SciBecValidator with Pydantic models for device validation
+  ([`9a1e77d`](https://gitlab.psi.ch/bec/bec/-/commit/9a1e77db556fcda9c2a2b17fef69ceaf62304ccb))
+
+### Refactoring
+
+- **sci_bec_validator**: Add deprecation warning for SciBecValidator usage
+  ([`b399f4b`](https://gitlab.psi.ch/bec/bec/-/commit/b399f4b2f3a4bf19586a612cb1452cb8cb57effd))
+
+
 ## v3.22.3 (2025-03-14)
 
 ### Bug Fixes
