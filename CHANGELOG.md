@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.22.3 (2025-03-14)
+
+### Bug Fixes
+
+- **serialization**: Generalized support for serializing Device objects
+  ([`9cbd702`](https://gitlab.psi.ch/bec/bec/-/commit/9cbd7028f531318f77f289284b2898a3479ef709))
+
+
 ## v3.22.2 (2025-03-13)
 
 ### Bug Fixes
