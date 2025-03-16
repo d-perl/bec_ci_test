@@ -321,8 +321,6 @@ class DeviceManagerDS(DeviceManagerBase):
         name = dev.get("name")
         enabled = dev.get("enabled")
 
-        self.update_config(obj, config)
-
         # refresh the device info
         pipe = self.connector.pipeline()
         self.reset_device_data(obj, pipe)
@@ -341,16 +339,9 @@ class DeviceManagerDS(DeviceManagerBase):
         if not enabled:
             return opaas_obj
 
-        # update device buffer for enabled devices
-        # try:
         self.initialize_enabled_device(opaas_obj)
-        # pylint:disable=broad-except
-        # except Exception:
-        #     error_traceback = traceback.format_exc()
-        #     logger.error(
-        #         f"{error_traceback}. Failed to stage {opaas_obj.name}. The device will be disabled."
-        #     )
-        #     opaas_obj.enabled = False
+
+        self.update_config(obj, config)
 
         obj = opaas_obj.obj
         # add subscriptions
