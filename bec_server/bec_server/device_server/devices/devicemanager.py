@@ -131,6 +131,7 @@ class DeviceManagerDS(DeviceManagerBase):
                 # pylint: disable=broad-except
                 except Exception:
                     msg = traceback.format_exc()
+                    logger.warning(f"Failed to initialize device {name}: {msg}")
                     self.failed_devices[name] = msg
 
             for dev in delayed_init:
@@ -141,6 +142,7 @@ class DeviceManagerDS(DeviceManagerBase):
                 # pylint: disable=broad-except
                 except Exception:
                     msg = traceback.format_exc()
+                    logger.warning(f"Failed to initialize device {name}: {msg}")
                     self.failed_devices[name] = msg
             self.config_update_handler.handle_failed_device_inits()
         except Exception as exc:
