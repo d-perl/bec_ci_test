@@ -417,7 +417,7 @@ end-2-end-conda-310:
 
     - *install-bec-services-dev
 
-    - bec-server start --config ./ci/test_config.yaml
+    - bec-server start
 
     - cd ./bec_ipython_client
     - pytest -v --random-order ./tests/end-2-end/test_scans_e2e.py
