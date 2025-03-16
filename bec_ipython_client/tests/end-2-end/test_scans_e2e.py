@@ -598,7 +598,7 @@ def test_monitor_scan(bec_ipython_client_fixture):
     dev = bec.device_manager.devices
     dev.samx.limits = [-1100, 1100]
     time.sleep(5)
-    status = scans.monitor_scan(dev.samx, -100, 100, relative=False)
+    status = scans.monitor_scan(dev.samx, -100, 100, min_update=0.01, relative=False)
     assert len(status.scan.live_data) > 100
 
 
