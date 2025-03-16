@@ -259,8 +259,6 @@ class RedisConnector:
         Shutdown the connector
         """
 
-        self._generator_executor.shutdown()
-
         if self._events_listener_thread:
             self._stop_events_listener_thread.set()
             self._events_listener_thread.join()
@@ -280,6 +278,8 @@ class RedisConnector:
         # release all connections
         self._pubsub_conn.close()
         self._redis_conn.close()
+
+        self._generator_executor.shutdown()
 
     def send_client_info(
         self,
