@@ -1572,7 +1572,13 @@ class MonitorScan(ScanBase):
     gui_config = {"Device": ["device", "start", "stop"], "Scan Parameters": ["relative"]}
 
     def __init__(
-        self, device: DeviceBase, start: float, stop: float, relative: bool = False, **kwargs
+        self,
+        device: DeviceBase,
+        start: float,
+        stop: float,
+        min_update: float = 0,
+        relative: bool = False,
+        **kwargs,
     ):
         """
         Readout all primary devices at each update of the monitored device.
@@ -1581,6 +1587,7 @@ class MonitorScan(ScanBase):
             device (Device): monitored device
             start (float): start position of the monitored device
             stop (float): stop position of the monitored device
+            min_update (float): minimum update interval in seconds
             relative (bool): if True, the motor will be moved relative to its current position. Default is False.
 
         Returns:
@@ -1594,6 +1601,7 @@ class MonitorScan(ScanBase):
         super().__init__(relative=relative, **kwargs)
         self.start = start
         self.stop = stop
+        self.min_update = min_update
 
     def update_scan_motors(self):
         self.scan_motors = [self.device]
@@ -1636,6 +1644,9 @@ class MonitorScan(ScanBase):
             )
             self.point_id += 1
             self.num_pos += 1
+
+            if self.min_update:
+                time.sleep(self.min_update)
 
 
 class Acquire(ScanBase):
