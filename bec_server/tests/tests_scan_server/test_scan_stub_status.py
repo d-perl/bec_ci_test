@@ -153,7 +153,10 @@ def test_scan_stub_status_set_running(msg, scan_stub_status):
     assert scan_stub_status.done is False
 
     out = repr(scan_stub_status)
-    assert out == f"ScanStubStatus({scan_stub_status._device_instr_id}, action=set, devices=samx)"
+    assert (
+        out
+        == f"ScanStubStatus({scan_stub_status._device_instr_id}, action=set, devices=samx, done=False)"
+    )
 
 
 def test_scan_stub_status_wait(scan_stub_status):
@@ -252,10 +255,14 @@ def test_scan_stub_status_wait_log_remaining(scan_stub_status):
     ).start()
     with mock.patch("bec_server.scan_server.scan_stubs.logger") as logger:
         scan_stub_status.wait(logger_wait=0.1)
-        out = logger.info.call_args_list[-1].args[0]
         assert (
-            f"Waiting for the completion of the following status objects: ['ScanStubStatus({scan_stub_status._device_instr_id}, action=set, devices=samx)']"
-            in out
+            f"Waiting for the completion of the following status objects: ['ScanStubStatus({scan_stub_status._device_instr_id}, done=False)']"
+            in logger.info.call_args_list[0].args[0]
+        )
+
+        assert (
+            f"Waiting for the completion of the following status objects: ['ScanStubStatus({scan_stub_status._device_instr_id}, action=set, devices=samx, done=True)']"
+            in logger.info.call_args_list[-1].args[0]
         )
 
 
@@ -290,10 +297,10 @@ def test_stub_status_result_does_not_block(scan_stub_status):
 
 def test_stub_status_repr(instruction_handler):
     status = ScanStubStatus(instruction_handler, name="test")
-    assert repr(status) == f"ScanStubStatus(test, {status._device_instr_id})"
+    assert repr(status) == f"ScanStubStatus(test, {status._device_instr_id}, done=False)"
 
     status = ScanStubStatus(instruction_handler)
-    assert repr(status) == f"ScanStubStatus({status._device_instr_id})"
+    assert repr(status) == f"ScanStubStatus({status._device_instr_id}, done=False)"
 
     status = ScanStubStatus(instruction_handler)
     status.message = messages.DeviceInstructionResponse(
@@ -310,7 +317,10 @@ def test_stub_status_repr(instruction_handler):
         instruction_id="test_diid",
         result=None,
     )
-    assert repr(status) == f"ScanStubStatus({status._device_instr_id}, action=set, devices=samx)"
+    assert (
+        repr(status)
+        == f"ScanStubStatus({status._device_instr_id}, action=set, devices=samx, done=False)"
+    )
 
     status = ScanStubStatus(instruction_handler, name="test_name")
     status.message = messages.DeviceInstructionResponse(
@@ -329,5 +339,5 @@ def test_stub_status_repr(instruction_handler):
     )
     assert (
         repr(status)
-        == f"ScanStubStatus(test_name, {status._device_instr_id}, action=set, devices=samx)"
+        == f"ScanStubStatus(test_name, {status._device_instr_id}, action=set, devices=samx, done=False)"
     )
