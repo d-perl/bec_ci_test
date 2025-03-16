@@ -109,7 +109,7 @@ class RequestHandler:
         instr_id = instr.metadata["device_instr_id"]
         request_info = self.get_request(instr_id)
         if request_info is None:
-            raise ValueError(f"Request with ID {instr_id} not found.")
+            return
         request_info["num_status_objects"] = num_status_objects
 
         self._update_instruction(instr_id)
