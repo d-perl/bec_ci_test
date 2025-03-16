@@ -241,10 +241,8 @@ class ScanStubStatus:
         if self.message:
             instr = self.message.instruction.action
             devices = self.message.instruction.device
-            return (
-                f"ScanStubStatus({name}{self._device_instr_id}, action={instr}, devices={devices})"
-            )
-        return f"ScanStubStatus({name}{self._device_instr_id})"
+            return f"ScanStubStatus({name}{self._device_instr_id}, action={instr}, devices={devices}, done={self._done})"
+        return f"ScanStubStatus({name}{self._device_instr_id}, done={self._done})"
 
 
 class ScanStubs:
