@@ -139,6 +139,7 @@ class RequestHandler:
         """
         self._storage[instr_id]["status_objects"].append(status_obj)
         status_obj.add_callback(self.on_status_object_update)
+        self._update_instruction(instr_id)
 
     def set_finished(self, instr_id: str, success: bool = None, error_message=None, result=None):
         """
