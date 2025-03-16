@@ -343,7 +343,7 @@ class ScanManager:
     def _public_file_callback(self, msg, **_kwargs) -> None:
         topic = msg.topic
         value = msg.value
-        scan_id = topic.split("/")[2]
+        scan_id = topic.split("/")[-3]
         self.scan_storage.add_public_file(scan_id, value)
 
     def __str__(self) -> str:

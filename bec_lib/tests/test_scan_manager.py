@@ -283,3 +283,36 @@ def test_scan_manager_add_public_file(scan_manager_with_scan):
         "File: /Users/scans/S00001_master.h5"
         in scan_manager_with_scan.scan_storage.storage[-1].describe()
     )
+
+
+def test_scan_manager_add_public_file_pending(scan_manager_with_scan):
+    """
+    Test that the public file callback adds the message to the pending updates if
+    the scan is not in the storage yet.
+    """
+    msg = messages.FileMessage(
+        file_path="/Users/scans/S00001_master.h5", done=False, successful=False
+    )
+    msg_object = MessageObject(
+        topic=MessageEndpoints.public_file("new_scan_id_not_yet_in_storage", "master").endpoint,
+        value=msg,
+    )
+    # pylint: disable=protected-access
+    scan_manager_with_scan._public_file_callback(msg=msg_object)
+
+    assert scan_manager_with_scan.scan_storage.storage[-1].public_files == {}
+
+    scan_manager_with_scan.scan_storage.add_scan_item(
+        queue_id="queue_id2",
+        scan_number=2,
+        scan_id="new_scan_id_not_yet_in_storage",
+        status="running",
+    )
+
+    assert scan_manager_with_scan.scan_storage.storage[-1].public_files == {
+        msg.file_path: {"done_state": False, "successful": False}
+    }
+    assert (
+        "File: /Users/scans/S00001_master.h5"
+        in scan_manager_with_scan.scan_storage.storage[-1].describe()
+    )
