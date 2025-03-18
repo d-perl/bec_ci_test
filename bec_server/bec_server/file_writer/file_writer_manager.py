@@ -143,7 +143,7 @@ class FileWriterManager(BECService):
                 self.writer_mixin.compile_full_filename(suffix="master"),
                 scan_id=scan_id,
                 connector=self.connector,
-                devices=self.device_manager.devices.async_devices(),
+                devices=msg.readout_priority.get("async", []),
             )
             scan_storage.async_writer.start()
 

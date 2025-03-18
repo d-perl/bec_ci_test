@@ -1,11 +1,8 @@
-import os
-
 import h5py
 import numpy as np
 import pytest
 
 from bec_lib import messages
-from bec_lib.device import Device
 from bec_lib.endpoints import MessageEndpoints
 from bec_server.file_writer.async_writer import AsyncWriter
 
@@ -13,7 +10,7 @@ from bec_server.file_writer.async_writer import AsyncWriter
 @pytest.fixture
 def async_writer(tmp_path, connected_connector):
     file_path = tmp_path / "test.nxs"
-    writer = AsyncWriter(file_path, "scan_id", connected_connector, [Device(name="monitor_async")])
+    writer = AsyncWriter(file_path, "scan_id", connected_connector, ["monitor_async"])
     writer.initialize_stream_keys()
     yield writer
 

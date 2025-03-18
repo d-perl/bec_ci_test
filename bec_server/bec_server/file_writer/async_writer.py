@@ -78,7 +78,7 @@ class AsyncWriter(threading.Thread):
         """
         for device in self.devices:
             topic = MessageEndpoints.device_async_readback(
-                scan_id=self.scan_id, device=device.name
+                scan_id=self.scan_id, device=device
             ).endpoint
             key = "0-0"
             self.stream_keys[topic] = key
