@@ -98,6 +98,7 @@ def test_config_handler_reload_config(config_handler):
             {
                 "name": "samx",
                 "enabled": True,
+                "deviceConfig": {},
                 "deviceClass": "ophyd.EpicsMotor",
                 "readoutPriority": "baseline",
             },
