@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.24.1 (2025-03-18)
+
+### Bug Fixes
+
+- **config_handler**: Handle None deviceConfig by initializing to empty dict
+  ([`5f34284`](https://gitlab.psi.ch/bec/bec/-/commit/5f342845de42800003a1c901db28e972368fa14a))
+
+### Refactoring
+
+- **file_writer_manager**: Add logging for scan segment processing readiness
+  ([`edad81e`](https://gitlab.psi.ch/bec/bec/-/commit/edad81efe536496ca64ef712c2fbe5f322218fe2))
+
+
 ## v3.24.0 (2025-03-18)
 
 ### Bug Fixes
