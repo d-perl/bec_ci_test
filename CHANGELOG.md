@@ -1,6 +1,60 @@
 # CHANGELOG
 
 
+## v3.24.0 (2025-03-18)
+
+### Bug Fixes
+
+- **ci**: Update pytest command to include files path for end-to-end tests
+  ([`0caf525`](https://gitlab.psi.ch/bec/bec/-/commit/0caf525b5c1de81350bba43a5dded03643d34d3d))
+
+- **device_server**: Update device only after adding it to the DM
+  ([`0639ced`](https://gitlab.psi.ch/bec/bec/-/commit/0639ced19b1146a249b40093a8823b5264bdcb77))
+
+- **device_server**: Update instruction immediately after adding status object
+  ([`db9173f`](https://gitlab.psi.ch/bec/bec/-/commit/db9173f5973b69cf78185c459f2adf113600fec7))
+
+- **redis_connector**: Move shutdown of generator executor to end of the shutdown procedure
+  ([`5557690`](https://gitlab.psi.ch/bec/bec/-/commit/5557690d846b82a7d8398a6d7bb20006a94234bd))
+
+- **request_handler**: Prevent ValueError when request ID is not found
+  ([`24402f1`](https://gitlab.psi.ch/bec/bec/-/commit/24402f1cb78badeca76993428410693c52f8b065))
+
+- **scan_stub_status**: Include 'done' status in string representation
+  ([`fd1803a`](https://gitlab.psi.ch/bec/bec/-/commit/fd1803abc50b2f69f69ca920eab5925fca6c3e57))
+
+### Chores
+
+- **device_manager**: Add logging for failed device initialization
+  ([`27d2912`](https://gitlab.psi.ch/bec/bec/-/commit/27d29128071924ad4da6268772ee446fc9f45647))
+
+### Continuous Integration
+
+- Removed unnecessary config for nightly e2e tests
+  ([`3e55d44`](https://gitlab.psi.ch/bec/bec/-/commit/3e55d44e4fe1595824f9f1c1fe04c7a0943bba6d))
+
+### Features
+
+- **monitor_scan**: Add min_update parameter for configurable update interval
+  ([`dc349a3`](https://gitlab.psi.ch/bec/bec/-/commit/dc349a3860378ef4f86f1919de81ef2de91a81ee))
+
+### Refactoring
+
+- Split procedure manager module
+  ([`9d1e152`](https://gitlab.psi.ch/bec/bec/-/commit/9d1e1526efe3795df0e30e6e5fe2e7abad361ce0))
+
+- **scan_storage**: Optimize handling of pending inserts for scan updates and segments
+  ([`f50a207`](https://gitlab.psi.ch/bec/bec/-/commit/f50a2076e8da1de4e96f0b54daa3efa7080486d2))
+
+### Testing
+
+- **e2e**: Add min_update parameter to monitor_scan in end-to-end test
+  ([`14a388b`](https://gitlab.psi.ch/bec/bec/-/commit/14a388bf4fdd6adcde551c0d1a1e65d783ce5aa1))
+
+- **scan_stubs**: Update ScanStubStatus representation to include 'done' state
+  ([`49cbec6`](https://gitlab.psi.ch/bec/bec/-/commit/49cbec6f554d70a24ae867701c29198fc7de9c17))
+
+
 ## v3.23.0 (2025-03-14)
 
 ### Documentation
