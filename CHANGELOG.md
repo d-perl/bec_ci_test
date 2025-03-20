@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.25.0 (2025-03-20)
+
+### Features
+
+- **bec_server**: Added support for interacting with bec-server commands through systemd
+  ([`6d36184`](https://gitlab.psi.ch/bec/bec/-/commit/6d361840cc28bd2922fad5eae70024f58d5ce470))
+
+
 ## v3.24.1 (2025-03-18)
 
 ### Bug Fixes
