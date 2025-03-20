@@ -1,8 +1,5 @@
 import copy
 import functools
-import os
-import pathlib
-import socket
 import subprocess
 import sys
 import time
@@ -96,6 +93,16 @@ class ServiceHandler:
         self._detect_available_interfaces()
 
     def _detect_available_interfaces(self):
+        # check if the systemctl command "bec_server" is available
+        try:
+            out = subprocess.run(["systemctl", "list-unit-files", "bec-server.service"], check=True)
+            if out.returncode == 0:
+                default_interface = "systemctl"
+            else:
+                default_interface = "tmux"
+        except Exception:
+            default_interface = "tmux"
+
         if self.no_tmux:
             self.interface = None
             return
@@ -104,13 +111,11 @@ class ServiceHandler:
             try:
                 import iterm2
             except ImportError:
-                self.interface = "tmux"
+                self.interface = default_interface
             else:
                 self.interface = "iterm2"
-
-        # if we are not on MacOS, we can only use tmux
         else:
-            self.interface = "tmux"
+            self.interface = default_interface
 
     def start(self) -> list:
         """
@@ -165,11 +170,12 @@ class ServiceHandler:
                 f"{bcolors.OKCYAN}{bcolors.BOLD}Use `tmux attach -t bec` to attach to the BEC server. Once connected, use `ctrl+b d` to detach again.{bcolors.ENDC}"
             )
             return []
-        elif self.interface == "iterm2":
-            pass
-        else:
-            # no tmux
-            return subprocess_start(self.bec_path, services)
+        if self.interface == "iterm2":
+            return []
+        if self.interface == "systemctl":
+            subprocess.run(["systemctl", "start", "bec-server.service"], check=True)
+            return []
+        return subprocess_start(self.bec_path, services)
 
     def stop(self, processes=None):
         """
@@ -181,6 +187,8 @@ class ServiceHandler:
             tmux_stop("bec")
         elif self.interface == "iterm2":
             pass
+        elif self.interface == "systemctl":
+            subprocess.run(["systemctl", "stop", "bec-server.service"], check=True)
         else:
             subprocess_stop(processes)
 
