@@ -532,13 +532,21 @@ class ScanStubs:
         """
         status = self._create_status(name="stage")
 
-        async_devices = self._device_manager.devices.async_devices()
+        async_devices = self._device_manager.devices.async_devices(
+            readout_priority=self._readout_priority
+        )
         excluded_devices = [device.name for device in async_devices]
         excluded_devices.extend(
-            device.name for device in self._device_manager.devices.on_request_devices()
+            device.name
+            for device in self._device_manager.devices.on_request_devices(
+                readout_priority=self._readout_priority
+            )
         )
         excluded_devices.extend(
-            device.name for device in self._device_manager.devices.continuous_devices()
+            device.name
+            for device in self._device_manager.devices.continuous_devices(
+                readout_priority=self._readout_priority
+            )
         )
         stage_device_names_without_async = [
             dev.root.name
