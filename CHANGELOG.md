@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v3.25.1 (2025-03-22)
+
+### Bug Fixes
+
+- **async_writer**: Get the readout_priority from the scan message, not the device config
+  ([`0d7dc5d`](https://gitlab.psi.ch/bec/bec/-/commit/0d7dc5d3ae4b28bf55fe931928de43b06cb18b3c))
+
+- **scan_stubs**: Respect readout priority modifications for the stage order
+  ([`8e8cf2f`](https://gitlab.psi.ch/bec/bec/-/commit/8e8cf2fda4a5e2218a0447da8df86759b68e433f))
+
+
 ## v3.25.0 (2025-03-20)
 
 ### Features
