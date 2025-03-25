@@ -218,3 +218,15 @@ def test_ready_to_write_forced(file_writer_manager_mock):
     file_manager.scan_storage["scan_id"].scan_finished = False
     file_manager.scan_storage["scan_id"].forced_finish = True
     assert file_manager.scan_storage["scan_id"].ready_to_write() is True
+
+
+def test_file_writer_manager_update_configuration(file_writer_manager_mock):
+    msg = messages.DeviceMessage(signals={"samx_velocity": {"value": 1}})
+    msg_obj = MessageObject(
+        topic=MessageEndpoints.device_read_configuration("samx").endpoint, value=msg
+    )
+    with mock.patch.object(file_writer_manager_mock, "update_device_configuration") as mock_update:
+        file_writer_manager_mock._device_configuration_callback(
+            msg_obj, parent=file_writer_manager_mock
+        )
+        mock_update.assert_called_once_with("samx", msg)
