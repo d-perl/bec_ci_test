@@ -10,26 +10,33 @@ from bec_server.scan_server.scan_queue import ScanQueueStatus
 
 logger = bec_logger.logger
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from bec_server.scan_server.scan_server import ScanServer
 
 
 class ScanRejection(Exception):
-    pass
+    """
+    Exception raised when a scan request is rejected.
+    """
 
 
 class ScanStatus:
+    """
+    Container for scan status.
+    """
+
     def __init__(self, accepted: bool = True, message: str = ""):
         self.accepted = accepted
         self.message = message
 
 
 class ScanGuard:
+    """
+    Scan guard receives scan requests and checks their validity. If the scan is
+    accepted, it enqueues a new scan message.
+    """
+
     def __init__(self, *, parent: ScanServer):
-        """
-        Scan guard receives scan requests and checks their validity. If the scan is
-        accepted, it enqueues a new scan message.
-        """
         self.parent = parent
         self.device_manager = self.parent.device_manager
         self.connector = self.parent.connector
@@ -56,6 +63,7 @@ class ScanGuard:
             self._check_baton(request)
             self._check_motors_movable(request)
             self._check_soft_limits(request)
+        # pylint: disable=broad-except
         except Exception:
             content = traceback.format_exc()
             return ScanStatus(False, str(content))
