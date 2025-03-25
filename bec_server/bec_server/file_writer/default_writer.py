@@ -18,11 +18,13 @@ class DefaultFormat:
         storage: HDF5Storage,
         data: dict,
         info_storage: dict,
+        configuration: dict,
         file_references: dict[str, messages.FileMessage],
         device_manager: DeviceManagerBase,
     ):
         self.storage = storage
         self.data = data
+        self.configuration = configuration
         self.file_references = file_references
         self.device_manager = device_manager
         self.info_storage = info_storage
@@ -50,10 +52,8 @@ class DefaultFormat:
             name (str): Entry name
             default (Any, optional): Default value. Defaults to None.
         """
-        if isinstance(self.data.get(name), list) and isinstance(self.data.get(name)[0], dict):
-            return [
-                sub_data.get(name, {}).get("value", default) for sub_data in self.data.get(name)
-            ]
+        if isinstance(self.data.get(name), list) and isinstance(self.data[name][0], dict):
+            return [sub_data.get(name, {}).get("value", default) for sub_data in self.data[name]]
 
         return self.data.get(name, {}).get(name, {}).get("value", default)
 
@@ -94,6 +94,8 @@ class DefaultFormat:
             group.attrs["NX_class"] = "NXcollection"
             for device in devices:
                 group.create_soft_link(name=device, target=f"/entry/collection/devices/{device}")
+        configuration = collection.create_dataset("configuration", data=self.configuration)
+        configuration.attrs["NX_class"] = "NXcollection"
 
         # /entry/control
         control = entry.create_group("control")

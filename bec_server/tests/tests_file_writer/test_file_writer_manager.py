@@ -34,7 +34,7 @@ def scan_storage_mock():
 
 
 @pytest.fixture
-def file_writer_manager_mock():
+def file_writer_manager_mock(dm_with_devices):
     connector_cls = ConnectorMock
     config = ServiceConfig(
         redis={"host": "dummy", "port": 6379},
@@ -43,8 +43,12 @@ def file_writer_manager_mock():
             "log_writer": {"base_path": "./"},
         },
     )
+
+    def _start_device_manager(self):
+        self.device_manager = dm_with_devices
+
     with (
-        mock.patch.object(FileWriterManager, "_start_device_manager", return_value=None),
+        mock.patch.object(FileWriterManager, "_start_device_manager", _start_device_manager),
         mock.patch.object(FileWriterManager, "wait_for_service"),
     ):
         file_writer_manager_mock = FileWriterManager(config=config, connector_cls=connector_cls)
@@ -90,7 +94,7 @@ class MockWriter(HDF5FileWriter):
         super().__init__(file_writer_manager)
         self.write_called = False
 
-    def write(self, file_path: str, data, mode="w", file_handle=None):
+    def write(self, file_path: str, data, configuration_data, mode="w", file_handle=None):
         self.write_called = True
 
 

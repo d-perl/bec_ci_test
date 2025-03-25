@@ -226,7 +226,14 @@ class HDF5FileWriter:
                 device_storage[dev].append(data.scan_segments[point][dev])
         return device_storage
 
-    def write(self, file_path: str, data: ScanStorage, mode="w", file_handle=None):
+    def write(
+        self,
+        file_path: str,
+        data: ScanStorage,
+        configuration_data: dict[str, dict],
+        mode="w",
+        file_handle=None,
+    ):
         """
         Write the data to an HDF5 file.
 
@@ -272,6 +279,7 @@ class HDF5FileWriter:
             storage=HDF5Storage(),
             data=device_storage,
             info_storage=info_storage,
+            configuration=configuration_data,
             file_references=data.file_references,
             device_manager=self.file_writer_manager.device_manager,
         ).get_storage_format()

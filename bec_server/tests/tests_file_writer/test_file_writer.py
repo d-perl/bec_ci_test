@@ -7,7 +7,6 @@ import numpy as np
 import pytest
 from test_file_writer_manager import file_writer_manager_mock
 
-from bec_lib.tests.fixtures import dm_with_devices
 from bec_server import file_writer
 from bec_server.file_writer import HDF5FileWriter
 from bec_server.file_writer.file_writer import HDF5Storage
@@ -51,6 +50,7 @@ def test_csaxs_nexus_format(file_writer_manager_mock_with_dm):
         data={"samx": {"samx": {"value": [0, 1, 2]}}, "mokev": {"mokev": {"value": 12.456}}},
         file_references={},
         info_storage={},
+        configuration={},
         device_manager=file_manager.device_manager,
     ).get_storage_format()
     assert writer_storage["entry"].attrs["definition"] == "NXsas"
@@ -72,7 +72,7 @@ def test_nexus_file_writer(hdf5_file_writer, scan_storage_mock):
             ]
         },
     ):
-        file_writer.write("./test.h5", scan_storage_mock)
+        file_writer.write("./test.h5", scan_storage_mock, configuration_data={})
     with h5py.File("./test.h5", "r") as test_file:
         assert list(test_file) == ["entry"]
         assert list(test_file["entry"]) == ["collection", "control", "instrument", "sample"]
@@ -170,7 +170,7 @@ def test_write_data_storage(segments, baseline, metadata, hdf5_file_writer):
     storage.start_time = 1679226971.564235
     storage.end_time = 1679226971.580867
 
-    file_writer.write("./test.h5", storage)
+    file_writer.write("./test.h5", storage, configuration_data={})
 
     # open file and check that time stamps are correct
     with h5py.File("./test.h5", "r") as test_file:
@@ -193,7 +193,9 @@ def test_load_format_from_plugin(tmp_path, hdf5_file_writer):
         "bec_lib.plugin_helper.get_file_writer_plugins"
     ) as mock_get_file_writer_plugins:
         mock_get_file_writer_plugins.return_value = {"cSAXS": cSAXSFormat}
-        file_writer.write(f"{tmp_path}/test.h5", ScanStorage(2, "scan_id-string"))
+        file_writer.write(
+            f"{tmp_path}/test.h5", ScanStorage(2, "scan_id-string"), configuration_data={}
+        )
     with h5py.File(f"{tmp_path}/test.h5", "r") as test_file:
         assert test_file["entry"].attrs["definition"] == "NXsas"
 
@@ -206,6 +208,6 @@ def test_load_format_from_plugin_uses_default(tmp_path, hdf5_file_writer, scan_s
         "bec_lib.plugin_helper.get_file_writer_plugins"
     ) as mock_get_file_writer_plugins:
         mock_get_file_writer_plugins.return_value = {"cSAXS": cSAXSFormat}
-        file_writer.write(f"{tmp_path}/test.h5", scan_storage_mock)
+        file_writer.write(f"{tmp_path}/test.h5", scan_storage_mock, configuration_data={})
     with h5py.File(f"{tmp_path}/test.h5", "r") as test_file:
         assert "definition" not in test_file["entry"].attrs

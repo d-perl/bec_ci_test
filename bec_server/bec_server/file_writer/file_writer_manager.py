@@ -7,6 +7,7 @@ import traceback
 from bec_lib import messages
 from bec_lib.alarm_handler import Alarms
 from bec_lib.bec_service import BECService
+from bec_lib.callback_handler import CallbackHandler, EventType
 from bec_lib.devicemanager import DeviceManagerBase
 from bec_lib.endpoints import MessageEndpoints
 from bec_lib.file_utils import FileWriter
@@ -70,7 +71,7 @@ class ScanStorage:
 
 
 class FileWriterManager(BECService):
-    def __init__(self, config: ServiceConfig, connector_cls: RedisConnector) -> None:
+    def __init__(self, config: ServiceConfig, connector_cls: type[RedisConnector]) -> None:
         """
         Service to write scan data to file.
 
@@ -80,23 +81,32 @@ class FileWriterManager(BECService):
         """
         super().__init__(config, connector_cls, unique_service=True)
         self._lock = threading.RLock()
+        self.callbacks = CallbackHandler()
+        self.callbacks.register(
+            event_type=EventType.DEVICE_UPDATE, callback=self._update_available_devices
+        )
         self.file_writer_config = self._service_config.service_config.get("file_writer")
         self._start_device_manager()
+        self.device_configuration = {}
         self.connector.register(
             MessageEndpoints.scan_segment(), cb=self._scan_segment_callback, parent=self
         )
         self.connector.register(
             MessageEndpoints.scan_status(), cb=self._scan_status_callback, parent=self
         )
-
+        self.connector.register(
+            patterns=MessageEndpoints.device_read_configuration("*"),  # type: ignore
+            cb=self._device_configuration_callback,
+            parent=self,
+        )
         self.async_writer = None
         self.scan_storage = {}
         self.writer_mixin = FileWriter(
             service_config=self.file_writer_config, connector=self.connector
         )
         self.file_writer = HDF5FileWriter(self)
-
         self.status = messages.BECStatus.RUNNING
+        self.refresh_device_configs()
 
     def _start_device_manager(self):
         self.wait_for_service("DeviceServer")
@@ -109,9 +119,35 @@ class FileWriterManager(BECService):
             parent.insert_to_scan_storage(scan_msg)
 
     @staticmethod
-    def _scan_status_callback(msg, *, parent):
+    def _scan_status_callback(msg, *, parent: FileWriterManager):
         msg = msg.value
         parent.update_scan_storage_with_status(msg)
+
+    @staticmethod
+    def _device_configuration_callback(msg, *, parent: FileWriterManager):
+        topic, msg = msg.topic, msg.value
+        device = topic.split("/")[-1]
+        parent.update_device_configuration(device, msg)
+
+    def _update_available_devices(self, *args) -> None:
+        """
+        Update the available devices.
+        """
+        for device in self.device_configuration:
+            if (
+                device not in self.device_manager.devices
+                or not self.device_manager.devices[device].enabled
+            ):
+                self.device_configuration.pop(device)
+
+    def refresh_device_configs(self) -> None:
+        """
+        Refresh the device configurations.
+        """
+        for device in self.device_manager.devices:
+            info = self.connector.get(MessageEndpoints.device_read_configuration(device))
+            if info:
+                self.update_device_configuration(device, info)
 
     def update_scan_storage_with_status(self, msg: messages.ScanStatusMessage) -> None:
         """
@@ -229,6 +265,15 @@ class FileWriterManager(BECService):
             self.scan_storage[scan_id].file_references[name] = file_msg
         return
 
+    def update_device_configuration(self, device: str, msg: messages.DeviceMessage) -> None:
+        """
+        Update the device configuration. Note that this is a global configuration and not specific to a scan.
+
+        Args:
+            msg (messages.DeviceMessage): Device message
+        """
+        self.device_configuration.update({device: msg.signals})
+
     def check_storage_status(self, scan_id: str) -> None:
         """
         Check if the scan storage is ready to be written to file and write it if it is.
@@ -276,7 +321,11 @@ class FileWriterManager(BECService):
             write_mode = "w" if not writte_devices else "a"
             file_handle = storage.async_writer.file_handle if storage.async_writer else None
             self.file_writer.write(
-                file_path=file_path, data=storage, mode=write_mode, file_handle=file_handle
+                file_path=file_path,
+                data=storage,
+                configuration_data=self.device_configuration,
+                mode=write_mode,
+                file_handle=file_handle,
             )
         # pylint: disable=broad-except
         # pylint: disable=unused-variable
