@@ -103,6 +103,9 @@ class ServiceHandler:
         except Exception:
             default_interface = "tmux"
 
+        # FIXME: auth error for systemctl prevents it from being used. For now, default to tmux
+        default_interface = "tmux"
+
         if self.no_tmux:
             self.interface = None
             return
