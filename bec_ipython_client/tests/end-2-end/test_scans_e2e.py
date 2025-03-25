@@ -448,6 +448,10 @@ def test_file_writer(bec_ipython_client_fixture):
     scans = bec.scans
     dev = bec.device_manager.devices
     dataset_number = bec.queue.next_dataset_number
+
+    dev.samx.velocity.set(98).wait()
+    dev.samy.velocity.set(101).wait()
+
     scan = scans.grid_scan(
         dev.samx,
         -5,
@@ -486,6 +490,18 @@ def test_file_writer(bec_ipython_client_fixture):
         file_data = file["entry"]["collection"]["devices"]["samx"]["samx"]["value"][...]
         stream_data = scan.scan.live_data["samx"]["samx"]["value"]
         assert all(file_data == stream_data)
+
+        assert (
+            file["entry"]["collection"]["configuration"]["samx"]["samx_velocity"]["value"][...]
+            == 98
+        )
+        assert (
+            file["entry"]["collection"]["configuration"]["samy"]["samy_velocity"]["value"][...]
+            == 101
+        )
+
+    dev.samx.velocity.set(100).wait()
+    dev.samy.velocity.set(100).wait()
 
 
 @pytest.mark.timeout(100)
