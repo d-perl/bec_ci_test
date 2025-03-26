@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.25.2 (2025-03-26)
+
+### Bug Fixes
+
+- **service_handler**: Default to tmux interface due to auth error with systemctl
+  ([`06f645a`](https://gitlab.psi.ch/bec/bec/-/commit/06f645a018dc700d81a7a9932b38182a5d150f87))
+
+
 ## v3.25.1 (2025-03-22)
 
 ### Bug Fixes
