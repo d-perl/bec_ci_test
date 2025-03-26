@@ -47,7 +47,7 @@ class DSDevice(DeviceBase):
     def initialize_device_buffer(self, connector):
         """initialize the device read and readback buffer on redis with a new reading"""
         dev_msg = messages.DeviceMessage(signals=self.obj.read(), metadata={})
-        dev_config_msg = messages.DeviceMessage(signals=self.obj.read_configuration(), metadata={})
+
         if hasattr(self.obj, "low_limit_travel") and hasattr(self.obj, "high_limit_travel"):
             limits = {
                 "low": {"value": self.obj.low_limit_travel.get()},
@@ -60,9 +60,14 @@ class DSDevice(DeviceBase):
         connector.set_and_publish(
             topic=MessageEndpoints.device_read(self.name), msg=dev_msg, pipe=pipe
         )
-        connector.set_and_publish(
-            MessageEndpoints.device_read_configuration(self.name), dev_config_msg, pipe=pipe
-        )
+        if not isinstance(self.obj, ophyd.Signal):
+            # signals have the same read and read_configuration values; no need to publish twice
+            dev_config_msg = messages.DeviceMessage(
+                signals=self.obj.read_configuration(), metadata={}
+            )
+            connector.set_and_publish(
+                MessageEndpoints.device_read_configuration(self.name), dev_config_msg, pipe=pipe
+            )
         if limits is not None:
             connector.set_and_publish(
                 MessageEndpoints.device_limits(self.name),
@@ -463,6 +468,7 @@ class DeviceManagerDS(DeviceManagerBase):
         """delete all device data and device info"""
         self.connector.delete(MessageEndpoints.device_status(obj.name), pipe)
         self.connector.delete(MessageEndpoints.device_read(obj.name), pipe)
+        self.connector.delete(MessageEndpoints.device_read_configuration(obj.name), pipe)
         self.connector.delete(MessageEndpoints.device_info(obj.name), pipe)
 
     def _obj_callback_readback(self, *_args, obj: OphydObject, **kwargs):
@@ -478,6 +484,9 @@ class DeviceManagerDS(DeviceManagerBase):
 
     def _obj_callback_configuration(self, *_args, obj: OphydObject, **kwargs):
         if not obj.connected:
+            return
+        if isinstance(obj.root, ophyd.Signal):
+            # we don't need to publish the configuration of a signal
             return
         name = obj.root.name
         signals = obj.root.read_configuration()
