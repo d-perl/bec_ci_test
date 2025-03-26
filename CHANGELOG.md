@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.26.0 (2025-03-26)
+
+### Features
+
+- **rpc**: Rpc objects should have the original class name
+  ([`1cfa35b`](https://gitlab.psi.ch/bec/bec/-/commit/1cfa35ba3bbecba9eaee8936692ff68f706f61c9))
+
+### Testing
+
+- Update mock data for device_class info
+  ([`11dfced`](https://gitlab.psi.ch/bec/bec/-/commit/11dfcedbc0ff49bf1d2b817cfc287cae1b8b67ab))
+
+
 ## v3.25.2 (2025-03-26)
 
 ### Bug Fixes
