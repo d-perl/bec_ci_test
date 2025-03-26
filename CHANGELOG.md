@@ -1,6 +1,35 @@
 # CHANGELOG
 
 
+## v3.27.0 (2025-03-26)
+
+### Bug Fixes
+
+- **device_manager**: Only publish configuration if it is not a signal
+  ([`a045226`](https://gitlab.psi.ch/bec/bec/-/commit/a045226efeb7ae885678ad32063e019197cf1ffb))
+
+### Features
+
+- **file_writer**: Add support for writing configuration data to the master file
+  ([`4919b47`](https://gitlab.psi.ch/bec/bec/-/commit/4919b4781a9e2714673f81ce9d4a0038c0026b60))
+
+### Refactoring
+
+- Type hint improvements
+  ([`c1a2bd2`](https://gitlab.psi.ch/bec/bec/-/commit/c1a2bd23693a1378866c4629b32b447e55223ecf))
+
+- **scan_guard**: Enhance documentation for exception handling and class purposes
+  ([`bceebb7`](https://gitlab.psi.ch/bec/bec/-/commit/bceebb768c3e6ed4402e09143a2b1c036302669f))
+
+### Testing
+
+- **file_writer**: Add unit test for extracting the device name from the topic
+  ([`3b12889`](https://gitlab.psi.ch/bec/bec/-/commit/3b128894c91a8037f5e3c1d9898c1600bbfdb14a))
+
+- **file_writer**: Extend file writer e2e test to check that configuration signals are updated
+  ([`8202fcb`](https://gitlab.psi.ch/bec/bec/-/commit/8202fcb2956fbd05e385ff56cfce7f22214cd24e))
+
+
 ## v3.26.0 (2025-03-26)
 
 ### Features
