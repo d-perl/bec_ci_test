@@ -9,6 +9,7 @@ from __future__ import annotations
 import inspect
 import time
 import traceback
+from typing import Callable
 
 import numpy as np
 import ophyd
@@ -82,8 +83,8 @@ class DeviceManagerDS(DeviceManagerBase):
     def __init__(
         self,
         service: BECService,
-        config_update_handler: ConfigUpdateHandler = None,
-        status_cb: list = None,
+        config_update_handler: ConfigUpdateHandler | None = None,
+        status_cb: list[Callable] | Callable | None = None,
     ):
         super().__init__(service, status_cb)
         self._config_request_connector = None

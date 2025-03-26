@@ -87,7 +87,7 @@ class RequestHandler:
             raise ValueError("If the instruction is done, the success status must be set.")
         self.send_device_instruction_response(instr_id, success, done)
 
-    def get_request(self, instr_id: str) -> dict:
+    def get_request(self, instr_id: str) -> dict | None:
         """
         Get a request from the storage.
 
@@ -241,7 +241,7 @@ class DeviceServer(RPCMixin, BECService):
     This class is intended to provide a thin wrapper around ophyd and the devicemanager. It acts as the entry point for other services
     """
 
-    def __init__(self, config, connector_cls: RedisConnector) -> None:
+    def __init__(self, config, connector_cls: type[RedisConnector]) -> None:
         super().__init__(config, connector_cls, unique_service=True)
         self._tasks = []
         self.device_manager = None
@@ -281,7 +281,8 @@ class DeviceServer(RPCMixin, BECService):
         """shutdown the device server"""
         super().shutdown()
         self.stop()
-        self.device_manager.shutdown()
+        if self.device_manager:
+            self.device_manager.shutdown()
 
     def _update_device_metadata(self, instr) -> None:
         devices = instr.content["device"]
@@ -334,7 +335,7 @@ class DeviceServer(RPCMixin, BECService):
             if dev not in self.device_manager.devices:
                 raise InvalidDeviceError(f"There is no device with the name {dev}.")
 
-    def handle_device_instructions(self, msg: str) -> None:
+    def handle_device_instructions(self, msg: messages.DeviceInstructionMessage) -> None:
         """Parse a device instruction message and handle the requested action. Action
         types are set, read, rpc, kickoff or trigger.
 

@@ -9,7 +9,7 @@ import copy
 import re
 import traceback
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 from rich.console import Console
 from rich.table import Table
@@ -449,7 +449,9 @@ class DeviceManagerBase:
     _device_cls = DeviceBase
     _status_cb = []
 
-    def __init__(self, service: BECService, status_cb: list = None) -> None:
+    def __init__(
+        self, service: BECService, status_cb: list[Callable] | Callable | None = None
+    ) -> None:
         self._service = service
         self.parent = service  # for backwards compatibility; will be removed in the future
         self.connector = self._service.connector
