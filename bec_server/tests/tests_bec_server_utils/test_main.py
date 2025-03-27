@@ -7,13 +7,13 @@ def test_main_start():
     with mock.patch("bec_server.bec_server_utils.launch.ServiceHandler") as mock_service_handler:
         with mock.patch("bec_server.bec_server_utils.launch.argparse") as mock_argparse:
             mock_argparse.ArgumentParser().parse_args.return_value = mock.MagicMock(
-                command="start", config=None
+                command="start", config=None, interface="tmux"
             )
             main()
             mock_service_handler.assert_called_once_with(
                 bec_path=mock.ANY,
                 config_path=None,
-                no_tmux=False,
+                interface="tmux",
                 start_redis=False,
                 no_persistence=False,
             )
@@ -24,13 +24,13 @@ def test_main_stop():
     with mock.patch("bec_server.bec_server_utils.launch.ServiceHandler") as mock_service_handler:
         with mock.patch("bec_server.bec_server_utils.launch.argparse") as mock_argparse:
             mock_argparse.ArgumentParser().parse_args.return_value = mock.MagicMock(
-                command="stop", config=None
+                command="stop", config=None, interface="tmux"
             )
             main()
             mock_service_handler.assert_called_once_with(
                 bec_path=mock.ANY,
                 config_path=None,
-                no_tmux=False,
+                interface="tmux",
                 start_redis=False,
                 no_persistence=False,
             )
@@ -41,13 +41,13 @@ def test_main_restart():
     with mock.patch("bec_server.bec_server_utils.launch.ServiceHandler") as mock_service_handler:
         with mock.patch("bec_server.bec_server_utils.launch.argparse") as mock_argparse:
             mock_argparse.ArgumentParser().parse_args.return_value = mock.MagicMock(
-                command="restart", config=None
+                command="restart", config=None, interface="tmux"
             )
             main()
             mock_service_handler.assert_called_once_with(
                 bec_path=mock.ANY,
                 config_path=None,
-                no_tmux=False,
+                interface="tmux",
                 start_redis=False,
                 no_persistence=False,
             )
@@ -58,13 +58,13 @@ def test_main_start_with_config():
     with mock.patch("bec_server.bec_server_utils.launch.ServiceHandler") as mock_service_handler:
         with mock.patch("bec_server.bec_server_utils.launch.argparse") as mock_argparse:
             mock_argparse.ArgumentParser().parse_args.return_value = mock.MagicMock(
-                command="start", config="/path/to/config"
+                command="start", config="/path/to/config", interface="tmux"
             )
             main()
             mock_service_handler.assert_called_once_with(
                 bec_path=mock.ANY,
                 config_path="/path/to/config",
-                no_tmux=False,
+                interface="tmux",
                 start_redis=False,
                 no_persistence=False,
             )
@@ -75,13 +75,13 @@ def test_main_restart_with_config():
     with mock.patch("bec_server.bec_server_utils.launch.ServiceHandler") as mock_service_handler:
         with mock.patch("bec_server.bec_server_utils.launch.argparse") as mock_argparse:
             mock_argparse.ArgumentParser().parse_args.return_value = mock.MagicMock(
-                command="restart", config="/path/to/config"
+                command="restart", config="/path/to/config", interface="tmux"
             )
             main()
             mock_service_handler.assert_called_once_with(
                 bec_path=mock.ANY,
                 config_path="/path/to/config",
-                no_tmux=False,
+                interface="tmux",
                 start_redis=False,
                 no_persistence=False,
             )

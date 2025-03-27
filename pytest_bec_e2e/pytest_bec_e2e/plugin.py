@@ -178,10 +178,12 @@ def bec_servers(
         from bec_server.bec_server_utils.service_handler import ServiceHandler
 
         # Start all BEC servers, kill them at the end
-        # when no_tmux=True, 'bec_path' indicate the cwd
+        # when interface='subprocess', 'bec_path' indicate the cwd
         # for the process (working directory), i.e. where log files will go
         service_handler = ServiceHandler(
-            bec_path=bec_files_path, config_path=bec_services_config_file_path, no_tmux=True
+            bec_path=bec_files_path,
+            config_path=bec_services_config_file_path,
+            interface="subprocess",
         )
         processes = service_handler.start()
         try:

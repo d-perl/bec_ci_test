@@ -5,7 +5,7 @@ import sys
 import time
 from dataclasses import dataclass, field
 from string import Template
-from typing import Callable, Union
+from typing import Callable, Literal, Union
 
 import redis
 
@@ -71,7 +71,7 @@ class ServiceHandler:
         self,
         bec_path: str,
         config_path: str = "",
-        no_tmux: bool = False,
+        interface: Literal["tmux", "iterm2", "systemctl", "subprocess"] | None = None,
         start_redis: bool = False,
         no_persistence: bool = False,
     ):
@@ -80,17 +80,18 @@ class ServiceHandler:
         Args:
             bec_path (str): Path to the BEC source code
             config_path (str): Path to the config file
-            no_tmux (bool): if True, do not start with tmux
+            interface (str): Interface to use to start the BEC server. Can be "tmux", "iterm2", "systemctl" or "subprocess" (default: None)
             start_redis (bool): if True, start Redis server(s) with info from config (default: do not start Redis)
             no_persistence (bool): if True, do not save or load rdb file (default: do not disable persistence)
         """
         self.bec_path = bec_path
         self.config_path = config_path
-        self.no_tmux = no_tmux
+        self.interface = interface
         self.start_redis = start_redis
         self.no_persistence = no_persistence
 
-        self._detect_available_interfaces()
+        if self.interface is None:
+            self._detect_available_interfaces()
 
     def _detect_available_interfaces(self):
         # check if the systemctl command "bec_server" is available
@@ -106,9 +107,6 @@ class ServiceHandler:
         # FIXME: auth error for systemctl prevents it from being used. For now, default to tmux
         default_interface = "tmux"
 
-        if self.no_tmux:
-            self.interface = None
-            return
         # check if we are on MacOS and if so, check if we have iTerm2 installed
         if sys.platform == "darwin":
             try:
@@ -178,7 +176,12 @@ class ServiceHandler:
         if self.interface == "systemctl":
             subprocess.run(["systemctl", "start", "bec-server.service"], check=True)
             return []
-        return subprocess_start(self.bec_path, services)
+        if self.interface == "subprocess":
+            return subprocess_start(self.bec_path, services)
+
+        raise ValueError(
+            f"Unsupported interface: {self.interface}. Supported interfaces are: tmux, iterm2, systemctl, subprocess"
+        )
 
     def stop(self, processes=None):
         """
@@ -192,8 +195,12 @@ class ServiceHandler:
             pass
         elif self.interface == "systemctl":
             subprocess.run(["systemctl", "stop", "bec-server.service"], check=True)
-        else:
+        elif self.interface == "subprocess":
             subprocess_stop(processes)
+        else:
+            raise ValueError(
+                f"Unsupported interface: {self.interface}. Supported interfaces are: tmux, iterm2, systemctl, subprocess"
+            )
 
     def restart(self):
         """
