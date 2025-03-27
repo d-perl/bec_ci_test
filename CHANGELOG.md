@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.28.0 (2025-03-27)
+
+### Features
+
+- **service_handler**: Add interface argument for process management options
+  ([`5b96554`](https://gitlab.psi.ch/bec/bec/-/commit/5b9655457b6c74e5ba1d6718b3fdda82bfbadb96))
+
+
 ## v3.27.0 (2025-03-26)
 
 ### Bug Fixes
