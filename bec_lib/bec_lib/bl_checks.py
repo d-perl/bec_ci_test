@@ -175,9 +175,8 @@ class BeamlineChecks:
         return msgs
 
     def _check_beam(self):
-        while not self._stop_beam_check_event.is_set():
+        while not self._stop_beam_check_event.wait(timeout=1):
             self._check_msgs = self._run_beamline_checks()
-            time.sleep(1)
 
     def start(self):
         """Start the beamline checks."""

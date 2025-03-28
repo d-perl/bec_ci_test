@@ -205,7 +205,7 @@ class BECService:
         return self._version
 
     def _update_service_info(self):
-        while not self._service_info_event.is_set():
+        while not self._service_info_event.wait(timeout=3):
             logger.trace("Updating service info")
             try:
                 self._send_service_status()
@@ -213,7 +213,6 @@ class BECService:
                 # exception is not explicitely specified,
                 # because it depends on the underlying connector
                 pass
-            self._service_info_event.wait(timeout=3)
 
     def _send_service_status(self):
         version = self._get_version_number()
@@ -256,7 +255,7 @@ class BECService:
 
     def _get_metrics(self):
         proc = psutil.Process()
-        while not self._metrics_emitter_event.is_set():
+        while not self._metrics_emitter_event.wait(timeout=1):
             res = proc.as_dict(
                 attrs=[
                     "name",
@@ -293,7 +292,6 @@ class BECService:
                 # exception is not explicitely specified,
                 # because it depends on the underlying connector
                 pass
-            self._metrics_emitter_event.wait(timeout=1)
 
     def set_global_var(self, name: str, val: Any) -> None:
         """Set a global variable through Redis

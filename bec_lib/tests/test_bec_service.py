@@ -194,7 +194,7 @@ def test_bec_service_metrics(connected_connector):
     with mock.patch("bec_lib.bec_service.BECService._start_metrics_emitter") as mock_emitter:
         with bec_service(config=config, unique_service=True) as service:
             service._metrics_emitter_event = mock.MagicMock()
-            service._metrics_emitter_event.is_set.side_effect = [False, True]
+            service._metrics_emitter_event.wait.side_effect = [False, True]
             service.connector = connected_connector
             assert service._services_metric == {}
             service._send_service_status()

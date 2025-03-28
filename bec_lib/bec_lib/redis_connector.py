@@ -614,7 +614,7 @@ class RedisConnector:
             try:
                 from_start_stream_topics_id, stream_topics_id = self._get_stream_topics_id()
                 if not any((stream_topics_id, from_start_stream_topics_id)):
-                    time.sleep(0.1)
+                    self._stop_stream_events_listener_thread.wait(timeout=0.1)
                     continue
                 msg_list = []
                 from_start_msg_list = []
@@ -631,7 +631,7 @@ class RedisConnector:
                 if not error:
                     error = True
                     bec_logger.logger.error("Failed to connect to redis. Is the server running?")
-                time.sleep(1)
+                self._stop_stream_events_listener_thread.wait(timeout=1)
             # pylint: disable=broad-except
             except Exception:
                 sys.excepthook(*sys.exc_info())  # type: ignore # inside except
@@ -801,12 +801,12 @@ class RedisConnector:
         error = False
         while not self._stop_events_listener_thread.is_set():
             try:
-                msg = self._pubsub_conn.get_message(timeout=1)
+                msg = self._pubsub_conn.get_message(timeout=0.2)
             except redis.exceptions.ConnectionError:
                 if not error:
                     error = True
                     bec_logger.logger.error("Failed to connect to redis. Is the server running?")
-                time.sleep(1)
+                self._stop_events_listener_thread.wait(timeout=1)
             # pylint: disable=broad-except
             except Exception:
                 sys.excepthook(*sys.exc_info())  # type: ignore # inside except
