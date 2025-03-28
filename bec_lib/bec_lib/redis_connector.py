@@ -25,6 +25,7 @@ from typing import (
     Any,
     Callable,
     Concatenate,
+    DefaultDict,
     Generator,
     Iterable,
     Literal,
@@ -228,7 +229,9 @@ class RedisConnector:
         self._pubsub_conn = self._redis_conn.pubsub()
         self._pubsub_conn.ignore_subscribe_messages = True
         # keep track of topics and callbacks
-        self._topics_cb = collections.defaultdict(list)
+        self._topics_cb: DefaultDict[str, list[tuple[louie.saferef.BoundMethodWeakref, dict]]] = (
+            collections.defaultdict(list)
+        )
         self._topics_cb_lock = threading.Lock()
         self._stream_topics_subscription = collections.defaultdict(list)
         self._stream_topics_subscription_lock = threading.Lock()
@@ -487,7 +490,9 @@ class RedisConnector:
 
         # make a weakref from the callable, using louie;
         # it can create safe refs for simple functions as well as methods
-        cb_ref = louie.saferef.safe_ref(cb)
+        cb_ref: louie.saferef.BoundMethodWeakref = cast(
+            louie.saferef.BoundMethodWeakref, louie.saferef.safe_ref(cb)
+        )
         item = (cb_ref, kwargs)
 
         if self._events_listener_thread is None:

@@ -99,10 +99,10 @@ class BECClient(BECService, UserScriptsMixin):
 
     def __init__(
         self,
-        config: ServiceConfig = None,
-        connector_cls: RedisConnector = None,
-        wait_for_server=False,
-        forced=False,
+        config: ServiceConfig | None = None,
+        connector_cls: type[RedisConnector] | None = None,
+        wait_for_server: bool = False,
+        forced: bool = False,
         parent=None,
         name: str | None = None,
     ) -> None:
