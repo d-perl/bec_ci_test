@@ -43,7 +43,7 @@ Afterwards, you may follow this step-by-step guide to suggest your code improvem
 4. Use isort to sort your imports:
 
     ```bash
-    isort isort --line-length=100 --profile=black --multi-line=3 --trailing-comma .
+    isort --line-length=100 --profile=black --multi-line=3 --trailing-comma .
     ```
 
 5. Run Pylint on your code to ensure it meets coding standards:
