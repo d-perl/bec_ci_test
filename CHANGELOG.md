@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.28.1 (2025-04-01)
+
+### Bug Fixes
+
+- Replaced sleeps with event waits
+  ([`d3ee802`](https://gitlab.psi.ch/bec/bec/-/commit/d3ee80256b81f6fcf0d9a05f9a71ade4cedbaafc))
+
+### Refactoring
+
+- Minor type hints improvements
+  ([`32b136a`](https://gitlab.psi.ch/bec/bec/-/commit/32b136aa21f972580d4a896468abe289b96725d2))
+
+
 ## v3.28.0 (2025-03-27)
 
 ### Features
