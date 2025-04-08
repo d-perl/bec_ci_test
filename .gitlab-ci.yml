@@ -400,6 +400,11 @@ end-2-end-conda-310:
     - apt-get update
     - apt-get install -y tmux
     - conda config --add channels conda-forge
+    - conda config --system --remove channels https://repo.anaconda.com/pkgs/main
+    - conda config --system --remove channels https://repo.anaconda.com/pkgs/r
+    - conda config --remove channels https://repo.anaconda.com/pkgs/main
+    - conda config --remove channels https://repo.anaconda.com/pkgs/r
+    - conda config --show-sources
     - conda config --set channel_priority strict
     - conda config --set always_yes yes --set changeps1 no
     - conda create -q -n test-environment python=$PYTHON_VERSION --channel conda-forge --override-channels
