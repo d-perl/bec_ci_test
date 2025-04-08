@@ -412,7 +412,7 @@ end-2-end-conda-310:
     - source ~/.bashrc
     - conda activate test-environment
 
-    - conda install redis
+    - conda install redis-server
     - redis-server --daemonize yes
 
     # get ophyd devices repo (needed for the device_server)
