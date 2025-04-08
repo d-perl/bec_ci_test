@@ -958,7 +958,11 @@ class GUIRegistryStateMessage(BECMessage):
 
     msg_type: ClassVar[str] = "gui_registry_state_message"
     state: dict[
-        str, dict[Literal["gui_id", "name", "widget_class", "config", "__rpc__"], str | bool | dict]
+        str,
+        dict[
+            Literal["gui_id", "name", "object_name", "widget_class", "config", "__rpc__"],
+            str | bool | dict,
+        ],
     ]
 
 
