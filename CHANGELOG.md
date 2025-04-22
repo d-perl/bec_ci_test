@@ -1,6 +1,29 @@
 # CHANGELOG
 
 
+## v3.29.0 (2025-04-22)
+
+### Continuous Integration
+
+- Fixed conda e2e test
+  ([`4a9823c`](https://gitlab.psi.ch/bec/bec/-/commit/4a9823ca156164f052c7d7b86312ebc440b4f027))
+
+- Redis is called redis-server on conda forge
+  ([`0c31056`](https://gitlab.psi.ch/bec/bec/-/commit/0c310569891b2fd788c9de0c55af3fd74c727a8c))
+
+### Features
+
+- **messages**: Add `container_proxy` to GUIRegistryStateMessage state definition
+  ([`716c42b`](https://gitlab.psi.ch/bec/bec/-/commit/716c42b5408038daf174e80a48273c14c3321589))
+
+### Refactoring
+
+- **messages**: Add `object_name` to GUIRegistryStateMessage
+  ([`f95bda1`](https://gitlab.psi.ch/bec/bec/-/commit/f95bda1f2afb9888c9cea89dc8076d8666e8f410))
+
+name will be deprecated in the future
+
+
 ## v3.28.1 (2025-04-01)
 
 ### Bug Fixes
