@@ -952,7 +952,7 @@ class GUIRegistryStateMessage(BECMessage):
     """Message for GUI registry state. The dictionary contains the state of the GUI registry.
 
     Args:
-        state (dict[str, dict[Literal["gui_id", "name", "widget_class", "config", "__rpc__"], Any]): GUI registry state
+        state (dict[str, dict[Literal["gui_id", "name", "widget_class", "config", "__rpc__", "container_proxy"], str | bool | dict | None]): GUI registry state
         metadata (dict, optional): Metadata. Defaults to None.
     """
 
@@ -960,8 +960,16 @@ class GUIRegistryStateMessage(BECMessage):
     state: dict[
         str,
         dict[
-            Literal["gui_id", "name", "object_name", "widget_class", "config", "__rpc__"],
-            str | bool | dict,
+            Literal[
+                "gui_id",
+                "name",
+                "object_name",
+                "widget_class",
+                "config",
+                "__rpc__",
+                "container_proxy",
+            ],
+            str | bool | dict | None,
         ],
     ]
 

@@ -420,7 +420,7 @@ def test_GUIRegistryStateMessage():
                 "my_dock_area": {
                     "gui_id": "test_id",
                     "name": "test_name",
-                    "config": None,
+                    "config": 2,
                     "widget_class": "test_class",
                 }
             }
