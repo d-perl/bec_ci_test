@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.29.1 (2025-04-25)
+
+### Bug Fixes
+
+- Log and discard errors on loading user scripts
+  ([`cc68581`](https://gitlab.psi.ch/bec/bec/-/commit/cc685819925ffec6fb912be730daa36043536e71))
+
+
 ## v3.29.0 (2025-04-22)
 
 ### Continuous Integration
