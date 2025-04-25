@@ -10,6 +10,7 @@ import importlib
 import inspect
 import os
 import pathlib
+import traceback
 from typing import TYPE_CHECKING
 
 from rich.console import Console
@@ -33,6 +34,13 @@ class UserScriptsMixin:
         self._scripts = {}
 
     def load_all_user_scripts(self) -> None:
+        try:
+            self._load_all_user_scripts()
+        except Exception:
+            content = traceback.format_exc()
+            logger.error(f"Error while loading user scripts: \n {content}")
+
+    def _load_all_user_scripts(self) -> None:
         """Load all scripts from the `scripts` directory.
 
         Runs a callback of type `EventType.NAMESPACE_UPDATE`
