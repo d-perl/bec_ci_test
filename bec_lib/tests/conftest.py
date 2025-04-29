@@ -107,6 +107,12 @@ def mock_file(tmpdir):
                     dev_group.create_dataset(signal, data=[1, 2, 3])
                 # create a link from the readout group to the device
                 readout_group[device] = h5py.SoftLink(f"/entry/collection/devices/{device}")
+                if device in ["samx", "samy"]:
+                    dev_group = f.create_group(
+                        f"entry/collection/devices/{device}/{device}_setpoint"
+                    )
+                    for signal in ["value", "timestamp"]:
+                        dev_group.create_dataset(signal, data=[1, 2, 3])
 
     return file_path
 

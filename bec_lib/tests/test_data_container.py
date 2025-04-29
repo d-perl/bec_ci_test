@@ -157,3 +157,31 @@ def test_data_container_get_device_from_readout_group(mock_file):
         == container.readout_groups.monitored_devices.samz
     )
     assert container.readout_groups.monitored_devices.get("doesn't exist") is None
+
+
+def test_data_container_get_on_signal_directly(mock_file):
+    container = ScanDataContainer(file_path=mock_file)
+    assert all(container.devices.samx.samx.get() == container.devices.samx.samx.read()["value"])
+    assert all(
+        container.readout_groups.monitored_devices.samx.samx.get()
+        == container.devices.samx.samx.read()["value"]
+    )
+
+
+def test_data_container_get_on_device_directly(mock_file):
+    container = ScanDataContainer(file_path=mock_file)
+    out = container.devices.samx.get()
+    assert all(out.samx == container.devices.samx.samx.get())
+    assert all(out.samx_setpoint == container.devices.samx.samx_setpoint.get())
+
+    out = container.readout_groups.monitored_devices.samx.get()
+    assert all(out.samx == container.devices.samx.samx.get())
+
+
+def test_data_container_read_device_from_data(mock_file):
+    container = ScanDataContainer(file_path=mock_file)
+    assert all(container.data.samx.read()["value"] == container.devices.samx.samx.read()["value"])
+    assert all(
+        container.data.samx_setpoint.read()["value"]
+        == container.devices.samx.samx_setpoint.read()["value"]
+    )

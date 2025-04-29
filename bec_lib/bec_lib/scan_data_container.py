@@ -8,10 +8,10 @@ import copy
 import datetime
 import importlib
 import time
-from collections import deque
+from collections import deque, namedtuple
 from collections.abc import Iterable
 from functools import wraps
-from typing import TYPE_CHECKING, Any, Dict, Literal, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Literal, NamedTuple, Tuple
 
 import h5py
 from _collections_abc import dict_items, dict_keys
@@ -38,7 +38,7 @@ class DataCache:
             cls._instance = super(DataCache, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, max_memory: int = 1e9) -> None:
+    def __init__(self, max_memory: int | float = 1e9) -> None:
         self._cache = deque()
         self._memory_usage = 0
         self._max_memory = max_memory
@@ -304,6 +304,15 @@ class SignalDataReference:
         data = self._file_reference.read(self._entry_path, entry_filter=self._dict_entry)
         return data
 
+    def get(self) -> Any:
+        """
+        Get the data value from the HDF5 file.
+
+        Returns:
+            Any: The data from the HDF5 file.
+        """
+        return self._get_entry().get("value")
+
 
 class DeviceDataReference(AttributeDict, SignalDataReference):
     """
@@ -315,9 +324,9 @@ class DeviceDataReference(AttributeDict, SignalDataReference):
         content: dict,
         file_path: str,
         entry_path: str,
-        dict_entry: str | list[str] = None,
-        info: dict = None,
-        device_group: str = None,
+        dict_entry: str | list[str] | None = None,
+        info: dict | None = None,
+        device_group: str | None = None,
     ):
         super().__init__(content)
         SignalDataReference.__init__(self, file_path, entry_path, dict_entry, info)
@@ -339,6 +348,28 @@ class DeviceDataReference(AttributeDict, SignalDataReference):
                 ]
             )
         return str(table)
+
+    def get(self, key: Any = None, default: Any = None) -> Any:
+        if key is None:
+            return self._get_signal_data_directly()
+        return super().get(key, default)
+
+    def _get_signal_data_directly(self) -> NamedTuple:
+        """
+        Get the signal data directly from the HDF5 file.
+
+        Returns:
+            NamedTuple: The signal data from the HDF5 file.
+        """
+        data = self._get_entry()
+
+        data_reduced = {}
+        # remove the timestamp if it is in the data
+        for key, val in data.items():
+            data_reduced[key] = val.get("value")
+
+        out = namedtuple("SignalData", list(data_reduced.keys()))
+        return out(**data_reduced)
 
 
 class LazyAttributeDict(AttributeDict):
@@ -367,7 +398,7 @@ class LazyAttributeDict(AttributeDict):
         object.__getattribute__(self, "_load")()
         return super().__getitem__(key)
 
-    def get(self, key: Any, default: Any = None) -> Any:
+    def get(self, key: Any = None, default: Any = None) -> Any:
         object.__getattribute__(self, "_load")()
         return super().get(key, default)
 
@@ -517,8 +548,8 @@ class ReadoutGroup:
     This class is a container for readout groups.
     """
 
-    baseline_devices: LinkedAttributeDict
-    monitored_devices: LinkedAttributeDict
+    baseline_devices: ReadableLinkedAttributeDict
+    monitored_devices: ReadableLinkedAttributeDict
     async_devices: LinkedAttributeDict
 
     def __init__(self, container: LazyDeviceAttributeDict):
@@ -538,6 +569,7 @@ class ScanDataContainer:
         self.devices = LazyDeviceAttributeDict(self._load_devices)
         self.readout_groups = ReadoutGroup(self.devices)
         self.metadata = LazyAttributeDict(self._load_metadata)
+        self.data = LazyAttributeDict(self._load_devices)
         self._baseline_devices = None
         self._monitored_devices = None
         self._async_devices = None
@@ -606,25 +638,30 @@ class ScanDataContainer:
             info.get("entry", {}).get("collection", {}).get("readout_groups", {}).get(group, {})
         )
         base_path = f"entry/collection/readout_groups/{group}"
+
+        assert self._file_reference is not None
+
         for device_name, device_info in device_group.items():
             if device_name.startswith("_"):
                 continue
             entry_path = base_path if grouped_cache else f"{base_path}/{device_name}"
+            signal_data = {
+                signal_name: SignalDataReference(
+                    file_path=self._file_reference.file_path,
+                    entry_path=entry_path,
+                    dict_entry=[device_name, signal_name] if grouped_cache else [signal_name],
+                )
+                for signal_name in device_info
+            }
             self.devices[device_name] = DeviceDataReference(
-                {
-                    signal_name: SignalDataReference(
-                        file_path=self._file_reference.file_path,
-                        entry_path=entry_path,
-                        dict_entry=[device_name, signal_name] if grouped_cache else [signal_name],
-                    )
-                    for signal_name in device_info
-                },
+                signal_data,
                 file_path=self._file_reference.file_path,
                 entry_path=entry_path,
                 dict_entry=device_name if grouped_cache else None,
                 info=device_info,
                 device_group=group,
             )
+            self.data.update(signal_data)
 
     def __repr__(self) -> str:
         """
