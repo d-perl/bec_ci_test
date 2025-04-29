@@ -73,6 +73,20 @@ The following code snippet demonstrates how to access the data from the `samx` d
 samx_signal_data = scan_data_container.devices.samx.samx.read()
 ```
 
+The access through `scan_data_container.devices` is a convenient way to explore the data structure of one particular device. If you want to access the data of a specific signal, you can also use the `data` container, e.g. of the setpoint signal of the `samx` device:
+
+```ipython
+samx_signal_data = scan_data_container.data.samx_setpoint.read()
+```
+
+The return value of the `read()` method is a python dictionary containing the value and the timestamp of the signal. If you want to access the value directly, you can instead use the `get()` method:
+
+```ipython
+samx_setpoint_data = scan_data_container.devices.samx.samx_setpoint.get()
+# or 
+samx_setpoint_data = scan_data_container.data.samx_setpoint.get()
+```
+
 If you want to access the data of the `samx` device and all its signals, you can use the following code snippet:
 
 ```ipython
