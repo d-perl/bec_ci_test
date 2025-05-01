@@ -89,8 +89,8 @@ def mock_file(tmpdir):
     """
     file_path = tmpdir / "test.h5"
     readout_groups = {
-        "baseline": ["samy", "samz"],
-        "monitored": ["samx", "bpm4i"],
+        "baseline": ["samz"],
+        "monitored": ["samx", "bpm4i", "samy"],
         "async": ["waveform"],
     }
     with h5py.File(file_path, "w") as f:
@@ -103,16 +103,21 @@ def mock_file(tmpdir):
 
             for device in devices:
                 dev_group = f.create_group(f"entry/collection/devices/{device}/{device}")
+
+                data = [1, 2, 3] if group in ["monitored", "async"] else 1
+
                 for signal in ["value", "timestamp"]:
-                    dev_group.create_dataset(signal, data=[1, 2, 3])
-                # create a link from the readout group to the device
-                readout_group[device] = h5py.SoftLink(f"/entry/collection/devices/{device}")
-                if device in ["samx", "samy"]:
+                    dev_group.create_dataset(signal, data=data)
+
+                if device in ["samx", "samy", "samz"]:
                     dev_group = f.create_group(
                         f"entry/collection/devices/{device}/{device}_setpoint"
                     )
                     for signal in ["value", "timestamp"]:
-                        dev_group.create_dataset(signal, data=[1, 2, 3])
+                        dev_group.create_dataset(signal, data=data)
+
+                # create a link from the readout group to the device
+                readout_group[device] = h5py.SoftLink(f"/entry/collection/devices/{device}")
 
     return file_path
 

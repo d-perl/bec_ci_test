@@ -63,14 +63,9 @@ def test_data_container_raises_without_file():
 def test_data_container_readout_group_access(mock_file):
     container = ScanDataContainer(file_path=mock_file)
 
-    assert all(
-        container.readout_groups.baseline_devices.samz.read()["samz"]["value"]
-        == np.array([1, 2, 3])
-    )
-    assert all(
-        container.readout_groups.baseline_devices.samz["samz"].read()["timestamp"]
-        == np.array([1, 2, 3])
-    )
+    assert container.readout_groups.baseline_devices.samz.read()["samz"]["value"] == 1
+    assert container.readout_groups.baseline_devices.samz["samz"].read()["timestamp"] == 1
+
     assert "samz" in container.readout_groups.baseline_devices.read()
     assert "samx" not in container.readout_groups.baseline_devices.read()
     assert "samx" in container.readout_groups.monitored_devices.read()
@@ -185,3 +180,19 @@ def test_data_container_read_device_from_data(mock_file):
         container.data.samx_setpoint.read()["value"]
         == container.devices.samx.samx_setpoint.read()["value"]
     )
+
+
+def test_data_container_read_monitored_pandas(mock_file):
+    container = ScanDataContainer(file_path=mock_file)
+    df = container.readout_groups.monitored_devices.to_pandas()
+    assert df["samx"]["samx"]["value"].tolist() == [1, 2, 3]
+    assert df["samx"]["samx"]["timestamp"].tolist() == [1, 2, 3]
+    assert df["samx"]["samx_setpoint"]["value"].tolist() == [1, 2, 3]
+    assert df["samx"]["samx_setpoint"]["timestamp"].tolist() == [1, 2, 3]
+
+
+def test_data_container_read_baseline_pandas(mock_file):
+    container = ScanDataContainer(file_path=mock_file)
+    df = container.readout_groups.baseline_devices.to_pandas()
+    assert df["samz"]["samz"]["value"].tolist() == [1]
+    assert df["samz"]["samz"]["timestamp"].tolist() == [1]
