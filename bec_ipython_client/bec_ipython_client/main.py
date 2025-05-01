@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 from importlib.metadata import version
-from typing import Iterable, Literal
+from typing import Iterable, Literal, Tuple
 
 import IPython
 import redis
@@ -46,6 +46,8 @@ class CLIBECClient(BECClient):
 
 
 class BECIPythonClient:
+    _local_only_types: Tuple = ()
+
     def __init__(
         self,
         config: ServiceConfig | None = None,
@@ -78,6 +80,8 @@ class BECIPythonClient:
         return getattr(self._client, name)
 
     def __setattr__(self, name, value):
+        if isinstance(value, self._local_only_types):
+            return super().__setattr__(name, value)
         if name in self.__dict__ or name in self.__class__.__dict__:
             super().__setattr__(name, value)
         elif "_client" in self.__dict__ and hasattr(self._client, name):
