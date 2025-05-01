@@ -49,7 +49,9 @@ def test_csaxs_nexus_format(file_writer_manager_mock_with_dm):
         storage=HDF5Storage(),
         data={"samx": {"samx": {"value": [0, 1, 2]}}, "mokev": {"mokev": {"value": 12.456}}},
         file_references={},
-        info_storage={},
+        info_storage={
+            "bec": {"readout_priority": {"baseline": ["mokev"], "monitored": ["samx", "samy"]}}
+        },
         configuration={},
         device_manager=file_manager.device_manager,
     ).get_storage_format()
@@ -193,16 +195,44 @@ def test_load_format_from_plugin(tmp_path, hdf5_file_writer):
         "bec_lib.plugin_helper.get_file_writer_plugins"
     ) as mock_get_file_writer_plugins:
         mock_get_file_writer_plugins.return_value = {"cSAXS": cSAXSFormat}
-        file_writer.write(
-            f"{tmp_path}/test.h5", ScanStorage(2, "scan_id-string"), configuration_data={}
-        )
+        data = ScanStorage(2, "scan_id-string")
+        data.metadata = {
+            "readout_priority": {
+                "baseline": ["eyefoc", "field"],
+                "monitored": ["samx", "samy"],
+                "async": ["mokev"],
+            }
+        }
+        file_writer.write(f"{tmp_path}/test.h5", data, configuration_data={})
     with h5py.File(f"{tmp_path}/test.h5", "r") as test_file:
         assert test_file["entry"].attrs["definition"] == "NXsas"
 
 
 def test_load_format_from_plugin_uses_default(tmp_path, hdf5_file_writer, scan_storage_mock):
+    """
+    Test that the default plugin is used if multiple plugins are available but the specified plugin
+    is not found.
+    """
     file_writer = hdf5_file_writer
     file_writer.file_writer_manager.file_writer_config["plugin"] = "wrong_plugin"
+
+    with mock.patch(
+        "bec_lib.plugin_helper.get_file_writer_plugins"
+    ) as mock_get_file_writer_plugins:
+        mock_get_file_writer_plugins.return_value = {
+            "cSAXS": cSAXSFormat,
+            "anotherPlugin": cSAXSFormat,
+        }
+        file_writer.write(f"{tmp_path}/test.h5", scan_storage_mock, configuration_data={})
+    with h5py.File(f"{tmp_path}/test.h5", "r") as test_file:
+        assert "definition" not in test_file["entry"].attrs
+
+
+def test_load_format_from_plugin_uses_plugin(tmp_path, hdf5_file_writer, scan_storage_mock):
+    """
+    Test that the plugin is used if only one plugin is available, ignoring the config file.
+    """
+    file_writer = hdf5_file_writer
 
     with mock.patch(
         "bec_lib.plugin_helper.get_file_writer_plugins"
@@ -210,4 +240,4 @@ def test_load_format_from_plugin_uses_default(tmp_path, hdf5_file_writer, scan_s
         mock_get_file_writer_plugins.return_value = {"cSAXS": cSAXSFormat}
         file_writer.write(f"{tmp_path}/test.h5", scan_storage_mock, configuration_data={})
     with h5py.File(f"{tmp_path}/test.h5", "r") as test_file:
-        assert "definition" not in test_file["entry"].attrs
+        assert test_file["entry"].attrs["definition"] == "NXsas"
