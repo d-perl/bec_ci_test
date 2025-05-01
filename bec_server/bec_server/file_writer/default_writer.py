@@ -37,6 +37,7 @@ class DefaultFormat:
         Returns:
             dict: The storage format.
         """
+        self.write_bec_entries()
         self.format()
         # pylint: disable=protected-access
         return self.storage._storage
@@ -57,19 +58,9 @@ class DefaultFormat:
 
         return self.data.get(name, {}).get(name, {}).get("value", default)
 
-    def format(self) -> None:
+    def write_bec_entries(self) -> None:
         """
-        Prepare the NeXus file format.
-        Override this method in file writer plugins to customize the HDF5 file format.
-
-        The class provides access to the following attributes:
-        - self.storage: The HDF5Storage object.
-        - self.data: The data dictionary.
-        - self.file_references: The file references dictionary.
-        - self.device_manager: The DeviceManagerBase object.
-
-        See also: :class:`bec_server.file_writer.file_writer.HDF5Storage`.
-
+        Write the BEC entries to the NeXus file format.
         """
         # /entry
         entry = self.storage.create_group("entry")
@@ -96,6 +87,23 @@ class DefaultFormat:
                 group.create_soft_link(name=device, target=f"/entry/collection/devices/{device}")
         configuration = collection.create_dataset("configuration", data=self.configuration)
         configuration.attrs["NX_class"] = "NXcollection"
+
+    def format(self) -> None:
+        """
+        Prepare the NeXus file format.
+        Override this method in file writer plugins to customize the HDF5 file format.
+
+        The class provides access to the following attributes:
+        - self.storage: The HDF5Storage object.
+        - self.data: The data dictionary.
+        - self.file_references: The file references dictionary.
+        - self.device_manager: The DeviceManagerBase object.
+
+        See also: :class:`bec_server.file_writer.file_writer.HDF5Storage`.
+
+        """
+
+        entry = self.storage.create_group("entry")
 
         # /entry/control
         control = entry.create_group("control")
