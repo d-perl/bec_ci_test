@@ -451,7 +451,7 @@ def test_set_connector(
 
 
 def test_get_set_members(
-    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]]
+    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]],
 ):
     connected_connector, test_set_endpoint, test_set_messages = test_set_connector
     result = connected_connector.get_set_members(test_set_endpoint)
@@ -459,7 +459,7 @@ def test_get_set_members(
 
 
 def test_remove_from_set(
-    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]]
+    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]],
 ):
     connected_connector, test_set_endpoint, test_set_messages = test_set_connector
     connected_connector.remove_from_set(test_set_endpoint, test_set_messages.pop())
@@ -469,7 +469,7 @@ def test_remove_from_set(
 
 
 def test_list_pop_to_sadd_adds_to_set(
-    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]]
+    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]],
 ):
     connected_connector, test_set_endpoint, test_set_messages = test_set_connector
     test_list_endpoint = EndpointInfo(
@@ -486,7 +486,7 @@ def test_list_pop_to_sadd_adds_to_set(
 
 
 def test_list_pop_to_sadd_rejects_wrong_messageop(
-    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]]
+    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]],
 ):
     connected_connector, test_set_endpoint, _ = test_set_connector
     test_list_endpoint = MessageEndpoints.device_progress("samx")
@@ -499,7 +499,7 @@ def test_list_pop_to_sadd_rejects_wrong_messageop(
 
 
 def test_list_pop_to_sadd_rejects_wrong_message_for_set(
-    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]]
+    test_set_connector: tuple[RedisConnector, EndpointInfo, set[ProcedureExecutionMessage]],
 ):
     connected_connector, test_set_endpoint, _ = test_set_connector
     test_list_endpoint = EndpointInfo(
