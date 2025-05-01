@@ -263,15 +263,19 @@ class HDF5FileWriter:
         info_storage["bec"].pop("user_metadata", None)
 
         requested_plugin = self.file_writer_manager.file_writer_config.get("plugin")
-        if requested_plugin == "default_NeXus_format":
+        plugins = plugin_helper.get_file_writer_plugins()
+        if len(plugins) == 0:
+            # no plugins defined, use default
             writer_format_cls = default_NeXus_format
+        elif len(plugins) == 1:
+            # only one plugin defined, use it
+            writer_format_cls = list(plugins.values())[0]
+        elif requested_plugin in plugins:
+            # requested plugin is available, use it
+            writer_format_cls = plugins[requested_plugin]
         else:
-            plugins = plugin_helper.get_file_writer_plugins()
-            if requested_plugin not in plugins:
-                logger.error(f"Plugin {requested_plugin} not found. Using default plugin.")
-                writer_format_cls = default_NeXus_format
-            else:
-                writer_format_cls = plugins[requested_plugin]
+            logger.error(f"Plugin {requested_plugin} not found. Using default plugin.")
+            writer_format_cls = default_NeXus_format
 
         for file_ref in data.file_references.values():
             rel_path = os.path.relpath(file_ref.file_path, os.path.dirname(file_path))
