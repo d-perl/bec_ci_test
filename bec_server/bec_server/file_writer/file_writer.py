@@ -49,6 +49,8 @@ class HDF5Storage:
         Returns:
             HDF5Storage: Group storage
         """
+        if name in self._storage:
+            return self._storage[name]
         self._storage[name] = HDF5Storage(storage_type="group")
         return self._storage[name]
 
