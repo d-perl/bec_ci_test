@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v3.29.2 (2025-05-01)
+
+### Bug Fixes
+
+- **HDF5FileWriter**: Auto-select plugin if only one exists
+  ([`66892c5`](https://gitlab.psi.ch/bec/bec/-/commit/66892c5650a90d6f160dd8d14f944b2ea29d81b8))
+
+- **HDF5Storage**: Return existing group if already created in create_group method
+  ([`7763761`](https://gitlab.psi.ch/bec/bec/-/commit/77637615214089cf948fad4e14da4dabcbb26b1b))
+
+### Refactoring
+
+- **DefaultFormat**: Move bec-specific methods outside of .format method and always call it
+  ([`46497b6`](https://gitlab.psi.ch/bec/bec/-/commit/46497b6dc2a50983c059e2d6ee8699986cdf9f80))
+
+### Testing
+
+- **file_writer**: Fixed tests after refactoring
+  ([`ad04b45`](https://gitlab.psi.ch/bec/bec/-/commit/ad04b45a32ee9d0f7af844e0be3694c1b26f635c))
+
+
 ## v3.29.1 (2025-04-25)
 
 ### Bug Fixes
