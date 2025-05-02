@@ -29,7 +29,7 @@ class ScanServer(BECService):
     scan_assembler = None
     scan_manager = None
 
-    def __init__(self, config: ServiceConfig, connector_cls: RedisConnector):
+    def __init__(self, config: ServiceConfig, connector_cls: type[RedisConnector]):
         super().__init__(config, connector_cls, unique_service=True)
         self._start_scan_manager()
         self._start_queue_manager()

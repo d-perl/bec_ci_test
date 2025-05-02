@@ -41,8 +41,8 @@ class CLIBECClient(BECClient):
 class BECIPythonClient:
     def __init__(
         self,
-        config: ServiceConfig = None,
-        connector_cls: RedisConnector = None,
+        config: ServiceConfig | None = None,
+        connector_cls: type[RedisConnector] | None = None,
         wait_for_server=True,
         forced=False,
     ) -> None:

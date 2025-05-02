@@ -15,7 +15,7 @@ class DAPServer(BECClient):
     def __init__(
         self,
         config: ServiceConfig,
-        connector_cls: RedisConnector,
+        connector_cls: type[RedisConnector],
         provided_services: list,
         forced=True,
     ) -> None:

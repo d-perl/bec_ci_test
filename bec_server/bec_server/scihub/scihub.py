@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 
 class SciHub(BECService):
-    def __init__(self, config: ServiceConfig, connector_cls: RedisConnector) -> None:
+    def __init__(self, config: ServiceConfig, connector_cls: type[RedisConnector]) -> None:
         super().__init__(config, connector_cls, unique_service=True)
         self.config = config
         self.atlas_connector = None

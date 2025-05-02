@@ -25,7 +25,7 @@ logger = bec_logger.logger
 
 
 class ScanBundler(BECService):
-    def __init__(self, config, connector_cls: RedisConnector) -> None:
+    def __init__(self, config, connector_cls: type[RedisConnector]) -> None:
         super().__init__(config, connector_cls, unique_service=True)
 
         self.device_manager = None
