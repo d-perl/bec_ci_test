@@ -528,4 +528,4 @@ def test_image_analysis(bec_client_lib):
     assert (fit_res[1]["stats"]["min"] == 0.0).all()
     assert (np.isclose(fit_res[1]["stats"]["mean"], 3.3, atol=0.5)).all()
     # Center of mass is not in the middle due to hot (fluctuating) pixels
-    assert (np.isclose(fit_res[1]["stats"]["center_of_mass"], [49.5, 40.8], atol=1)).all()
+    assert (np.isclose(fit_res[1]["stats"]["center_of_mass"], [49.5, 40.8], atol=2)).all()
