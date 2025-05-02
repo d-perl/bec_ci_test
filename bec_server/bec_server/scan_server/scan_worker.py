@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import os
 import threading
 import time
 import traceback
+from string import Template
 from typing import TYPE_CHECKING
 
 from bec_lib import messages
@@ -178,6 +180,7 @@ class ScanWorker(threading.Thread):
     def _initialize_scan_info(
         self, active_rb: RequestBlock, instr: messages.DeviceInstructionMessage, num_points: int
     ):
+
         metadata = active_rb.metadata
         self.current_scan_info = {**instr.metadata, **instr.content["parameter"]}
         self.current_scan_info.update(metadata)
@@ -195,10 +198,7 @@ class ScanWorker(threading.Thread):
                 "scan_parameters": active_rb.scan.scan_parameters,
                 "request_inputs": active_rb.scan.request_inputs,
                 "file_components": compile_file_components(
-                    # pylint: disable=protected-access
-                    base_path=self.parent._service_config.service_config["file_writer"][
-                        "base_path"
-                    ],
+                    base_path=self._get_file_base_path(),
                     scan_nr=self.parent.scan_number,
                     file_directory=active_rb.scan.scan_parameters["system_config"][
                         "file_directory"
@@ -244,6 +244,40 @@ class ScanWorker(threading.Thread):
                 )
             ],
         }
+
+    def _get_file_base_path(self) -> str:
+        """
+        Get the file base path for the scan data. The base path can be a string or a template.
+        If it is a template, the account name will be substituted into the template.
+        The account name is retrieved from the current account message.
+        If the account name is not found, an empty string will be used.
+        """
+        current_account_msg = self.connector.get(MessageEndpoints.account())
+        if current_account_msg:
+            current_account = current_account_msg.value
+        else:
+            current_account = None
+
+        # pylint: disable=protected-access
+        file_base_path = self.parent._service_config.service_config["file_writer"]["base_path"]
+        if "$" not in file_base_path:
+            # we deal with a normal string
+            if current_account:
+                return os.path.abspath(os.path.join(file_base_path, current_account))
+            # if there is no account, we return the base path without the account
+            return os.path.abspath(file_base_path)
+
+        # we deal with a string template
+        file_base_path = Template(file_base_path)
+
+        try:
+            # check if the template is valid
+            return os.path.abspath(file_base_path.substitute(account=current_account or ""))
+        except KeyError as exc:
+            raise ValueError(
+                f"Invalid template variable: {exc} in the file base path. "
+                "Please check your service config."
+            ) from exc
 
     def _send_scan_status(self, status: str):
         current_scan_info_print = self.current_scan_info.copy()

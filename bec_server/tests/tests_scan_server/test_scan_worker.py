@@ -306,7 +306,7 @@ def test_initialize_scan_info(scan_worker_mock, msg):
                 file_dir = "S00000-00999/S00002"
             else:
                 file_dir = f"S00000-00999/S00002_{suffix}"
-        file_components = os.path.join(base_path, "data", file_dir, "S00002"), "h5"
+        file_components = os.path.abspath(os.path.join(base_path, "data", file_dir, "S00002")), "h5"
         assert worker.current_scan_info["file_components"] == file_components
 
 
@@ -726,3 +726,51 @@ def test_worker_update_instr_with_scan_report_update(msg, scan_worker_mock):
         worker.update_instr_with_scan_report(msg)
         forward_mock.assert_called_once_with(msg)
         assert msg.metadata["response"] is True
+
+
+@pytest.mark.parametrize(
+    "base_path, current_account_msg, expected_path, raises_error",
+    [
+        (
+            "/data/$account/raw",
+            messages.VariableMessage(value="test_account"),
+            "/data/test_account/raw",
+            False,
+        ),
+        ("/data/$account/raw", None, "/data/raw", False),
+        (
+            "/data/raw",
+            messages.VariableMessage(value="test_account"),
+            "/data/raw/test_account",
+            False,
+        ),
+        ("/data/raw", None, "/data/raw", False),
+        (
+            "/data/$account/$sub_dir/raw",
+            messages.VariableMessage(value="test_account"),
+            "/data/test_account/$sub_dir/raw",
+            True,
+        ),
+    ],
+)
+def test_worker_get_file_base_path(
+    scan_worker_mock, base_path, current_account_msg, expected_path, raises_error
+):
+    worker = scan_worker_mock
+    file_writer_base_path_orig = worker.parent._service_config.service_config["file_writer"][
+        "base_path"
+    ]
+    try:
+        worker.parent._service_config.service_config["file_writer"]["base_path"] = base_path
+        with mock.patch.object(worker.connector, "get", return_value=current_account_msg):
+            if raises_error:
+                with pytest.raises(ValueError) as exc_info:
+                    worker._get_file_base_path()
+            else:
+                file_path = worker._get_file_base_path()
+                assert file_path == expected_path
+                worker.connector.get.assert_called_once_with(MessageEndpoints.account())
+    finally:
+        worker.parent._service_config.service_config["file_writer"][
+            "base_path"
+        ] = file_writer_base_path_orig
