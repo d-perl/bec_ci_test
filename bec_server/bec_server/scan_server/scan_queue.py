@@ -434,7 +434,7 @@ class ScanQueue:
         self,
         queue_manager: QueueManager,
         queue_name="primary",
-        instruction_queue_item_cls: InstructionQueueItem = None,
+        instruction_queue_item_cls: type[InstructionQueueItem] | None = None,
     ) -> None:
         self.queue: Deque[InstructionQueueItem] = collections.deque()
         self.queue_name = queue_name
@@ -537,10 +537,10 @@ class ScanQueue:
                 if self.status != ScanQueueStatus.PAUSED:
                     if len(self.queue) == 0:
                         if aiq is None:
-                            time.sleep(0.1)
+                            self.signal_event.wait(0.1)
                             return False
                         self.active_instruction_queue = None
-                        time.sleep(0.01)
+                        self.signal_event.wait(0.01)
                         return False
 
                     self.active_instruction_queue = self.queue[0]
@@ -552,20 +552,26 @@ class ScanQueue:
                         # we don't need to pause if there is no scan enqueued
                         self.status = ScanQueueStatus.RUNNING
                         logger.info("resetting queue status to running")
-                    time.sleep(0.1)
+                    self.signal_event.wait(0.1)
 
                 self.active_instruction_queue = self.queue[0]
                 self.history_queue.append(self.active_instruction_queue)
                 return True
             except IndexError:
-                time.sleep(0.01)
+                self.signal_event.wait(0.01)
             return False
 
     def insert(self, msg: messages.ScanQueueMessage, position=-1, **_kwargs):
         """insert a new message to the queue"""
         while self.worker_status == InstructionQueueStatus.STOPPED:
             logger.info("Waiting for worker to become active.")
-            time.sleep(0.1)
+            if self.signal_event.wait(0.1):
+                break
+        while self.status == ScanQueueStatus.PAUSED and len(self.queue) == 0:
+            logger.info("Waiting for queue to become active.")
+            if self.signal_event.wait(0.1):
+                break
+
         target_group = msg.metadata.get("queue_group")
         scan_def_id = msg.metadata.get("scan_def_id")
         logger.debug(f"Inserting new queue message {msg}")
