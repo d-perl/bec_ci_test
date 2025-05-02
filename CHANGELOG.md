@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## v3.31.0 (2025-05-02)
+
+### Bug Fixes
+
+- **data_access**: Fix to_pandas conversion for baseline devices
+  ([`f22f343`](https://gitlab.psi.ch/bec/bec/-/commit/f22f343db03ac2a9b5de61396c2994296e80c49c))
+
+### Documentation
+
+- **history access**: Add section on .get and .data access
+  ([`5eec001`](https://gitlab.psi.ch/bec/bec/-/commit/5eec001ea6258c44e1041f8c4f3bfb886c77a6cf))
+
+### Features
+
+- **history**: Add data collection for direct signal access as well as .get access pattern
+  ([`538c243`](https://gitlab.psi.ch/bec/bec/-/commit/538c2434602910dd7d842eba8b08cc35c7f18820))
+
+
 ## v3.30.0 (2025-05-02)
 
 ### Chores
