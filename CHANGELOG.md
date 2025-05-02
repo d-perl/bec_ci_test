@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.30.0 (2025-05-02)
+
+### Chores
+
+- **formatter**: Upgrade to black v25
+  ([`c1b49a0`](https://gitlab.psi.ch/bec/bec/-/commit/c1b49a0c86a16935a09353665751cbff3806c239))
+
+### Features
+
+- **IPython**: Add magic to restart the server
+  ([`aba1b31`](https://gitlab.psi.ch/bec/bec/-/commit/aba1b31b91925144a4752dc461cd660fce88de54))
+
+
 ## v3.29.2 (2025-05-01)
 
 ### Bug Fixes
