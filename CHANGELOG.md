@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.31.1 (2025-05-05)
+
+### Bug Fixes
+
+- **scan_queue**: If queue is empty and paused, wait for it to resume before injecting new scans
+  ([`d668961`](https://gitlab.psi.ch/bec/bec/-/commit/d6689611861a6c23cd0c89a654fe0d216e63ae16))
+
+### Testing
+
+- **image_analysis**: Increase position tolerance
+  ([`7e65625`](https://gitlab.psi.ch/bec/bec/-/commit/7e656254f2ab386b939f94e43a9d658b90cddb4a))
+
+
 ## v3.31.0 (2025-05-02)
 
 ### Bug Fixes
