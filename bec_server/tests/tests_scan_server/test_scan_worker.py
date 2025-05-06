@@ -744,7 +744,7 @@ def test_worker_update_instr_with_scan_report_update(msg, scan_worker_mock):
             "/data/raw/test_account",
             False,
         ),
-        ("/data/raw", None, "/data/raw", False),
+        ("/data/raw", None, "/data/raw/data", False),
         (
             "/data/$account/$sub_dir/raw",
             messages.VariableMessage(value="test_account"),

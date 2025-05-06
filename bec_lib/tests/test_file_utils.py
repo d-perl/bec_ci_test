@@ -169,7 +169,7 @@ def test_compile_file_components():
     scan_nr = 10
     file_path, extension = compile_file_components(basepath, scan_nr)
     assert extension == "h5"
-    assert file_path == "/tmp/data/S00000-00999/S00010/S00010"
+    assert file_path == "/tmp/S00000-00999/S00010/S00010"
     scan_bundle = 1000
     leading_zeros = 5
     file_directory = "test_dir"
@@ -183,7 +183,7 @@ def test_compile_file_components():
         user_suffix=user_suffix,
     )
     assert extension == "h5"
-    assert file_path == "/tmp/data/test_dir/S00010"
+    assert file_path == "/tmp/test_dir/S00010"
     file_path, extension = compile_file_components(
         base_path=basepath,
         scan_nr=scan_nr,
@@ -192,7 +192,7 @@ def test_compile_file_components():
         user_suffix=user_suffix,
     )
     assert extension == "h5"
-    assert file_path == "/tmp/data/S00000-00999/S00010_SampleA/S00010"
+    assert file_path == "/tmp/S00000-00999/S00010_SampleA/S00010"
 
 
 @pytest.mark.parametrize(

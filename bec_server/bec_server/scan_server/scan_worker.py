@@ -264,8 +264,8 @@ class ScanWorker(threading.Thread):
             # we deal with a normal string
             if current_account:
                 return os.path.abspath(os.path.join(file_base_path, current_account))
-            # if there is no account, we return the base path without the account
-            return os.path.abspath(file_base_path)
+            # if there is no account, we return the base path with the data folder
+            return os.path.abspath(os.path.join(file_base_path, "data"))
 
         # we deal with a string template
         file_base_path = Template(file_base_path)
