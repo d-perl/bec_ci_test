@@ -1,6 +1,30 @@
 # CHANGELOG
 
 
+## v3.32.0 (2025-05-06)
+
+### Bug Fixes
+
+- **file_writer**: Transition to get_full_path
+  ([`6d4982a`](https://gitlab.psi.ch/bec/bec/-/commit/6d4982a15fc5530cb05438bfa6da70883e28af2a))
+
+- **scan_worker**: Add account string validation
+  ([`4c93982`](https://gitlab.psi.ch/bec/bec/-/commit/4c93982766acf0a0457be0ee63e6205c7f91c843))
+
+### Features
+
+- **ScanWorker**: Implement dynamic file base path retrieval with template support
+  ([`c35622b`](https://gitlab.psi.ch/bec/bec/-/commit/c35622b1f88274c2696d2794b12772f12b1cf271))
+
+### Refactoring
+
+- Minor type hints improvements
+  ([`94f48e3`](https://gitlab.psi.ch/bec/bec/-/commit/94f48e33f88d93f4184bdfaabccf5d9b75d565c8))
+
+- **file_utils**: Move default "data" directory from file_utils to scan worker
+  ([`71caefd`](https://gitlab.psi.ch/bec/bec/-/commit/71caefda79873317e900ef2eaa63c9291c512146))
+
+
 ## v3.31.1 (2025-05-05)
 
 ### Bug Fixes
