@@ -255,6 +255,23 @@ class ScanWorker(threading.Thread):
         current_account_msg = self.connector.get(MessageEndpoints.account())
         if current_account_msg:
             current_account = current_account_msg.value
+            if not isinstance(current_account, str):
+                logger.warning(
+                    f"Account name is not a string: {current_account}. " "Ignoring specified value."
+                )
+                current_account = None
+            else:
+                if "/" in current_account:
+                    raise ValueError(
+                        f"Account name cannot contain a slash (/): {current_account}. "
+                    )
+                # _ and - are allowed
+                check_value = current_account.replace("_", "").replace("-", "")
+                if not check_value.isalnum() or not check_value.isascii():
+                    raise ValueError(
+                        f"Account name can only contain alphanumeric characters: {current_account}. "
+                    )
+
         else:
             current_account = None
 
