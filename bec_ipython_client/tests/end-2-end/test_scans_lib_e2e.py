@@ -22,7 +22,7 @@ def test_grid_scan_lib(bec_client_lib):
     dev = bec.device_manager.devices
     scans.umv(dev.samx, 0, dev.samy, 0, relative=False)
     status = scans.grid_scan(dev.samx, -5, 5, 10, dev.samy, -5, 5, 10, exp_time=0.01, relative=True)
-    status.wait()
+    status.wait(num_points=True, file_written=True)
     assert len(status.scan.live_data) == 100
     assert status.scan.num_points == 100
 
@@ -434,7 +434,7 @@ def test_computed_signal(bec_client_lib):
     scans = bec.scans
 
     res = scans.line_scan(dev.samx, -0.1, 0.1, steps=10, relative=False, exp_time=0)
-    res.wait()
+    res.wait(num_points=True, file_written=True)
     out = res.scan.data.devices.pseudo_signal1.read()
     assert "value" in out["pseudo_signal1"]
 
@@ -522,7 +522,7 @@ def test_image_analysis(bec_client_lib):
     }
 
     res = scans.line_scan(dev.samx, -5, 5, steps=10, relative=False, exp_time=0)
-    res.wait()
+    res.wait(num_points=True, file_written=True)
     fit_res = bec.dap.image_analysis.run(res.scan.scan_id, "eiger")
     assert (fit_res[1]["stats"]["max"] == 10000.0).all()
     assert (fit_res[1]["stats"]["min"] == 0.0).all()
