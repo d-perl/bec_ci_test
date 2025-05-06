@@ -102,10 +102,8 @@ def test_write_file(file_writer_manager_mock, scan_storage_mock):
     file_manager = file_writer_manager_mock
     file_manager.scan_storage["scan_id"] = scan_storage_mock
 
-    with mock.patch.object(
-        file_manager.writer_mixin, "compile_full_filename"
-    ) as mock_create_file_path:
-        mock_create_file_path.return_value = "path"
+    with mock.patch("bec_server.file_writer.file_writer_manager.get_full_path") as mock_filename:
+        mock_filename.return_value = "path"
         # replace NexusFileWriter with MockWriter
         file_manager.file_writer = MockWriter(file_manager)
         file_manager.write_file("scan_id")
@@ -115,32 +113,26 @@ def test_write_file(file_writer_manager_mock, scan_storage_mock):
 def test_write_file_invalid_scan_id(file_writer_manager_mock, scan_storage_mock):
     file_manager = file_writer_manager_mock
     file_manager.scan_storage["scan_id"] = scan_storage_mock
-    with mock.patch.object(
-        file_manager.writer_mixin, "compile_full_filename"
-    ) as mock_create_file_path:
+    with mock.patch("bec_server.file_writer.file_writer_manager.get_full_path") as mock_filename:
         file_manager.write_file("scan_id1")
-        mock_create_file_path.assert_not_called()
+        mock_filename.assert_not_called()
 
 
 def test_write_file_invalid_scan_number(file_writer_manager_mock, scan_storage_mock):
     file_manager = file_writer_manager_mock
     file_manager.scan_storage["scan_id"] = scan_storage_mock
     file_manager.scan_storage["scan_id"].scan_number = None
-    with mock.patch.object(
-        file_manager.writer_mixin, "compile_full_filename"
-    ) as mock_create_file_path:
+    with mock.patch("bec_server.file_writer.file_writer_manager.get_full_path") as mock_filename:
         file_manager.write_file("scan_id")
-        mock_create_file_path.assert_not_called()
+        mock_filename.assert_not_called()
 
 
 def test_write_file_raises_alarm_on_error(file_writer_manager_mock, scan_storage_mock):
     file_manager = file_writer_manager_mock
     file_manager.scan_storage["scan_id"] = scan_storage_mock
-    with mock.patch.object(
-        file_manager.writer_mixin, "compile_full_filename"
-    ) as mock_compile_filename:
+    with mock.patch("bec_server.file_writer.file_writer_manager.get_full_path") as mock_filename:
         with mock.patch.object(file_manager, "connector") as mock_connector:
-            mock_compile_filename.return_value = "path"
+            mock_filename.return_value = "path"
             # replace NexusFileWriter with MockWriter
             file_manager.file_writer = MockWriter(file_manager)
             file_manager.file_writer.write = mock.Mock(side_effect=Exception("error"))

@@ -10,7 +10,7 @@ from bec_lib.bec_service import BECService
 from bec_lib.callback_handler import CallbackHandler, EventType
 from bec_lib.devicemanager import DeviceManagerBase
 from bec_lib.endpoints import MessageEndpoints
-from bec_lib.file_utils import FileWriter
+from bec_lib.file_utils import get_full_path
 from bec_lib.logger import bec_logger
 from bec_lib.redis_connector import MessageObject, RedisConnector
 from bec_lib.service_config import ServiceConfig
@@ -31,6 +31,7 @@ class ScanStorage:
         """
         self.scan_number = scan_number
         self.scan_id = scan_id
+        self.status_msg: messages.ScanStatusMessage | None = None
         self.scan_segments = {}
         self.scan_finished = False
         self.num_points = None
@@ -101,9 +102,6 @@ class FileWriterManager(BECService):
         )
         self.async_writer = None
         self.scan_storage = {}
-        self.writer_mixin = FileWriter(
-            service_config=self.file_writer_config, connector=self.connector
-        )
         self.file_writer = HDF5FileWriter(self)
         self.status = messages.BECStatus.RUNNING
         self.refresh_device_configs()
@@ -164,6 +162,10 @@ class FileWriterManager(BECService):
             self.scan_storage[scan_id] = ScanStorage(
                 scan_number=msg.content["info"].get("scan_number"), scan_id=scan_id
             )
+
+        # update the status message
+        self.scan_storage[scan_id].status_msg = msg
+
         metadata = msg.content.get("info").copy()
         metadata.pop("DIID", None)
         metadata.pop("stream", None)
@@ -176,7 +178,7 @@ class FileWriterManager(BECService):
         if status == "open" and not scan_storage.start_time:
             scan_storage.start_time = msg.content.get("timestamp")
             scan_storage.async_writer = AsyncWriter(
-                self.writer_mixin.compile_full_filename(suffix="master"),
+                get_full_path(scan_status_msg=msg, name="master"),
                 scan_id=scan_id,
                 connector=self.connector,
                 devices=msg.readout_priority.get("async", []),
@@ -308,7 +310,7 @@ class FileWriterManager(BECService):
         start_time = time.time()
 
         try:
-            file_path = self.writer_mixin.compile_full_filename(suffix=file_suffix)
+            file_path = get_full_path(scan_status_msg=storage.status_msg, name=file_suffix)
             self.connector.set_and_publish(
                 MessageEndpoints.public_file(scan_id, "master"),
                 messages.FileMessage(file_path=file_path, done=False, successful=False),
