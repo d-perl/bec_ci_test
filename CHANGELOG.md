@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.33.0 (2025-05-06)
+
+### Features
+
+- **scan_report**: Add num_points and file_written flags to wait method
+  ([`f4388c8`](https://gitlab.psi.ch/bec/bec/-/commit/f4388c8bfee90ff0eff17fd5c705352128781663))
+
+### Testing
+
+- **e2e**: Update wait method to include num_points and file_written flags
+  ([`ee384c3`](https://gitlab.psi.ch/bec/bec/-/commit/ee384c3e8b3af1bf0474d7c5ca254e5692e72702))
+
+
 ## v3.32.0 (2025-05-06)
 
 ### Bug Fixes
