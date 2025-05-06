@@ -11,11 +11,13 @@ from typing import TYPE_CHECKING
 
 from bec_lib.bec_errors import ScanAbortion
 from bec_lib.endpoints import MessageEndpoints
+from bec_lib.scan_items import ScanItem
 
 if TYPE_CHECKING:  # pragma: no cover
     from bec_lib import messages
     from bec_lib.client import BECClient
     from bec_lib.queue_items import QueueItem
+    from bec_lib.request_items import RequestItem
 
 
 class ScanReport:
@@ -23,7 +25,7 @@ class ScanReport:
 
     def __init__(self) -> None:
         self._client = None
-        self.request = None
+        self.request: RequestItem | None = None
         self._queue_item = None
 
     @classmethod
@@ -50,8 +52,10 @@ class ScanReport:
         return scan_report
 
     @property
-    def scan(self):
+    def scan(self) -> ScanItem | None:
         """get the scan item"""
+        if not self.request:
+            raise ValueError("Request is not set. Cannot get scan item.")
         return self.request.scan
 
     @property
@@ -101,11 +105,15 @@ class ScanReport:
             return True
         return False
 
-    def wait(self, timeout: float = None) -> ScanReport:
+    def wait(
+        self, timeout: float | None = None, num_points: bool = False, file_written: bool = False
+    ) -> ScanReport:
         """
-        wait for the request to complete
+        Wait for the request to complete
 
         Args:
+            num_points (bool, optional): if True, wait for the number of points to be reached. Defaults to False.
+            file_written (bool, optional): if True, wait for the master file to be written. Defaults to False.
             timeout (float, optional): timeout in seconds. Defaults to None.
 
         Raises:
@@ -115,19 +123,23 @@ class ScanReport:
             ScanReport: ScanReport instance
         """
         sleep_time = 0.1
+        if self.request is None:
+            return self
         scan_type = self.request.request.content["scan_type"]
         try:
             if scan_type == "mv":
                 self._wait_move(timeout, sleep_time)
             else:
-                self._wait_scan(timeout, sleep_time)
+                self._wait_scan(
+                    timeout, sleep_time, num_points=num_points, file_written=file_written
+                )
         except KeyboardInterrupt as exc:
             self._client.queue.request_scan_abortion()
             raise ScanAbortion("Aborted by user.") from exc
 
         return self
 
-    def _check_timeout(self, timeout: float = None, elapsed_time: float = 0) -> None:
+    def _check_timeout(self, timeout: float | None = None, elapsed_time: float = 0) -> None:
         """
         check if the timeout is reached
 
@@ -143,7 +155,7 @@ class ScanReport:
                 f"Timeout reached while waiting for request to complete. Timeout: {timeout} s."
             )
 
-    def _wait_move(self, timeout: float = None, sleep_time: float = 0.1) -> None:
+    def _wait_move(self, timeout: float | None = None, sleep_time: float = 0.1) -> None:
         """
         wait for a move request to complete
 
@@ -161,7 +173,13 @@ class ScanReport:
             elapsed_time += sleep_time
             self._check_timeout(timeout, elapsed_time)
 
-    def _wait_scan(self, timeout: float = None, sleep_time: float = 0.1) -> None:
+    def _wait_scan(
+        self,
+        timeout: float | None = None,
+        sleep_time: float = 0.1,
+        num_points: bool = False,
+        file_written: bool = False,
+    ) -> None:
         """
         wait for a scan request to complete
 
@@ -170,8 +188,17 @@ class ScanReport:
             sleep_time (float, optional): sleep time in seconds. Defaults to 0.1.
         """
         elapsed_time = 0
+
+        def conditions_are_met() -> bool:
+            """Check if the conditions are met"""
+            if num_points and not self._num_points_reached():
+                return False
+            if file_written and not self._file_written():
+                return False
+            return self.status == "COMPLETED"
+
         while True:
-            if self.status == "COMPLETED":
+            if conditions_are_met():
                 break
             if self.status == "STOPPED":
                 raise ScanAbortion
@@ -179,6 +206,35 @@ class ScanReport:
             time.sleep(sleep_time)
             elapsed_time += sleep_time
             self._check_timeout(timeout, elapsed_time)
+
+        # final poll to ensure all callbacks are processed
+        self._client.callbacks.poll()
+
+    def _file_written(self) -> bool:
+        """
+        Check if the master file was written
+        Returns:
+            bool: True if the file was written, False otherwise
+        """
+        if not self.scan:
+            return False
+
+        files_written = self.scan.public_files
+        for file_path, state in files_written.items():
+            file_name = file_path.split("/")[-1]
+            if "_master" in file_name and state.get("done_state"):
+                return True
+        return False
+
+    def _num_points_reached(self) -> bool:
+        """
+        Check if the number of points was reached
+        Returns:
+            bool: True if the number of points was reached, False otherwise
+        """
+        if not self.scan:
+            return False
+        return self.scan.num_points == len(self.scan.live_data)
 
     def __str__(self) -> str:
         separator = "--" * 10

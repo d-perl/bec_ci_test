@@ -36,7 +36,21 @@ def test_scan_report_wait_scan(scan_report):
     scan_report.request.request = messages.ScanQueueMessage(scan_type="line_scan", parameter={})
     with mock.patch.object(scan_report, "_wait_scan") as wait_scan:
         scan_report.wait()
-        wait_scan.assert_called_once_with(None, 0.1)
+        wait_scan.assert_called_once_with(None, 0.1, num_points=False, file_written=False)
+
+
+def test_scan_report_wait_scan_num_points(scan_report):
+    scan_report.request.request = messages.ScanQueueMessage(scan_type="line_scan", parameter={})
+    with mock.patch.object(scan_report, "_wait_scan") as wait_scan:
+        scan_report.wait(num_points=True)
+        wait_scan.assert_called_once_with(None, 0.1, num_points=True, file_written=False)
+
+
+def test_scan_report_wait_scan_file_written(scan_report):
+    scan_report.request.request = messages.ScanQueueMessage(scan_type="line_scan", parameter={})
+    with mock.patch.object(scan_report, "_wait_scan") as wait_scan:
+        scan_report.wait(file_written=True)
+        wait_scan.assert_called_once_with(None, 0.1, num_points=False, file_written=True)
 
 
 @pytest.mark.parametrize("timeout, elapsed_time", [(10, 0.1), (None, 0.1), (0.1, 10)])
@@ -64,6 +78,17 @@ def test_scan_report_wait_for_scan(scan_report):
         get_mv_status.side_effect = [False, False, True]
         scan_report.queue_item.status = "COMPLETED"
         scan_report._wait_scan(None, 0.1)
+
+
+def test_scan_report_wait_for_scan_file_pending(scan_report):
+    scan_report.request.request = messages.ScanQueueMessage(scan_type="mv", parameter={})
+    with mock.patch.object(scan_report, "_get_mv_status") as get_mv_status:
+        with mock.patch.object(scan_report, "_file_written") as file_written:
+            file_written.side_effect = [False, False, True]
+            get_mv_status.return_value = True
+            scan_report.queue_item.status = "COMPLETED"
+            scan_report._wait_scan(None, 0.1, num_points=False, file_written=True)
+            assert file_written.call_count == 3
 
 
 def test_scan_report_wait_for_scan_raises(scan_report):
@@ -105,3 +130,42 @@ def test_scan_report_get_mv_status(scan_report, lrange_return, expected):
     with mock.patch.object(scan_report._client.device_manager.connector, "lrange") as mock_lrange:
         mock_lrange.return_value = lrange_return
         assert scan_report._get_mv_status() == expected
+
+
+def test_scan_report_file_written(scan_report):
+    with mock.patch.object(scan_report.request, "scan") as mock_scan:
+        mock_scan.public_files = {"/tmp/file1_master.h5": {"done_state": True, "success": True}}
+        assert scan_report._file_written() is True
+
+
+def test_scan_report_file_written_no_files(scan_report):
+    with mock.patch.object(scan_report.request, "scan") as mock_scan:
+        mock_scan.public_files = {}
+        assert scan_report._file_written() is False
+
+
+def test_scan_report_file_written_no_master(scan_report):
+    with mock.patch.object(scan_report.request, "scan") as mock_scan:
+        mock_scan.public_files = {"/tmp/file1.h5": {"done_state": True, "success": True}}
+        assert scan_report._file_written() is False
+
+
+def test_scan_report_num_points_reached(scan_report):
+    with mock.patch.object(scan_report.request, "scan") as mock_scan:
+        mock_scan.num_points = 10
+        mock_scan.live_data = {"0": "msg", "1": "msg", "2": "msg"}
+        assert scan_report._num_points_reached() is False
+
+
+def test_scan_report_num_points_reached_no_points(scan_report):
+    with mock.patch.object(scan_report.request, "scan") as mock_scan:
+        mock_scan.num_points = 0
+        mock_scan.live_data = {}
+        assert scan_report._num_points_reached() is True
+
+
+def test_scan_report_num_points_reached_match(scan_report):
+    with mock.patch.object(scan_report.request, "scan") as mock_scan:
+        mock_scan.num_points = 3
+        mock_scan.live_data = {"0": "msg", "1": "msg", "2": "msg"}
+        assert scan_report._num_points_reached() is True
