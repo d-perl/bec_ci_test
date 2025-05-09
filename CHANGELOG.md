@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.34.0 (2025-05-09)
+
+### Features
+
+- Add helper functions for plugin template
+  ([`5a1d811`](https://gitlab.psi.ch/bec/bec/-/commit/5a1d81113353d4abba057a2f042208a9df87f72a))
+
+
 ## v3.33.0 (2025-05-06)
 
 ### Features
