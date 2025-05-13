@@ -46,6 +46,10 @@ class CLIBECClient(BECClient):
 
 
 class BECIPythonClient:
+
+    # local_only_types is a container for objects that should not be resolved through
+    # the CLIBECClient but directly through the BECIPythonClient. While this is not
+    # needed for normal usage, it is required, e.g. for mocks.
     _local_only_types: Tuple = ()
 
     def __init__(
