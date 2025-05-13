@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v3.35.1 (2025-05-13)
+
+### Bug Fixes
+
+- **BECIPythonClient**: Allow setting MagicMock attributes directly
+  ([`ca2cedb`](https://gitlab.psi.ch/bec/bec/-/commit/ca2cedb673b486d871cfb15eba726d68cd69c696))
+
+- **BECIPythonClient**: Resolve to _client for setting attributes
+  ([`327170e`](https://gitlab.psi.ch/bec/bec/-/commit/327170ed828730c485582dc0bd1ec0902372ec30))
+
+### Documentation
+
+- **BECIPythonClient**: Add documentation for _local_only_types attribute
+  ([`8400973`](https://gitlab.psi.ch/bec/bec/-/commit/840097325c420e37d5833cae6c54b8e5db7134ba))
+
+
 ## v3.35.0 (2025-05-13)
 
 ### Bug Fixes
