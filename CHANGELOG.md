@@ -1,6 +1,92 @@
 # CHANGELOG
 
 
+## v3.35.0 (2025-05-13)
+
+### Bug Fixes
+
+- **acl_login**: Enhance error message for missing login information in ACL setup
+  ([`037a674`](https://gitlab.psi.ch/bec/bec/-/commit/037a674af66522e65be4508a297f14420d2c3f7e))
+
+- **acl_login**: Rename user variable to username and update user_service_login method to accept
+  username parameter
+  ([`2dd5285`](https://gitlab.psi.ch/bec/bec/-/commit/2dd52851fea8f3bc725265929378a86c556ad8d8))
+
+- **atlas**: Emit profile for test accounts
+  ([`0ac2eb3`](https://gitlab.psi.ch/bec/bec/-/commit/0ac2eb3496ca535e6bbb60dbede9b53f2f5e2211))
+
+- **bec_service**: Replace _auto_login with _bec_service_login
+  ([`d37db73`](https://gitlab.psi.ch/bec/bec/-/commit/d37db732a8dc431f004c65d67b29b5cebe1b9362))
+
+- **client**: Use acl user, not system user as username
+  ([`a8907c8`](https://gitlab.psi.ch/bec/bec/-/commit/a8907c82718462a86f5cb104cc46e796645c5a18))
+
+- **ipython**: Cleanup; improved error reporting when user is unauthorized
+  ([`62a7453`](https://gitlab.psi.ch/bec/bec/-/commit/62a7453f03f8ca61cfa1e2d8ce7c3f6b10b85c9e))
+
+- **redis_connector**: Ensure default password is set to "null" when None is provided
+  ([`b8bfa51`](https://gitlab.psi.ch/bec/bec/-/commit/b8bfa51e28244796f5cb0699da9588681af78b8a))
+
+- **redis_connector**: Improved permission error handling for redis connector
+  ([`18058c2`](https://gitlab.psi.ch/bec/bec/-/commit/18058c264547ddb38fa26d6705d332022f368c61))
+
+### Chores
+
+- **.gitignore**: Add .env files to the ignore list
+  ([`c449527`](https://gitlab.psi.ch/bec/bec/-/commit/c449527f26e3b7b4dc9c0f0ef2a7b761c8dfd0bb))
+
+- **redis_connector**: Add None as type hint to the authenticate method
+  ([`3d6ee28`](https://gitlab.psi.ch/bec/bec/-/commit/3d6ee281043ce5962ee522661e01e403607a93d5))
+
+### Features
+
+- **ACL**: Added basic support for Redis ACLs
+  ([`9816066`](https://gitlab.psi.ch/bec/bec/-/commit/9816066de1729d78922c79e73cb179488de3a560))
+
+- **bec_lib**: Added acl related messages and endpoints
+  ([`dd01e1d`](https://gitlab.psi.ch/bec/bec/-/commit/dd01e1d93cf11c229bc3dadf003a891fce36f57a))
+
+- **bec_service**: Add user argument to command line parser for service configuration
+  ([`afaa449`](https://gitlab.psi.ch/bec/bec/-/commit/afaa449d550e7d40365cb5496c7f141626f50cf4))
+
+- **ipython**: Add su ipython magic
+  ([`f74caba`](https://gitlab.psi.ch/bec/bec/-/commit/f74caba8dfb78ea55d5bc638293953d7c124f807))
+
+- **ipython**: Add username to cli prompt
+  ([`3032960`](https://gitlab.psi.ch/bec/bec/-/commit/3032960b22be83c2c9c4c0f3a663e447f5d06091))
+
+- **scihub**: Publish acl info on startup
+  ([`61658f7`](https://gitlab.psi.ch/bec/bec/-/commit/61658f793ebeb7668acfce7b3a9ef1383e1d63cf))
+
+- **user_acls**: Implement add_account method for user management with access levels
+  ([`0000e74`](https://gitlab.psi.ch/bec/bec/-/commit/0000e7460cf4422944f24f391b5a0d300b97fc24))
+
+### Refactoring
+
+- Improve http error handling
+  ([`ae7711f`](https://gitlab.psi.ch/bec/bec/-/commit/ae7711f6cab0edc810c9ae6cfc65798b0ab8b36a))
+
+- Moved acl logic to acl_login
+  ([`50a948f`](https://gitlab.psi.ch/bec/bec/-/commit/50a948f3cb8e743a55bff2c2e17ab446366b8c28))
+
+- **acl**: Remove user bec
+  ([`bcbc6a3`](https://gitlab.psi.ch/bec/bec/-/commit/bcbc6a303a50c302909657cab600ff222ea75b4c))
+
+- **redis_connector**: Update authenticate method to use keyword-only arguments
+  ([`45c3373`](https://gitlab.psi.ch/bec/bec/-/commit/45c3373dbc596146eaaa4ad5c9eea5beadfb44e1))
+
+- **user_acls_test**: Remove deprecated add_bec and add_bec_limited methods
+  ([`86cfb85`](https://gitlab.psi.ch/bec/bec/-/commit/86cfb85f940001ad48a425b55fea6cacdf70053b))
+
+### Testing
+
+- Refactor login tests to use access_control fixture for account management
+  ([`d4aef30`](https://gitlab.psi.ch/bec/bec/-/commit/d4aef302cdf02529387a67a4aea8d91a2eb394ba))
+
+- **acl**: Fixed tests after acl changes
+  ([`183e2b7`](https://gitlab.psi.ch/bec/bec/-/commit/183e2b74b68e58e97ce32d969b6ca3dbdb7da99e))
+
+
 ## v3.34.0 (2025-05-09)
 
 ### Features
