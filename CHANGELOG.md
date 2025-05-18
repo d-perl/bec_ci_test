@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.35.2 (2025-05-18)
+
+### Bug Fixes
+
+- **client**: Extend wait time for server restart to ensure proper service initialization
+  ([`02166a0`](https://gitlab.psi.ch/bec/bec/-/commit/02166a07c686802e0c907966e584cdac2a0f2c35))
+
+
 ## v3.35.1 (2025-05-13)
 
 ### Bug Fixes
