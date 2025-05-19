@@ -1,0 +1,39 @@
+name: Run Pytest with Coverage
+on: [workflow_call]
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+
+    env:
+      CHILD_PIPELINE_BRANCH: main  # Set the branch you want for ophyd_devices
+      BEC_CORE_BRANCH: main        # Set the branch you want for bec
+      OPHYD_DEVICES_BRANCH: main   # Set the branch you want for ophyd_devices
+      PROJECT_PATH: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+            auto-update-conda: true
+            auto-activate-base: true
+            python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tmux
+
+      - name: Conda install and run pytest
+        run: |
+          echo -e "\033[35;1m Using branch $OPHYD_DEVICES_BRANCH of OPHYD_DEVICES \033[0;m";
+          git clone --branch $OPHYD_DEVICES_BRANCH https://github.com/bec-project/ophyd_devices.git
+          export OHPYD_DEVICES_PATH=$PWD/ophyd_devices
+          source ./bin/install_bec_dev.sh -t
+          pip install -e ./ophyd_devices
+          pytest -v --files-path ./ --start-servers --random-order  ./bec_ipython_client/tests/end-2-end
