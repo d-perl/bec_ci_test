@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.35.3 (2025-05-20)
+
+### Bug Fixes
+
+- **async_writer**: Do not clear the status event on init
+  ([`0a4324c`](https://gitlab.psi.ch/bec/bec/-/commit/0a4324ced9a8d7a23c7a2621329f622f68ac4ad5))
+
+
 ## v3.35.2 (2025-05-18)
 
 ### Bug Fixes
