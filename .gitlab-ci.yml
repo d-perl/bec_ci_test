@@ -13,7 +13,7 @@ variables:
     description: bec_widgets branch
     value: main
   CHECK_PKG_VERSIONS:
-    description: Whether to run additional tests against min/max/random selection of dependencies. Set to 1 for running. 
+    description: Whether to run additional tests against min/max/random selection of dependencies. Set to 1 for running.
     value: 0
 
 workflow:
@@ -75,7 +75,7 @@ before_script:
   - if [[ "$CI_PROJECT_PATH" != "bec/bec" ]]; then
     echo -e "\033[35;1m Using branch $CHILD_PIPELINE_BRANCH of BEC \033[0;m";
     test -d bec || git clone --branch $CHILD_PIPELINE_BRANCH https://gitlab.psi.ch/bec/bec.git; cd bec;
-    fi  
+    fi
 
 formatter:
   stage: Formatter
@@ -88,7 +88,7 @@ formatter:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'  
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
       when: never
     - if: $CI_COMMIT_BRANCH
@@ -112,7 +112,7 @@ pylint:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'  
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
       when: never
     - if: $CI_COMMIT_BRANCH
@@ -125,7 +125,7 @@ pylint-check:
   script:
     - pip install pylint pylint-exit anybadge
     - apt-get update
-    - apt-get install -y bc  
+    - apt-get install -y bc
     # Identify changed Python files
     - if [ "$CI_PIPELINE_SOURCE" == "merge_request_event" ]; then
       TARGET_BRANCH_COMMIT_SHA=$(git rev-parse origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME);
@@ -153,7 +153,7 @@ pylint-check:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'  
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
       when: never
     - if: $CI_COMMIT_BRANCH
@@ -220,7 +220,6 @@ end-2-end:
       - ./logs/*.log
     expire_in: 2 week
   before_script:
-
     - echo "Starting the end-2-end tests"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -236,7 +235,7 @@ end-2-end:
       TARGET_BEC_BRANCH=$CHILD_PIPELINE_BRANCH;
       else
       TARGET_BEC_BRANCH=$CI_COMMIT_REF_NAME;
-      fi  
+      fi
 
     # build and run the tests
     - echo $OPHYD_DEVICES_BRANCH
@@ -473,7 +472,7 @@ trigger-ophyd_devices:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'  
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
       when: never
     - if: $CI_COMMIT_BRANCH
@@ -495,7 +494,7 @@ trigger-bec_widgets:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'  
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
       when: never
     - if: $CI_COMMIT_BRANCH
@@ -530,42 +529,42 @@ semver:
     - if: '$CI_COMMIT_REF_NAME == "main"'
   interruptible: true
 
-dev-pages:
-  stage: Deploy
-  needs:
-    - job: "formatter"
-      optional: true
-    - job: "pylint"
-      optional: true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
-      when: never
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
+# dev-pages:
+#   stage: Deploy
+#   needs:
+#     - job: "formatter"
+#       optional: true
+#     - job: "pylint"
+#       optional: true
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "schedule"'
+#     - if: '$CI_PIPELINE_SOURCE == "web"'
+#     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+#     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
+#       when: never
+#     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+#     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
 
-  script:
-    - git config --global user.name "ci_update_bot"
-    - git config --global user.email "ci_update_bot@bec.ch"
-    # - git tag -l | xargs git tag -d
-    # - git fetch --tags
-    # - git tag -d development || true
-    # - git push https://oauth2:$CI_DEV_DEPLOY@gitlab.psi.ch/bec/bec.git :refs/tags/development || true
-    # - git tag development $CI_COMMIT_SHA
-    # - git push https://oauth2:$CI_DEV_DEPLOY@gitlab.psi.ch/bec/bec.git development
+#   script:
+#     - git config --global user.name "ci_update_bot"
+#     - git config --global user.email "ci_update_bot@bec.ch"
+#     # - git tag -l | xargs git tag -d
+#     # - git fetch --tags
+#     # - git tag -d development || true
+#     # - git push https://oauth2:$CI_DEV_DEPLOY@gitlab.psi.ch/bec/bec.git :refs/tags/development || true
+#     # - git tag development $CI_COMMIT_SHA
+#     # - git push https://oauth2:$CI_DEV_DEPLOY@gitlab.psi.ch/bec/bec.git development
 
-    - git fetch --all
-    - git branch -a | grep MR_DEV_BRANCH
-    - git checkout remotes/origin/MR_DEV_BRANCH
-    - git reset --hard origin/$CI_COMMIT_REF_NAME
-    - git push --force -o ci.skip https://oauth2:$CI_DEV_DEPLOY@gitlab.psi.ch/bec/bec.git HEAD:refs/heads/MR_DEV_BRANCH;
+#     - git fetch --all
+#     - git branch -a | grep MR_DEV_BRANCH
+#     - git checkout remotes/origin/MR_DEV_BRANCH
+#     - git reset --hard origin/$CI_COMMIT_REF_NAME
+#     - git push --force -o ci.skip https://oauth2:$CI_DEV_DEPLOY@gitlab.psi.ch/bec/bec.git HEAD:refs/heads/MR_DEV_BRANCH;
 
-    - curl -X POST -d "branches=development" -d "token=$RTD_TOKEN" https://readthedocs.org/api/v2/webhook/beamline-experiment-control/221870/
-    - curl -X POST -d "branches=development" -d "token=$RTD_TOKEN_BEC" https://readthedocs.org/api/v2/webhook/bec/246899/
+#     - curl -X POST -d "branches=development" -d "token=$RTD_TOKEN" https://readthedocs.org/api/v2/webhook/beamline-experiment-control/221870/
+#     - curl -X POST -d "branches=development" -d "token=$RTD_TOKEN_BEC" https://readthedocs.org/api/v2/webhook/bec/246899/
 
-  interruptible: true
+#   interruptible: true
 
 pages:
   stage: Deploy
