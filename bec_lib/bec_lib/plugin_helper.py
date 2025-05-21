@@ -150,7 +150,14 @@ def _get_available_plugins(group) -> list:
     """
 
     plugins = importlib.metadata.entry_points(group=group)
-    modules = [plugin.load() for plugin in plugins]
+    modules = []
+    for plugin in plugins:
+        try:
+            module = plugin.load()
+            modules.append(module)
+        except Exception as e:
+            logger.error(f"Error loading plugin {plugin.name}: {e}")
+            continue
     return modules
 
 
