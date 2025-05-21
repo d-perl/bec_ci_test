@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.35.5 (2025-05-21)
+
+### Bug Fixes
+
+- **plugin_helper**: Avoid crashing on misconfigured plugins
+  ([`915a299`](https://gitlab.psi.ch/bec/bec/-/commit/915a29954f341bb833f22f03d3ccf962f5674d5d))
+
+
 ## v3.35.4 (2025-05-21)
 
 ### Bug Fixes
