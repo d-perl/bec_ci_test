@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## v3.35.4 (2025-05-21)
+
+### Bug Fixes
+
+- **config**: Minor improvements to add/remove device configs in runtime
+  ([`59d9b88`](https://gitlab.psi.ch/bec/bec/-/commit/59d9b88287ccd8197b139d32bdfa8d5d43a17cf6))
+
+### Continuous Integration
+
+- Disabled dev pages
+  ([`4288fb0`](https://gitlab.psi.ch/bec/bec/-/commit/4288fb04dc6b52af3b8eeecb251bdfb1034e8a24))
+
+### Testing
+
+- **config handler**: Make sure new device does not exist yet
+  ([`c5604c3`](https://gitlab.psi.ch/bec/bec/-/commit/c5604c3e6a78d1f3fa8ac086abda6a6a762eda8f))
+
+
 ## v3.35.3 (2025-05-20)
 
 ### Bug Fixes
