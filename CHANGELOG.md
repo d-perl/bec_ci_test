@@ -1,6 +1,30 @@
 # CHANGELOG
 
 
+## v3.35.7 (2025-05-26)
+
+### Bug Fixes
+
+- **scans**: Close scans explicitly through close_scan
+  ([`34ceaa5`](https://github.com/bec-project/bec/commit/34ceaa55fdf258c847180639d0a21067ecdb8a6a))
+
+### Chores
+
+- Add issue templates
+  ([`8a31d02`](https://github.com/bec-project/bec/commit/8a31d02c1e355d8ca759fa85441b612c93f76b0a))
+
+- Add pull request template
+  ([`fba2435`](https://github.com/bec-project/bec/commit/fba243505d46e1808fb9db89fb46eb6f9130d8b5))
+
+### Testing
+
+- Add test for backward-compatible cleanup
+  ([`2031014`](https://github.com/bec-project/bec/commit/2031014d4dad04ad81197357aec3a967a5cef5b8))
+
+- Fix flaky queue test
+  ([`1c968a2`](https://github.com/bec-project/bec/commit/1c968a26f9d956f2d9f6bdf940418f54b0e6cfb9))
+
+
 ## v3.35.6 (2025-05-24)
 
 ### Bug Fixes
