@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v3.35.10 (2025-05-28)
+
+### Bug Fixes
+
+- **file_writer_manager**: Fix file writer read_to_write if no monitored devices are in the config;
+  closes #481
+  ([`df875d3`](https://github.com/bec-project/bec/commit/df875d3d5391ff88d132353890a916b9bebb65fb))
+
+- **live-table**: Fix live table updates for scan_report_type scan_progress without monitored
+  devices
+  ([`6e13ba3`](https://github.com/bec-project/bec/commit/6e13ba35c88e7aaaafb9d7e55f7127e3d49fc289))
+
+### Testing
+
+- **file-writer-manager**: Fix test for file writer manager ready_to_write
+  ([`29370fb`](https://github.com/bec-project/bec/commit/29370fbb178c2cd6d1342d07d0519110441f9f1a))
+
+- **live-table**: Improve live table test coverage; test_run_update
+  ([`b8faf33`](https://github.com/bec-project/bec/commit/b8faf33260ce5f053f4ec5132822cc8f6753feaf))
+
+
 ## v3.35.9 (2025-05-28)
 
 ### Bug Fixes
