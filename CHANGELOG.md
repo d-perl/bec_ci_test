@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.35.9 (2025-05-28)
+
+### Bug Fixes
+
+- **rpc**: Add obj to status base instances
+  ([`3c13af4`](https://github.com/bec-project/bec/commit/3c13af43a403654f00cea91e8bd14d2073024a8e))
+
+
 ## v3.35.8 (2025-05-28)
 
 ### Bug Fixes
