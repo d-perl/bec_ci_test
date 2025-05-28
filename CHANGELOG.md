@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.35.8 (2025-05-28)
+
+### Bug Fixes
+
+- Scanrequestmessage metadata dict structure
+  ([`9699aa0`](https://github.com/bec-project/bec/commit/9699aa043d90b1037851ed701c19171725670cc6))
+
+### Documentation
+
+- Changed gitlab references to github
+  ([`b8608fb`](https://github.com/bec-project/bec/commit/b8608fb5fcfb0b29ff3ce5e61948c0ceeb09b496))
+
+
 ## v3.35.7 (2025-05-26)
 
 ### Bug Fixes
