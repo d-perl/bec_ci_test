@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.35.11 (2025-05-28)
+
+### Bug Fixes
+
+- **test**: Dangling client thread
+  ([`38f954e`](https://github.com/bec-project/bec/commit/38f954e31543c09e53bf1b061f184b532905a981))
+
+
 ## v3.35.10 (2025-05-28)
 
 ### Bug Fixes
