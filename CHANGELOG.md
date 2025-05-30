@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v3.36.0 (2025-05-30)
+
+### Features
+
+- **device_serializer**: Add signal class to device serializer
+  ([`68a01fd`](https://github.com/bec-project/bec/commit/68a01fdce6524929da1dfa22674065bf81ebb0ed))
+
+- **messages**: Add new endpoints and messages for device_preview and device_user_roi
+  ([`8755e67`](https://github.com/bec-project/bec/commit/8755e6746eb5870bd638e906fda3543e0f40369e))
+
+
 ## v3.35.11 (2025-05-28)
 
 ### Bug Fixes
