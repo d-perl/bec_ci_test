@@ -1,6 +1,42 @@
 # CHANGELOG
 
 
+## v3.37.0 (2025-05-30)
+
+### Bug Fixes
+
+- **file event**: Only emit file if file is not in append mode
+  ([`f70f33a`](https://github.com/bec-project/bec/commit/f70f33aadf9e494530f1527c4bc586e2d821ba6c))
+
+- **FileMessage**: Fix signature and validation
+  ([`c5d1832`](https://github.com/bec-project/bec/commit/c5d18320b7f6c4d1ce84245d39a325bb1d121be6))
+
+- **hdf5 plugins**: Add support for loading files with h5 filters
+  ([`0b7c3df`](https://github.com/bec-project/bec/commit/0b7c3dfb2ae7fefff58dd0514438e56104a6aeb7))
+
+### Documentation
+
+- Add comment to unused import of hdf5plugin
+  ([`eb09831`](https://github.com/bec-project/bec/commit/eb098317a5edf66fcb610bc733f4ce035c86eedc))
+
+Co-authored-by: Copilot <175728472+Copilot@users.noreply.github.com>
+
+### Features
+
+- **file references**: Add file references to collection
+  ([`c64d71e`](https://github.com/bec-project/bec/commit/c64d71ea54483f89509c7ad253ceb4dc4c370db1))
+
+### Refactoring
+
+- **device_manager**: Always set is_master_file to False outside of the file writer
+  ([`d98117f`](https://github.com/bec-project/bec/commit/d98117f3e9f09cc76aecf32708f6c0db6a04a4dd))
+
+### Testing
+
+- Extend storage mock to cover file references
+  ([`efe3db7`](https://github.com/bec-project/bec/commit/efe3db73a34ee3f468e0924c4c61924f733c46ec))
+
+
 ## v3.36.0 (2025-05-30)
 
 ### Features
