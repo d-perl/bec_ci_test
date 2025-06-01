@@ -1,6 +1,20 @@
 # CHANGELOG
 
 
+## v3.37.1 (2025-06-01)
+
+### Bug Fixes
+
+- **device_server**: Remove unnecessary imports in init to avoid shadowing the import of environment
+  setups
+  ([`40798bc`](https://github.com/bec-project/bec/commit/40798bca5f656b8be5204a94f8883c208bc4422a))
+
+### Testing
+
+- Fix import of device server
+  ([`c111f99`](https://github.com/bec-project/bec/commit/c111f991cb481266124f2a168ae92e7a09827004))
+
+
 ## v3.37.0 (2025-05-30)
 
 ### Bug Fixes
