@@ -1,6 +1,25 @@
 # CHANGELOG
 
 
+## v3.37.2 (2025-06-03)
+
+### Bug Fixes
+
+- **bec-service**: Add logging for redis host during init of bec-service; closes #476
+  ([`5091cc2`](https://github.com/bec-project/bec/commit/5091cc24f6c00a1b3d3f55dcfbac7a827adfbbe1))
+
+- **bec-yaml-loader**: Add support for relative filepaths; closes #483
+  ([`fc45e54`](https://github.com/bec-project/bec/commit/fc45e54f1307edbf9c32d94f37f36bccc64534e1))
+
+- **device-serializer**: Support get_device_info for components with lazy=True, closes #458
+  ([`964bae1`](https://github.com/bec-project/bec/commit/964bae112cdc2b3e999b5d8e78704c28c8ab9257))
+
+### Refactoring
+
+- **device-serializer**: Improve docstring
+  ([`fd901c9`](https://github.com/bec-project/bec/commit/fd901c94e818cc00475b2ea72b5fd3bc04b2eacc))
+
+
 ## v3.37.1 (2025-06-01)
 
 ### Bug Fixes
