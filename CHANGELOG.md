@@ -1,6 +1,67 @@
 # CHANGELOG
 
 
+## v3.38.0 (2025-06-05)
+
+### Bug Fixes
+
+- **bec signals**: Add default ttl of async signals to 10 minutes
+  ([`a25fd08`](https://github.com/bec-project/bec/commit/a25fd08d1e0cf5e54b2493454b73f6afaa9f5370))
+
+- **device serializer**: Emit component name as signal key
+  ([`40591b3`](https://github.com/bec-project/bec/commit/40591b3c5146746d87aee74f5ee7b5f39b5f0320))
+
+- **device serializer**: Flatten signal structure for bec signals
+  ([`8aa6f13`](https://github.com/bec-project/bec/commit/8aa6f134900c063dc1e78893509c86733d933357))
+
+- **proxy devices**: Do not show device signals where rpc is disabled
+  ([`a052e91`](https://github.com/bec-project/bec/commit/a052e91f295e84be05c1de4a3e8a2a240f3952bc))
+
+### Build System
+
+- Increase min dependency of ophyd devices to 1.21
+  ([`2678ea6`](https://github.com/bec-project/bec/commit/2678ea6e3efdbd05791cb6999bf1ecc330df1bf1))
+
+- Upgrade min dependency of ophyd devices to 1.20
+  ([`06f1c59`](https://github.com/bec-project/bec/commit/06f1c5957d9f6226980bdad8e9c00a76ea026c31))
+
+### Features
+
+- **bec signals**: Add callbacks for progress and file event
+  ([`69bfee8`](https://github.com/bec-project/bec/commit/69bfee82d96c4cb0ed7a88e054bfc41bf75ef3f8))
+
+- **bec signals**: Add support for AsyncSignal
+  ([`ef8f2b0`](https://github.com/bec-project/bec/commit/ef8f2b0c36342bfa95396e720a31d9b7f77fc9ed))
+
+- **device manager**: Add helper method to retrieve bec signals from config
+  ([`75572dc`](https://github.com/bec-project/bec/commit/75572dcaeebc661598bdea45288399bbacb04c78))
+
+- **devicemanager**: Subscribe to preview signals
+  ([`a2e895f`](https://github.com/bec-project/bec/commit/a2e895f568c536177cc58f68dcb936d1509f0b88))
+
+- **endpoints**: Add device_async_signal endpoint
+  ([`4e6aed0`](https://github.com/bec-project/bec/commit/4e6aed07d09a8ffb08b8eed2dd3523cb9e96cff8))
+
+### Refactoring
+
+- **device server**: Move bec signal update to separate component
+  ([`06b8f03`](https://github.com/bec-project/bec/commit/06b8f03908652d1a90c7988b756accc05e938b3b))
+
+### Testing
+
+- Add device with bec signals to test config
+  ([`d470451`](https://github.com/bec-project/bec/commit/d47045133a53a64972e217546089f2e6174972b7))
+
+- Add test for bec signals retrieval
+  ([`73e7366`](https://github.com/bec-project/bec/commit/73e73667ab67fdd119f93a360c677c629652a79e))
+
+- Add test for missing scan ids
+  ([`64ed69e`](https://github.com/bec-project/bec/commit/64ed69e6b680c96bae6c8889508ddc125e206191))
+
+- **device_manager**: Add test for async signals forwarding
+  ([`fe6e0ee`](https://github.com/bec-project/bec/commit/fe6e0ee922d1c97448e6c359d8d8c7c16ca2a2d4))
+
+
 ## v3.37.3 (2025-06-05)
 
 ### Bug Fixes
