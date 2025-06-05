@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v3.38.1 (2025-06-05)
+
+### Bug Fixes
+
+- **device summary**: Show bec signals in separate section
+  ([`363c7af`](https://github.com/bec-project/bec/commit/363c7af49c48bba55c380066dbff192cbfc3b812))
+
+### Testing
+
+- Add test for bec signal summary
+  ([`842f5a3`](https://github.com/bec-project/bec/commit/842f5a323044e4ead920cbb6bdbde2427c3ad272))
+
+- Fix test object of eiger to be a proper device
+  ([`d5e6804`](https://github.com/bec-project/bec/commit/d5e680438e40dec2181afa4b259a9fd853001a54))
+
+
 ## v3.38.0 (2025-06-05)
 
 ### Bug Fixes
