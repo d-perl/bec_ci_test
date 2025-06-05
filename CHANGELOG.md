@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.39.0 (2025-06-05)
+
+### Features
+
+- **endpoints**: Publish endpoint info to redis; closes #323
+  ([`caa37ad`](https://github.com/bec-project/bec/commit/caa37adefacd265dd1833af3c181d8ad2c087931))
+
+### Refactoring
+
+- Enforce device config keys
+  ([`95e0842`](https://github.com/bec-project/bec/commit/95e0842b30e0b9cb7f745601095909821ad58e50))
+
+
 ## v3.38.1 (2025-06-05)
 
 ### Bug Fixes
