@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.37.3 (2025-06-05)
+
+### Bug Fixes
+
+- Use github repo for plugin template tests
+  ([`d2e457e`](https://github.com/bec-project/bec/commit/d2e457eff95e57933953287b1e413ad87bd0f734))
+
+### Refactoring
+
+- Delete old plugin generation scripts
+  ([`42989fb`](https://github.com/bec-project/bec/commit/42989fba8d9d3242bc3df2a742ee9a71e253edc6))
+
+
 ## v3.37.2 (2025-06-03)
 
 ### Bug Fixes
