@@ -1,6 +1,30 @@
 # CHANGELOG
 
 
+## v3.39.1 (2025-06-12)
+
+### Bug Fixes
+
+- **logger**: Avoid re-initializing the connector when configuring the logger
+  ([`6187ce3`](https://github.com/bec-project/bec/commit/6187ce362fc948fe99da291cfbf0e8a682c8396c))
+
+### Refactoring
+
+- Expose more config handler function
+  ([`2d5498e`](https://github.com/bec-project/bec/commit/2d5498e2868383344b6b17b6037a68dccd3c4dfc))
+
+- Remove deprecated producer and consumer interface
+  ([`0c95e9a`](https://github.com/bec-project/bec/commit/0c95e9a6992b4a3a044eb4c2e10cfa982eebcef9))
+
+- **device**: Custom device classes should not inherit the config interface
+  ([`d80e413`](https://github.com/bec-project/bec/commit/d80e413d6b46781178d4478507272b8be37632ec))
+
+### Testing
+
+- Add test for device repr
+  ([`ee5b81b`](https://github.com/bec-project/bec/commit/ee5b81bcefe5e93bc63e4b15a0401a9dbe743c5b))
+
+
 ## v3.39.0 (2025-06-05)
 
 ### Features
