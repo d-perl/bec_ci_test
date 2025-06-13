@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v3.41.0 (2025-06-13)
+
+### Bug Fixes
+
+- **progress_signal**: Progress message must include scan id
+  ([`01448ea`](https://github.com/bec-project/bec/commit/01448ea958dce8e1725056892fe74fc54e581552))
+
+### Features
+
+- **bec_service**: Add option to pass in the connector directly
+  ([`94ed529`](https://github.com/bec-project/bec/commit/94ed52997b7c60913cf952630d8d646acb54c346))
+
+### Testing
+
+- Fix magic mock for connector validation
+  ([`b25a16b`](https://github.com/bec-project/bec/commit/b25a16bd8abe4a95e62b4f6bbdfd0937469c089a))
+
+- **bec_service**: Pass in the connector directly to simplify tests
+  ([`20ecdec`](https://github.com/bec-project/bec/commit/20ecdec4ae2334a194abda58b601036979563c13))
+
+
 ## v3.40.0 (2025-06-13)
 
 ### Features
