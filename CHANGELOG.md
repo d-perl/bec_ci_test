@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.40.0 (2025-06-13)
+
+### Features
+
+- **serializer**: Speed up serialization by avoiding ExtType; add new serialization interface
+  ([`6297b1d`](https://github.com/bec-project/bec/commit/6297b1d669248016e1529de3a1a378c39cfab3a3))
+
+
 ## v3.39.1 (2025-06-12)
 
 ### Bug Fixes
