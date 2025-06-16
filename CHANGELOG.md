@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.42.0 (2025-06-16)
+
+### Features
+
+- **client info message**: Add expire flag to client info message
+  ([`19cd3b1`](https://github.com/bec-project/bec/commit/19cd3b1ae660c5f02b699c3896cc39ac6bbb3d0b))
+
+
 ## v3.41.0 (2025-06-13)
 
 ### Bug Fixes
