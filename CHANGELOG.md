@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v3.42.1 (2025-06-16)
+
+### Bug Fixes
+
+- Ensure unique device tags
+  ([`9be9d0d`](https://github.com/bec-project/bec/commit/9be9d0d138e861b5367cbedcc1b153a81d20b5d9))
+
+- Timeout waiting for response
+  ([`5de479b`](https://github.com/bec-project/bec/commit/5de479b18e29eaacc6189341f1eee04bc2f45880))
+
+
 ## v3.42.0 (2025-06-16)
 
 ### Features
