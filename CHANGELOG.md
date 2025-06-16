@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v3.42.2 (2025-06-16)
+
+### Bug Fixes
+
+- **queue_item**: Safeguard for None in update_with_client_message
+  ([`5ebc1dc`](https://github.com/bec-project/bec/commit/5ebc1dc870c4bd45663908d02144b2e22eaf4925))
+
+- **redis_connector**: Send_client_info expire kwarg added
+  ([`71790cc`](https://github.com/bec-project/bec/commit/71790cc9b925d2cca15614fa0cd1cf7b1336c9ea))
+
+
 ## v3.42.1 (2025-06-16)
 
 ### Bug Fixes
