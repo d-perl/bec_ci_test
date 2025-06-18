@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v3.42.3 (2025-06-18)
+
+### Bug Fixes
+
+- Handle none dictionary in config update
+  ([`915d062`](https://github.com/bec-project/bec/commit/915d0620b31697a2eeeabd60a1804a053b74419a))
+
+- **message handler**: Fix async signal name to prepend with the device name
+  ([`4df4642`](https://github.com/bec-project/bec/commit/4df4642bb9b32d4c4675f847a268e7564485b2b4))
+
+
 ## v3.42.2 (2025-06-16)
 
 ### Bug Fixes
