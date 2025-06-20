@@ -1,6 +1,20 @@
 # CHANGELOG
 
 
+## v3.42.4 (2025-06-20)
+
+### Bug Fixes
+
+- **async update**: Prevent data emission after scan is closed
+  ([`df948db`](https://github.com/bec-project/bec/commit/df948db311f58ca3ccc21e10fed4faef97ad08d1))
+
+- **message_handler**: Use scan_info obj instead of metadata
+  ([`17a21fa`](https://github.com/bec-project/bec/commit/17a21fac1ea323c5ec0a35282a37375b9607038a))
+
+- **scan progress**: Do not set to 100 percent on abort; add scan status
+  ([`233743c`](https://github.com/bec-project/bec/commit/233743ce064bf7bb6fcfccc8ec104ada4983d598))
+
+
 ## v3.42.3 (2025-06-18)
 
 ### Bug Fixes
