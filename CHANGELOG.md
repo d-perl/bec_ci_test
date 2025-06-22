@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.42.5 (2025-06-22)
+
+### Bug Fixes
+
+- **serializer**: Reset codec cache when new codecs are registered
+  ([`82bbc8c`](https://github.com/bec-project/bec/commit/82bbc8c04e88100957252ca33c29b4135ffaab51))
+
+
 ## v3.42.4 (2025-06-20)
 
 ### Bug Fixes
