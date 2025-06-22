@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.43.0 (2025-06-22)
+
+### Features
+
+- **client**: Add cli arg for bec server url
+  ([`3f493c5`](https://github.com/bec-project/bec/commit/3f493c599af7d211135c22af6011356eb2c33212))
+
+
 ## v3.42.5 (2025-06-22)
 
 ### Bug Fixes
