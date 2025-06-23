@@ -1,6 +1,25 @@
 # CHANGELOG
 
 
+## v3.44.0 (2025-06-23)
+
+### Bug Fixes
+
+- **scan history**: Set user id for scan history loader
+  ([`61db361`](https://github.com/bec-project/bec/commit/61db361e5d604d377962c7e7c43dc72268af1b7f))
+
+- **scan history**: Shutdown client history thread
+  ([`6b431a3`](https://github.com/bec-project/bec/commit/6b431a3990fa161f1872930f14613d484dbceac4))
+
+### Features
+
+- **redis_connector**: Add option to specify a user id to scope xread operations
+  ([`f117ddf`](https://github.com/bec-project/bec/commit/f117ddf25917bab553ec95617d2d3144c5e489bd))
+
+- **scan history**: Add request inputs to history message
+  ([`98d57cb`](https://github.com/bec-project/bec/commit/98d57cb2c009f4697b8a803b870a9b06ba1560ff))
+
+
 ## v3.43.0 (2025-06-22)
 
 ### Features
