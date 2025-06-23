@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v3.44.1 (2025-06-23)
+
+### Bug Fixes
+
+- Bug in device serialization
+  ([`32e8fa4`](https://github.com/bec-project/bec/commit/32e8fa45394c8fd71c6ef6b239cd1c68d4644f9d))
+
+- **bec_service**: Improve error message if service is already running
+  ([`40a0579`](https://github.com/bec-project/bec/commit/40a05796c530e84abcd4a974a0719753904748b3))
+
+### Refactoring
+
+- **lazy-wait-for-connection**: Add context manager for lazy-wait-for-connection disable
+  ([`c63e455`](https://github.com/bec-project/bec/commit/c63e455d9c605f8e1c36372d153c9e5e217e3198))
+
+
 ## v3.44.0 (2025-06-23)
 
 ### Bug Fixes
