@@ -1,6 +1,36 @@
 # CHANGELOG
 
 
+## v3.45.0 (2025-06-24)
+
+### Continuous Integration
+
+- Add child pipeline for ophyd_devices
+  ([`e767d44`](https://github.com/bec-project/bec/commit/e767d446cf16b355cda9a590ddebed30b101ef2c))
+
+- Add GH read only token
+  ([`9dfe79d`](https://github.com/bec-project/bec/commit/9dfe79d6f49f025ed2855bd2f159615b4220862d))
+
+- Fix url for plugin repos
+  ([`08a1aec`](https://github.com/bec-project/bec/commit/08a1aec694a0d9ff5ac82b194cdedaebd687875b))
+
+- **e2e-action**: Add reusable e2e action for bec
+  ([`11dabed`](https://github.com/bec-project/bec/commit/11dabedcb31aae1fac653d5a4fd356caea54622c))
+
+- **plugin-repo**: Add plugin repo action
+  ([`ad622d3`](https://github.com/bec-project/bec/commit/ad622d3d043d3a390b4f7200b21a0fd40cbddccb))
+
+### Features
+
+- **bec-server cli**: Add support for shared tmux socket; enable systemd
+  ([`aadcde3`](https://github.com/bec-project/bec/commit/aadcde39cef46d99b24139057288b1e9c5301ba9))
+
+### Refactoring
+
+- Fix url to github mirrors
+  ([`7ece8fc`](https://github.com/bec-project/bec/commit/7ece8fc7197431d4e63bf083f8b05801ad826579))
+
+
 ## v3.44.2 (2025-06-24)
 
 ### Bug Fixes
