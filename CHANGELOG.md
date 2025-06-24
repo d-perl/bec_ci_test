@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v3.44.2 (2025-06-24)
+
+### Bug Fixes
+
+- **live_table**: Handle precision better
+  ([`af303e0`](https://github.com/bec-project/bec/commit/af303e065ab2ecdb6c3565dc942cf655c83f3dbe))
+
+- **live_table**: Warn re: precision at end
+  ([`fc018f7`](https://github.com/bec-project/bec/commit/fc018f744e7559c9a4d9d167fad600fd3c06bc73))
+
+
 ## v3.44.1 (2025-06-23)
 
 ### Bug Fixes
