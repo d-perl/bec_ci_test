@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.46.0 (2025-06-26)
+
+### Features
+
+- **ipython**: Add support for negative precisions in epics
+  ([`2172072`](https://github.com/bec-project/bec/commit/2172072b370edc70ff3b09aa2d5f519c2281f127))
+
+
 ## v3.45.1 (2025-06-26)
 
 ### Bug Fixes
