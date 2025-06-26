@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.45.1 (2025-06-26)
+
+### Bug Fixes
+
+- **bec_emitter**: Max must be called on a non-empty set
+  ([`01555e0`](https://github.com/bec-project/bec/commit/01555e07df071dc684926b3771cbadd41d44c0ce))
+
+### Continuous Integration
+
+- **plugin-repos**: Add reusable plugin job
+  ([`f9043f5`](https://github.com/bec-project/bec/commit/f9043f520277e559cbefa6d1ff995ed7bee1d815))
+
+
 ## v3.45.0 (2025-06-24)
 
 ### Continuous Integration
