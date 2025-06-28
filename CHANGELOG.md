@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.47.0 (2025-06-28)
+
+### Features
+
+- **bec-set-account**: Add go script for account management CLI
+  ([`31d5b58`](https://github.com/bec-project/bec/commit/31d5b5856c50d128ef8a79b1afb7217262c24d81))
+
+### Testing
+
+- **bec-set-account**: Add e2e test to ensure functionality of the script
+  ([`278d930`](https://github.com/bec-project/bec/commit/278d93055757f87ae87e1fdf71f94d19d30709d5))
+
+
 ## v3.46.0 (2025-06-26)
 
 ### Features
