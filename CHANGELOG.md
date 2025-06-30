@@ -1,6 +1,28 @@
 # CHANGELOG
 
 
+## v3.47.1 (2025-06-30)
+
+### Bug Fixes
+
+- Remove 'data' and 'logs'; instead use specified basepath directly
+  ([`ee31e58`](https://github.com/bec-project/bec/commit/ee31e5868bff4ce2c55f079b3b3e9785284b2c41))
+
+- **bec service**: Prevent modifications of the default service config
+  ([`e07b091`](https://github.com/bec-project/bec/commit/e07b0914df17fca1330643efa762c5422f72daf1))
+
+- **bec-set-account**: Remove compiled script for bec-set-account
+  ([`9fee79b`](https://github.com/bec-project/bec/commit/9fee79b873c0b2e558e53688613afbd74115180e))
+
+### Continuous Integration
+
+- Do not run plugin repo tests before finishing core unit tests
+  ([`7736f46`](https://github.com/bec-project/bec/commit/7736f46fc4e4ec86caad79147562da959f58ebc0))
+
+- **e2e**: Run tests against branch, not main
+  ([`d69d7ea`](https://github.com/bec-project/bec/commit/d69d7ead803c105ad67274b9740faaed7fdd5f05))
+
+
 ## v3.47.0 (2025-06-28)
 
 ### Features
