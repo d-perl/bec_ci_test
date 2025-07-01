@@ -1,6 +1,20 @@
 # CHANGELOG
 
 
+## v3.48.0 (2025-07-01)
+
+### Features
+
+- **alarms**: Report scan id and scan number on alarms
+  ([`ccfad65`](https://github.com/bec-project/bec/commit/ccfad6551aed774a357e1791c6917fc2842b02fc))
+
+- **async writer**: Add scan number to constructor
+  ([`d0406ae`](https://github.com/bec-project/bec/commit/d0406aee2403122f3c380a36a57286ba4ef6b3a7))
+
+- **scan**: Inject scan number to scan instance
+  ([`0d1e879`](https://github.com/bec-project/bec/commit/0d1e879873427237519485f478f9058f490ca918))
+
+
 ## v3.47.1 (2025-06-30)
 
 ### Bug Fixes
