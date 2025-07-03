@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.49.0 (2025-07-03)
+
+### Features
+
+- **plugins**: Add cli app to manage plugins
+  ([`64b7b80`](https://github.com/bec-project/bec/commit/64b7b80282345597f2e31b5726052598a50990d1))
+
+
 ## v3.48.0 (2025-07-01)
 
 ### Features
