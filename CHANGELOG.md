@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.50.0 (2025-07-09)
+
+### Features
+
+- **ScanHistoryMessage**: Add data shape and dtype to ScanHistoryMessage
+  ([`824315b`](https://github.com/bec-project/bec/commit/824315b7efa39d1fd8c33625eac4f67b603aa60c))
+
+
 ## v3.49.0 (2025-07-03)
 
 ### Features
