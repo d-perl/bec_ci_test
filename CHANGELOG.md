@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.50.2 (2025-07-11)
+
+### Bug Fixes
+
+- **scan queue**: Remove stopped items from the queue
+  ([`721d0b8`](https://github.com/bec-project/bec/commit/721d0b82af9b28e84d59a884ecf4b68f61a26e5e))
+
+
 ## v3.50.1 (2025-07-11)
 
 ### Bug Fixes
