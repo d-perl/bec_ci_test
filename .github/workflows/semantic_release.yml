@@ -89,7 +89,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install python-semantic-release==9.* wheel build twine
-          semantic-release -vv --config ./ci/semantic_release.toml version
+          semantic-release -v --config ./ci/semantic_release.toml version
           if [ ! -d dist ]; then echo No release will be made; exit 0; fi
           semantic-release publish
 
@@ -104,7 +104,7 @@ jobs:
     - name: Get version
       id: version
       run: |
-        git fetch --tags --quiet
+        git checkout main && git pull --tags
         [ -z $(git describe --tags) ] && echo "Must have a version tag!" && exit 1
         echo "setting version $(git describe --tags) as image tag" 
         echo "bec_version=$(git describe --tags)" >> $GITHUB_OUTPUT
