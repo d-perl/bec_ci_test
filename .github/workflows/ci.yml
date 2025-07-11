@@ -18,63 +18,40 @@ on:
         type: string
 
 permissions:
-  pull-requests: write
+  write-all
+  
 
 jobs:
-  check_pr_status:
-    uses: ./.github/workflows/check_pr.yml
+  build:
+    name: Build requirements image
+    needs: release
+    runs-on: ubuntu-latest
 
-  formatter:
-    needs: check_pr_status
-    if: needs.check_pr_status.outputs.branch-pr == ''
-    uses: ./.github/workflows/formatter.yml
+    steps:
+    - uses: actions/checkout@v4
 
-  unit-test:
-    needs: [check_pr_status, formatter]
-    if: needs.check_pr_status.outputs.branch-pr == ''
-    uses: ./.github/workflows/pytest.yml
-    with:
-      BEC_WIDGETS_BRANCH: ${{ inputs.BEC_WIDGETS_BRANCH || 'main' }}
-      BEC_CORE_BRANCH: ${{ inputs.BEC_CORE_BRANCH || github.head_ref || github.sha}}
-      OPHYD_DEVICES_BRANCH: ${{ inputs.OPHYD_DEVICES_BRANCH || 'main' }}
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Buildah build
+      id: container-build
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: bec_procedure_worker_requirements
+        tags: ${{ github.ref_name }} ${{ github.sha }}
+        containerfiles: |
+          ./bec_server/bec_server/scan_server/procedures/Containerfile.requirements
+        build-args: |
+          BEC_VERSION=${{ github.ref_name }}
+        extra-args: |
+          -v "${{ github.workspace }}:/bec:ro"
+  
+    - name: Push to registry
+      id: container-push
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.container-build.outputs.image }}
+        tags: ${{ steps.container-build.outputs.tags }}
+        registry: ghcr.io/d-perl
+        username: d-perl
+        password: ${{ GITHUB_TOKEN }}
 
-  unit-test-matrix:
-    needs: [check_pr_status, formatter]
-    if: needs.check_pr_status.outputs.branch-pr == ''
-    uses: ./.github/workflows/pytest-matrix.yml
-    with:
-      BEC_WIDGETS_BRANCH: ${{ inputs.BEC_WIDGETS_BRANCH || 'main' }}
-      BEC_CORE_BRANCH: ${{ inputs.BEC_CORE_BRANCH || github.head_ref || github.sha}}
-      OPHYD_DEVICES_BRANCH: ${{ inputs.OPHYD_DEVICES_BRANCH || 'main' }}
-
-  end2end-test:
-    needs: [check_pr_status, formatter]
-    if: needs.check_pr_status.outputs.branch-pr == ''
-    uses: ./.github/workflows/end2end.yml
-    with:
-      BEC_WIDGETS_BRANCH: ${{ inputs.BEC_WIDGETS_BRANCH || 'main' }}
-      BEC_CORE_BRANCH: ${{ inputs.BEC_CORE_BRANCH || github.head_ref || github.sha}}
-      OPHYD_DEVICES_BRANCH: ${{ inputs.OPHYD_DEVICES_BRANCH || 'main' }}
-      PYTHON_VERSION: '3.11'
-
-  child-repos:
-    needs: [check_pr_status, formatter]
-    if: needs.check_pr_status.outputs.branch-pr == ''
-    uses: ./.github/workflows/child_repos.yml
-    with:
-      BEC_WIDGETS_BRANCH: ${{ inputs.BEC_WIDGETS_BRANCH || 'main' }}
-      BEC_CORE_BRANCH: ${{ inputs.BEC_CORE_BRANCH || github.head_ref || github.sha}}
-      OPHYD_DEVICES_BRANCH: ${{ inputs.OPHYD_DEVICES_BRANCH || 'main' }}
-
-  plugin-repos:
-    needs: [check_pr_status, formatter, unit-test, unit-test-matrix]
-    if: needs.check_pr_status.outputs.branch-pr == ''
-    uses: ./.github/workflows/plugin_repos.yml
-    with:
-      BEC_WIDGETS_BRANCH: ${{ inputs.BEC_WIDGETS_BRANCH || 'main' }}
-      BEC_CORE_BRANCH: ${{ inputs.BEC_CORE_BRANCH || github.head_ref || github.sha}}
-      OPHYD_DEVICES_BRANCH: ${{ inputs.OPHYD_DEVICES_BRANCH || 'main' }}
-    secrets:
-      GH_READ_TOKEN: ${{ secrets.GH_READ_TOKEN }}
+    - name: Print image url
+      run: echo "Image pushed to ${{ steps.container-push.outputs.registry-paths }}"
