@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.51.0 (2025-07-11)
+
+### Features
+
+- **ci**: Build and push requirements image
+  ([`5fb5476`](https://github.com/bec-project/bec/commit/5fb54760c800bff3158c44bf3c5fb2a8950b613d))
+
+
 ## v3.50.2 (2025-07-11)
 
 ### Bug Fixes
