@@ -1,21 +1,6 @@
 name: Full CI
 on: 
   push:
-  pull_request:
-  workflow_dispatch:
-    inputs:
-      BEC_WIDGETS_BRANCH:
-        description: 'Branch of BEC Widgets to install'
-        required: false
-        type: string
-      BEC_CORE_BRANCH:
-        description: 'Branch of BEC Core to install'
-        required: false
-        type: string
-      OPHYD_DEVICES_BRANCH:
-        description: 'Branch of Ophyd Devices to install'
-        required: false
-        type: string
 
 permissions:
   write-all
@@ -24,24 +9,31 @@ permissions:
 jobs:
   build:
     name: Build requirements image
-    needs: release
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Get version
+      id: version
+      run: |
+        git fetch --tags --quiet
+        [ -z $(git describe --tags) ] && echo "Must have a version tag!" && exit 1;
+        echo "setting version $(git describe --tags) as image tag" 
+        echo "bec_version=$(git describe --tags)" >> $GITHUB_OUTPUT
 
     - name: Buildah build
       id: container-build
       uses: redhat-actions/buildah-build@v2
       with:
         image: bec_procedure_worker_requirements
-        tags: ${{ github.ref_name }} ${{ github.sha }}
+        tags: ${{ steps.version.outputs.bec_version }} ${{ github.sha }}
         containerfiles: |
           ./bec_server/bec_server/scan_server/procedures/Containerfile.requirements
         build-args: |
-          BEC_VERSION=${{ github.ref_name }}
+          BEC_VERSION=${{ steps.version.outputs.bec_version }}
         extra-args: |
-          -v "${{ github.workspace }}:/bec:ro"
+          -v ${{ github.workspace }}:/bec:ro
   
     - name: Push to registry
       id: container-push
@@ -51,7 +43,7 @@ jobs:
         tags: ${{ steps.container-build.outputs.tags }}
         registry: ghcr.io/d-perl
         username: d-perl
-        password: ${{ GITHUB_TOKEN }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Print image url
       run: echo "Image pushed to ${{ steps.container-push.outputs.registry-paths }}"
