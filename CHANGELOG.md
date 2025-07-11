@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.50.1 (2025-07-11)
+
+### Bug Fixes
+
+- **scan history**: Filter scan history to readable files
+  ([`43a84e3`](https://github.com/bec-project/bec/commit/43a84e32f0f63589ddf84a9fbfb134a4f35cff5a))
+
+
 ## v3.50.0 (2025-07-09)
 
 ### Features
