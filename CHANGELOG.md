@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.52.0 (2025-07-15)
+
+### Features
+
+- **scan-history**: Add callback for scan history updates
+  ([`3922d3f`](https://github.com/bec-project/bec/commit/3922d3f02e47daee081e3746160634bbd51625eb))
+
+
 ## v3.51.0 (2025-07-11)
 
 ### Features
