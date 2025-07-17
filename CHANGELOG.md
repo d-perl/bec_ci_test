@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.52.1 (2025-07-17)
+
+### Bug Fixes
+
+- **device-server**: Use try except for stop call on devices
+  ([`5093c1a`](https://github.com/bec-project/bec/commit/5093c1a99017336e57638ff3efaace19ec1a9983))
+
+### Testing
+
+- Add test for stop devices
+  ([`9c28142`](https://github.com/bec-project/bec/commit/9c28142d240c12735105d5f6ba576a3a60d69fbc))
+
+
 ## v3.52.0 (2025-07-15)
 
 ### Features
