@@ -120,6 +120,7 @@ jobs:
           ./bec_server/bec_server/scan_server/procedures/Containerfile.requirements
         build-args: |
           BEC_VERSION=${{ steps.version.outputs.bec_version }}
+        archs: amd64, aarch64
         extra-args: |
           -v ${{ github.workspace }}:/bec:ro
   
@@ -129,7 +130,7 @@ jobs:
       with:
         image: ${{ steps.container-build.outputs.image }}
         tags: ${{ steps.container-build.outputs.tags }}
-        registry: ghcr.io/bec-project
+        registry: ghcr.io/d-perl
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
