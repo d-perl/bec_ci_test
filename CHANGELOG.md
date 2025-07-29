@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.53.0 (2025-07-29)
+
+### Features
+
+- Fix output ref
+  ([`ab4c5ae`](https://github.com/d-perl/bec_ci_test/commit/ab4c5ae332e3adffc1086e762e458fd86e172929))
+
+
 ## v3.52.0 (2025-07-29)
 
 ### Features
