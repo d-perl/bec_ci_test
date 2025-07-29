@@ -16,7 +16,7 @@ jobs:
       group: ${{ github.workflow }}-release-${{ github.ref_name }}
       cancel-in-progress: false
     outputs:
-      release_made: ${{ steps.release.release_made }}
+      release_made: ${{ steps.release_step.outputs.release_made }}
 
     permissions:
       contents: write
@@ -84,16 +84,15 @@ jobs:
           printf '%s\n' "Verified upstream branch has not changed, continuing with release..."
 
       - name: Semantic Version Release
-        id: release
+        id: release_step
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install python-semantic-release==9.* wheel build twine
           semantic-release --config ./ci/semantic_release.toml version
           if [ ! -d dist ]; then echo No release will be made; echo "release_made=false" >> "$GITHUB_OUTPUT"; exit 0; fi
-          
-          semantic-release publish
           echo "release_made=true" >> "$GITHUB_OUTPUT"
+          semantic-release publish
 
   build-and-push:
     name: Build and push requirements image
