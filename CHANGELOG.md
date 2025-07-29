@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.53.0 (2025-07-29)
+
+### Features
+
+- Build requirements container for multiple archs
+  ([`83a62b6`](https://github.com/bec-project/bec/commit/83a62b6a01b8a9b01f4143bc721a459a6acc83bf))
+
+
 ## v3.52.2 (2025-07-29)
 
 ### Bug Fixes
