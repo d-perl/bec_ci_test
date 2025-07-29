@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.54.0 (2025-07-29)
+
+### Features
+
+- Use output for if
+  ([`f915372`](https://github.com/d-perl/bec_ci_test/commit/f9153724fd7a5954b989eda471fb7d02c65dc823))
+
+
 ## v3.53.0 (2025-07-29)
 
 ### Features
