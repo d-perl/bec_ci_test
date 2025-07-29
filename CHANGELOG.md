@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.52.2 (2025-07-29)
+
+### Bug Fixes
+
+- **live table**: Fix check for monitored devices
+  ([`b9e7908`](https://github.com/bec-project/bec/commit/b9e79086900d8b8d649bc1e31529dfad9f4d7867))
+
+
 ## v3.52.1 (2025-07-17)
 
 ### Bug Fixes
