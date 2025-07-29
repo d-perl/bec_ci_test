@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.55.0 (2025-07-29)
+
+### Features
+
+- Use braces for if
+  ([`331a990`](https://github.com/d-perl/bec_ci_test/commit/331a9904caf093a53701470873bbff81f896c01c))
+
+
 ## v3.54.0 (2025-07-29)
 
 ### Features
