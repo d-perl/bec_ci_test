@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.52.0 (2025-07-29)
+
+### Features
+
+- Dump stuff
+  ([`500df4b`](https://github.com/d-perl/bec_ci_test/commit/500df4b4522433b31096b9bc50842aecbeef428a))
+
+
 ## v3.51.0 (2025-07-29)
 
 ### Bug Fixes
