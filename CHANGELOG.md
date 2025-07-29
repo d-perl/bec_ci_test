@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v3.54.0 (2025-07-29)
+
+### Bug Fixes
+
+- **file_writer**: Fix ready to write for empty missing status message
+  ([`d7d51a4`](https://github.com/bec-project/bec/commit/d7d51a4ae5b34cf2c0b1f78c5a98316a3e398ec5))
+
+### Features
+
+- **scan guard**: Bypass the scan queue for .get and .read
+  ([`4c16351`](https://github.com/bec-project/bec/commit/4c16351eec675b7111ec0f37dc372e3fd3ab0323))
+
+
 ## v3.53.0 (2025-07-29)
 
 ### Features
